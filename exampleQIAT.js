@@ -118,7 +118,7 @@ define(['pipAPI', 'https://galmaimon.github.io/iatage.js'], function(APIConstruc
             stimulusCss : {color:'#0000FF','font-size':'2.3em'}
         },
         base_url : {//Where are your images at?
-            image :" https://github.com/galmaimon/IATLab/tree/master/iatage"
+            image :"https://galmaimon.github.io/iatage"
         
 		} 
 	});
