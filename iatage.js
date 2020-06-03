@@ -125,7 +125,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             stimulusCss : {color:'#0000FF','font-size':'2.3em'}
         },
         base_url : {//Where are your images at?
-            image :" https://github.com/galmaimon/IATLab/tree/master/iatage"
+            image :"https://github.com/galmaimon/galmaimon.github.io/tree/master/iatage"
         },
 
 			//nBlocks : 7, This is not-supported anymore. If you want a 5-block IAT, change blockSecondCombined_nTrials to 0.
