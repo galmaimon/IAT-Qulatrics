@@ -12,6 +12,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		var API = new APIConstructor();		
 		var scorer = new Scorer();
 		var piCurrent = API.getCurrent();
+		
 
 		//Here we set the settings of our task. 
 		//Read the comments to learn what each parameters means.
@@ -30,37 +31,37 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			},
 			//When scoring, we will consider the compatible condition the pairing condition that requires response with one key to [category1,attribute1] and the other key to [category2,attribute2]
 			category1 : {
-				name : 'Black people', //Will appear in the data and in the default feedback message.
+				name : 'Old people', //Will appear in the data and in the default feedback message.
 				title : {
-					media : {word : 'Black people'}, //Name of the category presented in the task.
+					media : {word : 'Old people'}, //Name of the category presented in the task.
 					css : {color:'#336600','font-size':'1.8em'}, //Style of the category title.
 					height : 4 //Used to position the "Or" in the combined block.
 				},
 				stimulusMedia : [ //Stimuli content as PIP's media objects
-					{word: 'Tyron'},
-					{word: 'Malik'},
-					{word: 'Terrell'},
-					{word: 'Jazmin'},
-					{word: 'Tiara'},
-					{word: 'Shanice'}
+					{image: 'om1.jpg'},
+            			   	{image: 'om2.jpg'},
+                			{image: 'om3.jpg'},
+                			{image: 'of1.jpg'},
+                			{image: 'of2.jpg'},                 
+                			{image: 'of3.jpg'} 
 				],
 				//Stimulus css (style)
 				stimulusCss : {color:'#336600','font-size':'2.3em'}
 			},
 			category2 :	{
-				name : 'White people', //Will appear in the data and in the default feedback message.
+				name : 'Young people', //Will appear in the data and in the default feedback message.
 				title : {
-					media : {word : 'White people'}, //Name of the category presented in the task.
+					media : {word : 'Young people'}, //Name of the category presented in the task.
 					css : {color:'#336600','font-size':'1.8em'}, //Style of the category title.
 					height : 4 //Used to position the "Or" in the combined block.
 				},
 				stimulusMedia : [ //Stimuli content as PIP's media objects
-					{word: 'Jake'},
-					{word: 'Connor'},
-					{word: 'Bradley'},
-					{word: 'Allison'},
-					{word: 'Emma'},
-					{word: 'Emily'}
+					{image: 'ym1.jpg'},
+                			{image: 'ym2.jpg'},
+                			{image: 'ym3.jpg'},
+                			{image: 'yf1.jpg'},
+                			{image: 'yf2.jpg'},
+                			{image: 'yf3.jpg'}
 				],
 				//Stimulus css
 				stimulusCss : {color:'#336600','font-size':'2.3em'}
@@ -109,7 +110,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			},
 
 			base_url : {//Where are your images at?
-				image : '/implicit/user/yba/pipexample/biat/images/'
+				image : 'https://galmaimon.github.io/iatage'
 			},
 
 			//nBlocks : 7, This is not-supported anymore. If you want a 5-block IAT, change blockSecondCombined_nTrials to 0.
