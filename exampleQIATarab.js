@@ -1,5 +1,24 @@
 define(['pipAPI', 'https://galmaimon.github.io/iatArab.js'], function(APIConstructor, iatExtension){
     var API = new APIConstructor();
+	API.addGlobal({posWords : API.shuffle([
+            'Love', 'Cheer', 'Friend', 'Pleasure', 
+            'Adore', 'Cheerful', 'Friendship', 'Joyful', 
+            'Smiling','Cherish', 'Excellent', 'Glad', 
+            'Joyous', 'Spectacular', 'Appealing', 'Delight', 
+            'Excitement', 'Laughing', 'Attractive','Delightful', 
+            'Fabulous', 'Glorious', 'Pleasing', 'Beautiful', 
+            'Fantastic', 'Happy', 'Lovely', 'Terrific', 
+            'Celebrate', 'Enjoy', 'Magnificent', 'Triumph']), 
+        negWords : API.shuffle([
+            'Abuse', 'Grief', 'Poison', 'Sadness', 
+            'Pain', 'Despise', 'Failure', 'Nasty', 
+            'Angry', 'Detest', 'Horrible', 'Negative', 
+            'Ugly', 'Dirty', 'Gross', 'Evil', 
+            'Rotten','Annoy', 'Disaster', 'Horrific',  
+            'Scorn', 'Awful', 'Disgust', 'Hate', 
+            'Humiliate', 'Selfish', 'Tragic', 'Bothersome', 
+            'Hatred', 'Hurtful', 'Sickening', 'Yucky'])
+		});
 
 	return iatExtension({
 		category1 : {
