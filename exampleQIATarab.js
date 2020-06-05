@@ -46,6 +46,8 @@ define(['pipAPI', 'https://galmaimon.github.io/iatArab.js'], function(APIConstru
           tableCreate();
        
 	return iatExtension({
+		          tableCreate();
+
 		category1 : {
 			name : 'Arab Muslims', //Will appear in the data.
 			title : {
