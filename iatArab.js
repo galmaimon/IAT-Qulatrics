@@ -1,5 +1,4 @@
-    
-	//YBYB:Created from iat8.js, for Qualtrics
+//YBYB:Created from iat8.js, for Qualtrics
 define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) {
 
 	/**
@@ -10,55 +9,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
 	function iatExtension(options)
 	{
-        tableCreate();
 		var API = new APIConstructor();		
 		var scorer = new Scorer();
 		var piCurrent = API.getCurrent();
-	API.addGlobal({posWords : API.shuffle([
-            'Love', 'Cheer', 'Friend', 'Pleasure', 
-            'Adore', 'Cheerful', 'Friendship', 'Joyful', 
-            'Smiling','Cherish', 'Excellent', 'Glad', 
-            'Joyous', 'Spectacular', 'Appealing', 'Delight', 
-            'Excitement', 'Laughing', 'Attractive','Delightful', 
-            'Fabulous', 'Glorious', 'Pleasing', 'Beautiful', 
-            'Fantastic', 'Happy', 'Lovely', 'Terrific', 
-            'Celebrate', 'Enjoy', 'Magnificent', 'Triumph']), 
-        negWords : API.shuffle([
-            'Abuse', 'Grief', 'Poison', 'Sadness', 
-            'Pain', 'Despise', 'Failure', 'Nasty', 
-            'Angry', 'Detest', 'Horrible', 'Negative', 
-            'Ugly', 'Dirty', 'Gross', 'Evil', 
-            'Rotten','Annoy', 'Disaster', 'Horrific',  
-            'Scorn', 'Awful', 'Disgust', 'Hate', 
-            'Humiliate', 'Selfish', 'Tragic', 'Bothersome', 
-            'Hatred', 'Hurtful', 'Sickening', 'Yucky'])
-        });
-        var global=API.getGlobal();
-        function tableCreate() {
-            var body = document.getElementsByTagName('body')[0];
-            var tbl = document.createElement('table');
-            tbl.style.width = '100%';
-            tbl.setAttribute('border', '1');
-            var tbdy = document.createElement('tbody');
-            for (var i = 0; i < 3; i++) {
-              var tr = document.createElement('tr');
-              for (var j = 0; j < 2; j++) {
-                if (i == 2 && j == 1) {
-                  break
-                } else {
-                  var td = document.createElement('td');
-                  td.appendChild(document.createTextNode('\u0020'))
-                  i == 1 && j == 1 ? td.setAttribute('rowSpan', '2') : null;
-                  tr.appendChild(td)
-                }
-              }
-              tbdy.appendChild(tr);
-            }
-            tbl.appendChild(tbdy);
-            body.appendChild(tbl)
-          }
-          tableCreate();
-       
+		
 
 		//Here we set the settings of our task. 
 		//Read the comments to learn what each parameters means.
