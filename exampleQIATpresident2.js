@@ -18,8 +18,97 @@ var negWords = API.shuffle([
     'Scorn', 'Awful', 'Disgust', 'Hate', 
     'Humiliate', 'Selfish', 'Tragic', 'Bothersome', 
     'Hatred', 'Hurtful', 'Sickening', 'Yucky']);
-    presidentSet = API.shuffle(['bush','clinton','jefferson','kennedy','lincoln','nixon','reagan','recent','roosevelt'])[0];
+    presidentSet = API.shuffle(['obama','bush','clinton','jefferson','kennedy','lincoln','nixon','reagan','recent','roosevelt'])[0];
     switch(presidentSet){
+        case 'obama':
+            return iatExtension({
+
+                category2 :	{
+                    name : 'Donald Trump', //Will appear in the data.
+                    title : {
+                        media : {word : 'Donald Trump'}, //Name of the category presented in the task.
+                        css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
+                        height : 4 //Used to position the "Or" in the combined block.
+                    }, 
+                    stimulusMedia : [ //Stimuli content as PIP's media objects
+            {image: 'trump1.jpg'},
+                {image: 'trump2.jpg'},
+                {image: 'trump3.jpg'},
+                {image: 'trump4.jpg'},
+                {image: 'trump5.jpg'},
+                {image: 'trump6.jpg'}
+                
+        ], 
+                    //Stimulus css
+                    stimulusCss : {color:'#31940F','font-size':'1.8em'}
+                },	
+                category1 :	{
+                    name : 'Barack Obama', //Will appear in the data.
+                    title : {
+                        media : {word : 'Barack Obama'}, //Name of the category presented in the task.
+                        css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
+                        height : 4 //Used to position the "Or" in the combined block.
+                    }, 
+                    stimulusMedia : [ //Stimuli content as PIP's media objects
+            {image: 'obama7.jpg'},
+                        {image: 'obama8.jpg'},
+                        {image: 'obama9.jpg'},
+                        {image: 'obama10.jpg'},   
+                        {image: 'obama11.jpg'},
+                        {image: 'obama12.jpg'}	
+                    ], 
+                    //Stimulus css
+                    stimulusCss : {color:'#31940F','font-size':'1.8em'}
+                },
+                attribute1 :
+        {
+            name : 'Bad',
+            title : {
+                media : {word : 'Bad'},
+                css : {color:'#0000FF','font-size':'1.8em'},
+                height : 4 //Used to position the "Or" in the combined block.
+            },
+            stimulusMedia : [ //Stimuli content as PIP's media objects
+                {word: negWords[0]},
+                {word: negWords[1]},
+                {word: negWords[2]},
+                {word: negWords[3]},
+                {word: negWords[4]},
+                {word: negWords[5]},
+                {word: negWords[6]},
+                {word: negWords[7]}
+            ],
+            //Stimulus css
+            stimulusCss : {color:'#0000FF','font-size':'2.3em'}
+        },
+        attribute2 :
+        {
+            name : 'Good',
+            title : {
+                media : {word : 'Good'},
+                css : {color:'#0000FF','font-size':'1.8em'},
+                height : 4 //Used to position the "Or" in the combined block.
+            },
+            stimulusMedia : [ //Stimuli content as PIP's media objects
+                {word: posWords[0]},
+                {word: posWords[1]},
+                {word: posWords[2]},
+                {word: posWords[3]},
+                {word: posWords[4]},
+                {word: posWords[5]},
+                {word: posWords[6]},
+                {word: posWords[7]}
+            ],
+            //Stimulus css
+            stimulusCss : {color:'#0000FF','font-size':'2.3em'}
+        },
+
+                base_url : {//Where are your images at?
+                    image : 'https://galmaimon.github.io/iatage'
+                } 
+            });
+            break;
+
         case 'bush':
             return iatExtension({
 
@@ -132,19 +221,19 @@ var negWords = API.shuffle([
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
                 },	
                 category2 :	{
-                    name : 'Barack Obama', //Will appear in the data.
+                    name : 'Donald Trump', //Will appear in the data.
                     title : {
-                        media : {word : 'Barack Obama'}, //Name of the category presented in the task.
+                        media : {word : 'Donald Trump'}, //Name of the category presented in the task.
                         css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
                         height : 4 //Used to position the "Or" in the combined block.
                     }, 
                     stimulusMedia : [ //Stimuli content as PIP's media objects
-            {image: 'obama7.jpg'},
-                        {image: 'obama8.jpg'},
-                        {image: 'obama9.jpg'},
-                        {image: 'obama10.jpg'},   
-                        {image: 'obama11.jpg'},
-                        {image: 'obama12.jpg'}	
+           	{image: 'trump1.jpg'},
+        		{image: 'trump2.jpg'},
+        		{image: 'trump3.jpg'},
+        		{image: 'trump4.jpg'},
+        		{image: 'trump5.jpg'},
+        		{image: 'trump6.jpg'}	
                     ], 
                     //Stimulus css
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
@@ -221,19 +310,19 @@ var negWords = API.shuffle([
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
                 },	
                 category2 :	{
-                    name : 'Barack Obama', //Will appear in the data.
+                    name : 'Donald Trump', //Will appear in the data.
                     title : {
-                        media : {word : 'Barack Obama'}, //Name of the category presented in the task.
+                        media : {word : 'Donald Trump'}, //Name of the category presented in the task.
                         css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
                         height : 4 //Used to position the "Or" in the combined block.
                     }, 
                     stimulusMedia : [ //Stimuli content as PIP's media objects
-            {image: 'obama7.jpg'},
-                        {image: 'obama8.jpg'},
-                        {image: 'obama9.jpg'},
-                        {image: 'obama10.jpg'},   
-                        {image: 'obama11.jpg'},
-                        {image: 'obama12.jpg'}	
+           	{image: 'trump1.jpg'},
+        		{image: 'trump2.jpg'},
+        		{image: 'trump3.jpg'},
+        		{image: 'trump4.jpg'},
+        		{image: 'trump5.jpg'},
+        		{image: 'trump6.jpg'}
                     ], 
                     //Stimulus css
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
@@ -311,19 +400,19 @@ var negWords = API.shuffle([
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
                 },	
                 category2 :	{
-                    name : 'Barack Obama', //Will appear in the data.
+                    name : 'Donald Trump', //Will appear in the data.
                     title : {
-                        media : {word : 'Barack Obama'}, //Name of the category presented in the task.
+                        media : {word : 'Donald Trump'}, //Name of the category presented in the task.
                         css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
                         height : 4 //Used to position the "Or" in the combined block.
                     }, 
                     stimulusMedia : [ //Stimuli content as PIP's media objects
-            {image: 'obama7.jpg'},
-                        {image: 'obama8.jpg'},
-                        {image: 'obama9.jpg'},
-                        {image: 'obama10.jpg'},   
-                        {image: 'obama11.jpg'},
-                        {image: 'obama12.jpg'}	
+           	{image: 'trump1.jpg'},
+        		{image: 'trump2.jpg'},
+        		{image: 'trump3.jpg'},
+        		{image: 'trump4.jpg'},
+        		{image: 'trump5.jpg'},
+        		{image: 'trump6.jpg'}	
                     ], 
                     //Stimulus css
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
@@ -401,19 +490,19 @@ var negWords = API.shuffle([
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
                 },	
                 category2 :	{
-                    name : 'Barack Obama', //Will appear in the data.
+                    name : 'Donald Trump', //Will appear in the data.
                     title : {
-                        media : {word : 'Barack Obama'}, //Name of the category presented in the task.
+                        media : {word : 'Donald Trump'}, //Name of the category presented in the task.
                         css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
                         height : 4 //Used to position the "Or" in the combined block.
                     }, 
                     stimulusMedia : [ //Stimuli content as PIP's media objects
-            {image: 'obama7.jpg'},
-                        {image: 'obama8.jpg'},
-                        {image: 'obama9.jpg'},
-                        {image: 'obama10.jpg'},   
-                        {image: 'obama11.jpg'},
-                        {image: 'obama12.jpg'}	
+           	{image: 'trump1.jpg'},
+        		{image: 'trump2.jpg'},
+        		{image: 'trump3.jpg'},
+        		{image: 'trump4.jpg'},
+        		{image: 'trump5.jpg'},
+        		{image: 'trump6.jpg'}
                     ], 
                     //Stimulus css
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
@@ -491,19 +580,19 @@ var negWords = API.shuffle([
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
                 },	
                 category2 :	{
-                    name : 'Barack Obama', //Will appear in the data.
+                    name : 'Donald Trump', //Will appear in the data.
                     title : {
-                        media : {word : 'Barack Obama'}, //Name of the category presented in the task.
+                        media : {word : 'Donald Trump'}, //Name of the category presented in the task.
                         css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
                         height : 4 //Used to position the "Or" in the combined block.
                     }, 
                     stimulusMedia : [ //Stimuli content as PIP's media objects
-            {image: 'obama7.jpg'},
-                        {image: 'obama8.jpg'},
-                        {image: 'obama9.jpg'},
-                        {image: 'obama10.jpg'},   
-                        {image: 'obama11.jpg'},
-                        {image: 'obama12.jpg'}	
+           	{image: 'trump1.jpg'},
+        		{image: 'trump2.jpg'},
+        		{image: 'trump3.jpg'},
+        		{image: 'trump4.jpg'},
+        		{image: 'trump5.jpg'},
+        		{image: 'trump6.jpg'}	
                     ], 
                     //Stimulus css
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
@@ -581,19 +670,19 @@ var negWords = API.shuffle([
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
                 },	
                 category2 :	{
-                    name : 'Barack Obama', //Will appear in the data.
+                    name : 'Donald Trump', //Will appear in the data.
                     title : {
-                        media : {word : 'Barack Obama'}, //Name of the category presented in the task.
+                        media : {word : 'Donald Trump'}, //Name of the category presented in the task.
                         css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
                         height : 4 //Used to position the "Or" in the combined block.
                     }, 
                     stimulusMedia : [ //Stimuli content as PIP's media objects
-            {image: 'obama7.jpg'},
-                        {image: 'obama8.jpg'},
-                        {image: 'obama9.jpg'},
-                        {image: 'obama10.jpg'},   
-                        {image: 'obama11.jpg'},
-                        {image: 'obama12.jpg'}	
+           	{image: 'trump1.jpg'},
+        		{image: 'trump2.jpg'},
+        		{image: 'trump3.jpg'},
+        		{image: 'trump4.jpg'},
+        		{image: 'trump5.jpg'},
+        		{image: 'trump6.jpg'}	
                     ], 
                     //Stimulus css
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
@@ -675,19 +764,19 @@ var negWords = API.shuffle([
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
                 },	
                 category2 :	{
-                    name : 'Barack Obama', //Will appear in the data.
+                    name : 'Donald Trump', //Will appear in the data.
                     title : {
-                        media : {word : 'Barack Obama'}, //Name of the category presented in the task.
+                        media : {word : 'Donald Trump'}, //Name of the category presented in the task.
                         css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
                         height : 4 //Used to position the "Or" in the combined block.
                     }, 
                     stimulusMedia : [ //Stimuli content as PIP's media objects
-            {image: 'obama7.jpg'},
-                        {image: 'obama8.jpg'},
-                        {image: 'obama9.jpg'},
-                        {image: 'obama10.jpg'},   
-                        {image: 'obama11.jpg'},
-                        {image: 'obama12.jpg'}	
+           	{image: 'trump1.jpg'},
+        		{image: 'trump2.jpg'},
+        		{image: 'trump3.jpg'},
+        		{image: 'trump4.jpg'},
+        		{image: 'trump5.jpg'},
+        		{image: 'trump6.jpg'}
                     ], 
                     //Stimulus css
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
@@ -765,19 +854,19 @@ var negWords = API.shuffle([
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
                 },	
                 category2 :	{
-                    name : 'Barack Obama', //Will appear in the data.
+                    name : 'Donald Trump', //Will appear in the data.
                     title : {
-                        media : {word : 'Barack Obama'}, //Name of the category presented in the task.
+                        media : {word : 'Donald Trump'}, //Name of the category presented in the task.
                         css : {color:'#31940F','font-size':'2em'}, //Style of the category title.
                         height : 4 //Used to position the "Or" in the combined block.
                     }, 
                     stimulusMedia : [ //Stimuli content as PIP's media objects
-            {image: 'obama7.jpg'},
-                        {image: 'obama8.jpg'},
-                        {image: 'obama9.jpg'},
-                        {image: 'obama10.jpg'},   
-                        {image: 'obama11.jpg'},
-                        {image: 'obama12.jpg'}	
+           	{image: 'trump1.jpg'},
+        		{image: 'trump2.jpg'},
+        		{image: 'trump3.jpg'},
+        		{image: 'trump4.jpg'},
+        		{image: 'trump5.jpg'},
+        		{image: 'trump6.jpg'}
                     ], 
                     //Stimulus css
                     stimulusCss : {color:'#31940F','font-size':'1.8em'}
