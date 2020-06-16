@@ -1185,7 +1185,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
 				minRT : 400, //Not below this latency
 				maxRT : 2000, //Not above this
 				errorLatency : {use:"latency", penalty:600, useForSTD:true},
-				postSettings : {url:"/implicit/scorer"}
+				postSettings : {score: "score", msg:"feeedback", url:"/implicit/scorer"}
 			});
 
 		function getFB(inText, categoryA, categoryB)
