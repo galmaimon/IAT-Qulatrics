@@ -1308,8 +1308,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
 				}
 				scoreObj.feedback = scoreObj[cats[0].name + '-versus-' + cats[1].name+ '_FB'];
 				
-				API.save(scoreObj);
-				piCurrent.batScoreObj = scoreObj;
+				//API.save(scoreObj);
+				//piCurrent.batScoreObj = scoreObj;
 				piCurrent.feedback = scoreObj.feedback;
 				window.minnoJS.onEnd();
 
