@@ -1188,25 +1188,25 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
 				postSettings : {score: "score", msg:"feeedback", url:"/implicit/scorer"}
 			});
 
-		function getFB(inText, categoryA, categoryB)
-		{
-			var retText = inText.replace(/attribute1/g, att1.name);
-			retText = retText.replace(/attribute2/g, att2.name);
-			retText = retText.replace(/categoryA/g, categoryA);
-			retText = retText.replace(/categoryB/g, categoryB);
-			return retText;
-		}
+		// function getFB(inText, categoryA, categoryB)
+		// {
+		// 	var retText = inText.replace(/attribute1/g, att1.name);
+		// 	retText = retText.replace(/attribute2/g, att2.name);
+		// 	retText = retText.replace(/categoryA/g, categoryA);
+		// 	retText = retText.replace(/categoryB/g, categoryB);
+		// 	return retText;
+		// }
 
 			
 			var scoreObj = {	
 				MessageDef : [
-					{ cut:'-0.65', message:getFB(piCurrent.fb_strongAssociationForCatWithAtt2)}, 
-					{ cut:'-0.35', message:getFB(piCurrent.fb_moderateAssociationForCatWithAtt2) },
-					{ cut:'-0.15', message:getFB(piCurrent.fb_slightAssociationForCatWithAtt2) },
-					{ cut:'0.15', message:getFB(piCurrent.fb_equalAssociationForCatWithAtts)},
-					{ cut:'0.35', message:getFB(piCurrent.fb_slightAssociationForCatWithAtt1)},
-					{ cut:'0.65', message:getFB(piCurrent.fb_moderateAssociationForCatWithAtt1) },
-					{ cut:'105', message:getFB(piCurrent.fb_strongAssociationForCatWithAtt1) }
+					{ cut:'-0.65', message:piCurrent.fb_strongAssociationForCatWithAtt2}, 
+					{ cut:'-0.35', message:piCurrent.fb_moderateAssociationForCatWithAtt2 },
+					{ cut:'-0.15', message:piCurrent.fb_slightAssociationForCatWithAtt2 },
+					{ cut:'0.15', message:piCurrent.fb_equalAssociationForCatWithAtts},
+					{ cut:'0.35', message:piCurrent.fb_slightAssociationForCatWithAtt1},
+					{ cut:'0.65', message:piCurrent.fb_moderateAssociationForCatWithAtt1 },
+					{ cut:'105', message:piCurrent.fb_strongAssociationForCatWithAtt1 }
 				],
 				manyErrors : piCurrent.manyErrors,
 				tooFast : piCurrent.tooFast,
@@ -1240,13 +1240,13 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
 			var diffScore = (params.score2 - params.score1) / 2;
 
 			var messageDefs = [
-				{cutoff : -0.65, message : getFB(piCurrent.fb_strong_Att1WithCatA_Att2WithCatB)}, 
-				{cutoff : -0.35, message : getFB(piCurrent.fb_moderate_Att1WithCatA_Att2WithCatB)}, 
-				{cutoff : -0.15, message : getFB(piCurrent.fb_slight_Att1WithCatA_Att2WithCatB)}, 
-				{cutoff : 0.15, message : getFB(piCurrent.fb_equal_CatAvsCatB)}, 
-				{cutoff : 0.35, message : getFB(piCurrent.fb_slight_Att1WithCatA_Att2WithCatB)}, 
-				{cutoff : 0.65, message : getFB(piCurrent.fb_moderate_Att1WithCatA_Att2WithCatB)}, 
-				{cutoff : 1000, message : getFB(piCurrent.fb_strong_Att1WithCatA_Att2WithCatB)}
+				{cutoff : -0.65, message : piCurrent.fb_strong_Att1WithCatA_Att2WithCatB}, 
+				{cutoff : -0.35, message : piCurrent.fb_moderate_Att1WithCatA_Att2WithCatB}, 
+				{cutoff : -0.15, message : piCurrent.fb_slight_Att1WithCatA_Att2WithCatB}, 
+				{cutoff : 0.15, message : piCurrent.fb_equal_CatAvsCatB}, 
+				{cutoff : 0.35, message : piCurrent.fb_slight_Att1WithCatA_Att2WithCatB}, 
+				{cutoff : 0.65, message : piCurrent.fb_moderate_Att1WithCatA_Att2WithCatB}, 
+				{cutoff : 1000, message : piCurrent.fb_strong_Att1WithCatA_Att2WithCatB}
 			];
 			
 			var fbMsg = '';
