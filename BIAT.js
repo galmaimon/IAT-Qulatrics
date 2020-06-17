@@ -1311,6 +1311,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
 				API.save(scoreObj);
 				piCurrent.batScoreObj = scoreObj;
 				piCurrent.feedback = scoreObj.feedback;
+				window.minnoJS.onEnd();
+
 			}
 		});
 		
