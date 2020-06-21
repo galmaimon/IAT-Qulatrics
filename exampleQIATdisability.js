@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://baranan.github.io/minno-tasks/quiat8.js'], function(APIConstructor, iatExtension){
+define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/quiat8.js'], function(APIConstructor, iatExtension){
     var API = new APIConstructor();
 var posWords = API.shuffle([
             'Love', 'Cheer', 'Friend', 'Pleasure', 
@@ -94,7 +94,7 @@ var posWords = API.shuffle([
 			stimulusCss : {color:'#0000FF','font-size':'2.3em'}
 		},
 		base_url : {//Where are your images at?
-			image : 'https://galmaimon.github.io/iatage'
+			image : 'https://baranan.github.io/minno-tasks/images/'
 		} 
 	});
 });
