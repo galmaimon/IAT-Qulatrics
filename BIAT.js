@@ -171,6 +171,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
 				//Stimulus css
 				stimulusCss : {color:'#0000FF','font-size':'2em'} 
 			},
+			base_url : {//Where are your images at?
+				image : '/implicit/user/yba/pipexample/biat/images/'
+			},
 
 			//practiceTrials are a few trials at the beginning of the task (Sriram & Greenwald recommend 2 trials for each category).
 			practiceTrials : //Set number of trials per group in the practice trials at the beginning of the task
@@ -331,6 +334,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
                 var iLog;
                 for (iLog = 0; iLog < logs.length; iLog++)
                 {
+					myLogs.push(logs[iLog]);
+
                     if(!hasProperties(logs[iLog], ['trial_id', 'name', 'responseHandle', 'stimuli', 'media', 'latency'])){
                         //console.log('---MISSING PROPERTIY---');
                         //console.log(logs[iLog]);
