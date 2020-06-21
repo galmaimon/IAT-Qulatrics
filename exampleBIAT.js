@@ -88,10 +88,7 @@ define(['pipAPI', 'https://galmaimon.github.io/BIAT.js'], function(APIConstructo
 					//Stimulus css
 					stimulusCss : {color:'#31b404','font-size':'2em'}
 				}
-			],
-			base_url : {//Where are your images at?
-				image : 'https://baranan.github.io/minno-tasks/images/'
-			} 
+			]
 	});
 });
 

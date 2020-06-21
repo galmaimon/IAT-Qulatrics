@@ -334,6 +334,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
                 var iLog;
                 for (iLog = 0; iLog < logs.length; iLog++)
                 {
+					
                     if(!hasProperties(logs[iLog], ['trial_id', 'name', 'responseHandle', 'stimuli', 'media', 'latency'])){
                         //console.log('---MISSING PROPERTIY---');
                         //console.log(logs[iLog]);
