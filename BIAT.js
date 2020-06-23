@@ -1,161 +1,241 @@
-//YBYB:Created from iat8.js, for Qualtrics
-define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) {
+define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
 
 	/**
-	Created by: Yoav Bar-Anan (baranan@gmail.com). Modified by Elad
-	 * @param  {Object} options Options that replace the defaults...
-	 * @return {Object}         PIP script
+	A few things that this script does not currently support:
+	The extension does not support a practice block with only two categories. 
+	All the blocks include stimuli from all the categories and all the attributes.
+	If there are more than two categories, the extension always includes all the categories in the block: 
+	one as the focal category and all the rest as the non-focal categories. 
+	The number of stimuli of the focal category always equals the number of stimuli of the non-focal categories.
+	The number of stimuli of the focal attribute always equals the number of stimuli of the non-focal attribute.
+	
+	By default: there is only one focal attribute (pleasant), and the order of the focal categories is randomized (they switch every block).
+	
+	To skip a block in the task: press Esc and then Enter. 
+	
+	The script saves a few feedback messages in the explicit table. 
+	The feedback message is always a comparison between the first and the second category. 
+	There are also single scores for each category, 
+	and the results of specific comparisons between the categories. 
+	Run the task in order to learn about the name of these variables, when they are saved at the explicit table.
+	
+	Created by: Yoav Bar-Anan (baranan@gmail.com).
 	**/
 
 	function iatExtension(options)
 	{
-		var API = new APIConstructor();		
+		var API = new APIConstructor();
 		var scorer = new Scorer();
 		var piCurrent = API.getCurrent();
-
-		//Here we set the settings of our task. 
-		//Read the comments to learn what each parameters means.
+		//Here we set the settings of our task. Read the comments to learn what each means.
 		//You can also do that from the outside, with a dedicated jsp file.
-		var iatObj =
+		var batObj = 
 		{
-			isTouch:false, //Set whether the task is on a touch device.
+			istouch:false, //Set whether the task is on a touch device.
 			//Set the canvas of the task
 			canvas : {
 				maxWidth: 725,
-				proportions : 0.7,
+				proportions : 0.85,
 				background: '#ffffff',
 				borderWidth: 5,
 				canvasBackground: '#ffffff',
 				borderColor: 'lightblue'
-			},
-			//When scoring, we will consider the compatible condition the pairing condition that requires response with one key to [category1,attribute1] and the other key to [category2,attribute2]
-			category1 : {
-				name : 'Black people', //Will appear in the data and in the default feedback message.
-				title : {
-					media : {word : 'Black people'}, //Name of the category presented in the task.
-					css : {color:'#336600','font-size':'1.8em'}, //Style of the category title.
-					height : 4 //Used to position the "Or" in the combined block.
-				},
-				stimulusMedia : [ //Stimuli content as PIP's media objects
-					{word: 'Tyron'},
-					{word: 'Malik'},
-					{word: 'Terrell'},
-					{word: 'Jazmin'},
-					{word: 'Tiara'},
-					{word: 'Shanice'}
-				],
-				//Stimulus css (style)
-				stimulusCss : {color:'#336600','font-size':'2.3em'}
-			},
-			category2 :	{
-				name : 'White people', //Will appear in the data and in the default feedback message.
-				title : {
-					media : {word : 'White people'}, //Name of the category presented in the task.
-					css : {color:'#336600','font-size':'1.8em'}, //Style of the category title.
-					height : 4 //Used to position the "Or" in the combined block.
-				},
-				stimulusMedia : [ //Stimuli content as PIP's media objects
-					{word: 'Jake'},
-					{word: 'Connor'},
-					{word: 'Bradley'},
-					{word: 'Allison'},
-					{word: 'Emma'},
-					{word: 'Emily'}
-				],
-				//Stimulus css
-				stimulusCss : {color:'#336600','font-size':'2.3em'}
-			},
-			attribute1 :
+			}, 
+			practiceCategory1 : 
 			{
-				name : 'Bad words',
+				name : 'Mammals', //Will appear in the data.
 				title : {
-					media : {word : 'Bad words'},
-					css : {color:'#0000FF','font-size':'1.8em'},
-					height : 4 //Used to position the "Or" in the combined block.
-				},
+					media : {word : 'Mammals'}, //Name of the category presented in the task.
+					css : {color:'#31b404','font-size':'1.8em'}, //Style of the category title.
+					height : 4, //Height (because we need to know where to put the next item in the title)
+					startStimulus : { 
+					//If you're using a startStimulus, set here. If not, set the parameter showStimuliWithInst to false (see later below)
+						media : {word : 'Dogs, Horses, Cows, Lions'}, 
+						css : {color:'#31b404','font-size':'1em'}, 
+						height : 2
+					}
+				}, 
 				stimulusMedia : [ //Stimuli content as PIP's media objects
-					{word: 'awful'},
-					{word: 'failure'},
-					{word: 'agony'},
-					{word: 'hurt'},
-					{word: 'horrible'},
-					{word: 'terrible'},
-					{word: 'nasty'},
-					{word: 'evil'}
-				],
-				//Stimulus css
-				stimulusCss : {color:'#0000FF','font-size':'2.3em'}
-			},
-			attribute2 :
+					{word : 'Dogs'}, 
+					{word : 'Horses'}, 
+					{word : 'Lions'}, 
+					{word : 'Cows'}
+				], 
+				//Stimulus css (style of the stimuli)
+				stimulusCss : {color:'#31b404','font-size':'2em'}
+			},	
+			practiceCategory2 : 
 			{
-				name : 'Good words',
+				name : 'Birds', 
 				title : {
-					media : {word : 'Good words'},
-					css : {color:'#0000FF','font-size':'1.8em'},
-					height : 4 //Used to position the "Or" in the combined block.
-				},
+					media : {word : 'Birds'}, 
+					css : {color:'#31b404','font-size':'1.8em'}, 
+					height : 4,
+					startStimulus : {
+						media : {word : 'Pigeons, Swans, Crows, Ravens'}, 
+						css : {color:'#31b404','font-size':'1em'}, 
+						height : 2
+					}
+				}, 
 				stimulusMedia : [ //Stimuli content as PIP's media objects
-					{word: 'laughter'},
-					{word: 'happy'},
-					{word: 'glorious'},
-					{word: 'joy'},
-					{word: 'wonderful'},
-					{word: 'peace'},
-					{word: 'pleasure'},
-					{word: 'love'}
-				],
+					{word : 'Pigeons'}, 
+					{word : 'Swans'}, 
+					{word : 'Crows'}, 
+					{word : 'Ravens'}
+				], 
 				//Stimulus css
-				stimulusCss : {color:'#0000FF','font-size':'2.3em'}
+				stimulusCss : {color:'#31b404','font-size':'2em'}
 			},
-
+			categories : [  //As many categories you need.
+				{
+					name : 'category1', //Will appear in the data.
+					title : {
+						media : {word : 'Category1'}, //Name of the category presented in the task.
+						css : {color:'#31b404','font-size':'1.8em'}, //Style of the category title.
+						height : 4, //Height (because we need to know where to put the next item in the title)
+						startStimulus : { 
+						//If you're using a startStimulus, set here. If not, set the parameter showStimuliWithInst to false (see later below)
+							media : {word : 'cat1A, cat1B'}, 
+							css : {color:'#31b404','font-size':'1em'}, 
+							height : 2
+						}
+					}, 
+					stimulusMedia : [ //Stimuli content as PIP's media objects
+						{word : 'cat1A'}, 
+						{word : 'cat1B'}
+					], 
+					//Stimulus css (style of the stimuli)
+					stimulusCss : {color:'#31b404','font-size':'2em'}
+				},	
+				{
+					name : 'category2', 
+					title : {
+						media : {word : 'Category2'}, 
+						css : {color:'#31b404','font-size':'1.8em'}, 
+						height : 4,
+						startStimulus : {
+							media : {word : 'cat2A, cat2B'}, 
+							css : {color:'#31b404','font-size':'1em'}, 
+							height : 2
+						}
+					}, 
+					stimulusMedia : [ //Stimuli content as PIP's media objects
+						{word : 'cat2A'}, 
+						{word : 'cat2B'}
+					], 
+					//Stimulus css
+					stimulusCss : {color:'#31b404','font-size':'2em'}
+				}
+			],
+			attribute1 : 
+			{
+				name : 'Pleasant', 
+				title : {
+					media : {word : 'Pleasant'}, 
+					css : {color:'#0000FF','font-size':'1.8em'}, 
+					height : 4,
+					startStimulus : {
+						media : {word : 'Joy, Love, Happy, Good'}, 
+						css : {color:'#0000FF','font-size':'1em'}, 
+						height : 2
+					}
+				}, 
+				stimulusMedia : [ //Stimuli content as PIP's media objects
+					{word : 'Joy'}, 
+					{word : 'Love'}, 
+					{word : 'Happy'}, 
+					{word : 'Good'}
+				], 
+				//Stimulus css
+				stimulusCss : {color:'#0000FF','font-size':'2em'}
+			},	
+			attribute2 : 
+			{
+				name : 'Unpleasant', 
+				title : {
+					media : {word : 'Unpleasant'}, 
+					css : {color:'#0000FF','font-size':'1.8em'}, 
+					height : 4,
+					startStimulus : {
+						media : {word : 'Horrible, Evil, Nasty, Bad'}, 
+						css : {color:'#0000FF','font-size':'1em'}, 
+						height : 2
+					}
+				}, 
+				stimulusMedia : [ //Stimuli content as PIP's media objects
+					{word : 'Horrible'}, 
+					{word : 'Nasty'}, 
+					{word : 'Bad'}, 
+					{word : 'Evil'}
+				], 
+				//Stimulus css
+				stimulusCss : {color:'#0000FF','font-size':'2em'} 
+			},
 			base_url : {//Where are your images at?
 				image : '/implicit/user/yba/pipexample/biat/images/'
 			},
 
-			//nBlocks : 7, This is not-supported anymore. If you want a 5-block IAT, change blockSecondCombined_nTrials to 0.
+			//practiceTrials are a few trials at the beginning of the task (Sriram & Greenwald recommend 2 trials for each category).
+			practiceTrials : //Set number of trials per group in the practice trials at the beginning of the task
+			{//Can set 0 to all to remove the practice trials.
+				nFocalCat : 2, //Number of trials for the focal category.
+				nNonFocalCats : 2, //Number of trials for each non-focal category.  (in a mini block).
+				nFocalAtt : 0, //Number of trials for the focal attribute (in a mini block).
+				nNonFocalAtt : 0 //Number of trials for the non-focal attribute (in a mini-block). 
+			},
+
+			//In each block, we can include a number of mini-blocks, to reduce repetition of same group/response.
+			nMiniBlocks : 1, //Set to 1 if don't need mini blocks. 0 will break the task.
+			nTrialsPerMiniBlock : 16, //50% on the right, 50% left, 50% attributes, 50% categories.
+
+			//Sets whether we use a certain focal attribute throughout the task, or both.
+			focalAttribute : 'attribute1', // Accepts 'attribute1', 'attribute2' or 'both', 
+
+			//Sets what attribute appears first. Irrelevant if focalAttributes is not 'both'. 
+			firstFocalAttribute : 'random', //Accepts 'attribute1', 'attribute2' or 'random'. 
 			
-			////In each block, we can include a number of mini-blocks, to reduce repetition of same group/response.
-			////If you set the number of trials in any block to 0, that block will be skipped.
-			blockAttributes_nTrials : 20,
-			blockAttributes_nMiniBlocks : 5,
-			blockCategories_nTrials : 20,
-			blockCategories_nMiniBlocks : 5,
-			blockFirstCombined_nTrials : 20,
-			blockFirstCombined_nMiniBlocks : 5,
-			blockSecondCombined_nTrials : 40, //Change to 0 if you want 5 blocks (you would probably want to increase blockFirstCombined_nTrials).
-			blockSecondCombined_nMiniBlocks : 10, 
-			blockSwitch_nTrials : 28,
-			blockSwitch_nMiniBlocks : 7,
+			//Whether to start with a practice block.
+			practiceBlock : true, 
+			nPracticeBlockTrials : 8, //Should be at least 8 trials.
 
-			//Should we randomize which attribute is on the right, and which on the left?
-			randomAttSide : false, // Accepts 'true' and 'false'. If false, then attribute2 on the right.
+			//Number of blocks per focal category-attribute combination.
+			nCategoryAttributeBlocks : 4, 
 
-			//Should we randomize which category is on the right first?
-			randomBlockOrder : true, //Accepts 'true' and 'false'. If false, then category1 on the left first.
-			//Note: the player sends block3Cond at the end of the task (saved in the explicit table) to inform about the categories in that block.
-			//In the block3Cond variable: "att1/cat1,att2/cat2" means att1 and cat1 on the left, att2 and cat2 on the right.
+			//Whether to switch the focal attribute only once in the task (after all the blocks with the first focal attribute), 
+			//Or after every exhaustion of all the category-attribute combinations (e.g., twice if nCategoryAttributeBlocks).
+			//Relevant only when nCategoryAttributeBlocks>1, 
+			//and only if there is more than one focal attribute.
+			switchFocalAttributeOnce : true, 
 
-			//Show a reminder what to do on error, throughout the task
-			remindError : true,
-
-			remindErrorText : '<p align="center" style="font-size:"0.6em"; font-family:arial">' +
-			'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. ' +
+			//focalCategoryOrder can be: 'bySequence', 'random'.
+			//If bySequence then we always start with categories[0] as the first focal category.
+			focalCategoryOrder : 'random', 
+			
+			//Whether to show the stimuli of the IN categories at the beginning of the block.
+			showStimuliWithInst : true, 
+			
+			//Remind what to do on error, throughout the task
+			remindError : true, 
+			
+			//Location of the error feedback (from the bottom)
+			errorBottom : 5, 
+			
+			remindErrorText : '<p align="center" style="font-size:"0.6em"; font-family:arial">' + 
+			'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. ' + 
 			'Press the other key to continue.<p/>',
-
-			remindErrorTextTouch : '<p align="center" style="font-size:"1.4em"; font-family:arial">' +
+	        remindErrorTextTouch : '<p align="center" style="font-size:"1.4em"; font-family:arial">' +
 			'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. ' +
-			'Touch the other side to continue.<p/>',
-
-			errorCorrection : true, //Should participants correct error responses?
-			errorFBDuration : 500, //Duration of error feedback display (relevant only when errorCorrection is false)
+			'Touch the other side to continue.<p/>',				
+			
 			ITIDuration : 250, //Duration between trials.
-
-			fontColor : '#000000', //The default color used for printed messages.
+            fontColor : '#000000', //The default color used for printed messages.
 			
 			//Text and style for key instructions displayed about the category labels.
-			leftKeyText : 'Press "E" for', 
-			rightKeyText : 'Press "I" for', 
+			leftKeyText : '"E" for all else', 
+			rightKeyText : '"I" if item belongs', 
 			keysCss : {'font-size':'0.8em', 'font-family':'courier', color:'#000000'},
+			rightKeyTextTouch : 'Left for all else', 
+			leftKeyTextTouch : 'Right if item belongs', 
 			//Text and style for the separator between the top and bottom category labels.
 			orText : 'or', 
 			orCss : {'font-size':'1.8em', color:'#000000'},
@@ -167,167 +247,63 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
-			bottomTouchCss: {}, //Add any CSS value you want for changing the css of the bottom touch area.
-
-			//Instructions text.
-			// You can use the following variables and they will be replaced by
-			// the name of the categories and the block's number variables:
-			// leftCategory, rightCategory, leftAttribute and rightAttribute, blockNum, nBlocks.
-			// Notice that this is HTML text.
-			instAttributePractice: '<div><p align="center" style="font-size:20px; font-family:arial">' +
-				'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' +
+			bottomTouchCss: {              
+                        height: '20%'
+                    }, //Add any CSS value you want for changing the css of the bottom touch area.
+			//This is the template for the instructions in the task. 
+			
+			// Some variables will be replaced with their values: 
+			// blockNum, nBlocks, focalAtt, focalCat.
+			// Notice that this is HTML code.
+			instTemplate: '<div><p align="center" style="font-size:20px; font-family:arial"><br/>' +
+				'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' + 
 				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
-				'Put a left finger on the <b>E</b> key for items that belong to the category <font color="#0000ff">leftAttribute.</font>' +
-				'<br/>Put a right finger on the <b>I</b> key for items that belong to the category <font color="#0000ff">rightAttribute</font>.<br/><br/>' +
-				'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. ' +
-				'Press the other key to continue.<br/>' +
-				'<u>Go as fast as you can</u> while being accurate.<br/><br/></p>'+
-				'<p align="center">Press the <b>space bar</b> when you are ready to start.</font></p></div>',
-			instAttributePracticeTouch: [
-				'<div>',
-					'<p align="center">',
-						'<u>Part blockNum of nBlocks</u>',
-					'</p>',
-					'<p align="left" style="margin-left:5px">',
-						'<br/>',
-						'Put a left finger over the the <b>left</b> green area for items that belong to the category <font color="#0000ff">leftAttribute</font>.<br/>',
-						'Put a right finger over the <b>right</b> green area for items that belong to the category <font color="#0000ff">rightAttribute</font>.<br/>',
-						'Items will appear one at a time.<br/>',
-						'<br/>',
-						'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. Touch the other side. <u>Go as fast as you can</u> while being accurate.',
-					'</p>',
-					'<p align="center">Touch the <b>lower </b> green area to start.</p>',
-				'</div>'
-			].join('\n'),
-
-			instCategoriesPractice: '<div><p align="center" style="font-size:20px; font-family:arial">' +
-				'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' +
-				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
-				'Put a left finger on the <b>E</b> key for items that belong to the category <font color="#336600">leftCategory</font>. ' +
-				'<br/>Put a right finger on the <b>I</b> key for items that belong to the category <font color="#336600">rightCategory</font>.<br/>' +
-				'Items will appear one at a time.<br/><br/>' +
-				'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. ' +
-				'Press the other key to continue.<br/>' +
-				'<u>Go as fast as you can</u> while being accurate.<br/><br/></p>'+
-				'<p align="center">Press the <b>space bar</b> when you are ready to start.</font></p></div>',
-			instCategoriesPracticeTouch: [
-				'<div>',
-					'<p align="center">',
-						'<u>Part blockNum of nBlocks</u>',
-					'</p>',
-					'<p align="left" style="margin-left:5px">',
-						'<br/>',
-						'Put a left finger over the <b>left</b> green area for items that belong to the category <font color="#336600">leftCategory</font>.<br/>',
-						'Put a right finger over the <b>right</b> green area for items that belong to the category <font color="#336600">rightCategory</font>.<br/>',
-						'Items will appear one at a time.<br/>',
-						'<br/>',
-						'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. Touch the other side. <u>Go as fast as you can</u> while being accurate.',
-					'</p>',
-					'<p align="center">Touch the <b>lower </b> green area to start.</p>',
-				'</div>'
-			].join('\n'),
-
-			instFirstCombined : '<div><p align="center" style="font-size:20px; font-family:arial">' +
-				'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' +
-				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
-				'Use the <b>E</b> key for <font color="#336600">leftCategory</font> and for <font color="#0000ff">leftAttribute</font>.<br/>' +
-				'Use the <b>I</b> key for <font color="#336600">rightCategory</font> and for  <font color="#0000ff">rightAttribute</font>.<br/>' +
-				'Each item belongs to only one category.<br/><br/>' +
-				'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. ' +
+				'Put a right finger on the <b>I</b> key for items that belong to the category ' + 
+				'<font color="#00cccc">focalAtt</font>, ' + 
+				'and for items that belong to the category <font color="#00cccc">focalCat</font>.<br/>' + 
+				'Put a left finger on the <b>E</b> key for items that do not belong to these categories.<br/><br/>' + 
+				'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. ' + 
+				'Press the other key to continue.<br/><br/>' + 
+				'<p align="center">Press the <b>space bar</b> when you are ready to start.</font></p></div>', 
+            instTemplateTouch: '<div><p align="center" ' +
+				'<br/><font color="#000000"><u>Part blockNum of nBlocks </u><br/></p>' + 
+				'<p align="left" style="margin-left:5px"> ' +
+				'Put a right finger on the <b>right</b> green area for items that belong to the category ' + 
+				'<font color="#00cccc">focalAtt</font>, ' + 
+				'and for items that belong to the category <font color="#00cccc">focalCat</font>.<br/>' + 
+				'Put a left finger on the <b>left</b> green area for items that do not belong to these categories.<br/>' + 
+				'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. ' + 
 				'Press the other key to continue.<br/>' + 
-				'<u>Go as fast as you can</u> while being accurate.<br/><br/></p>' +
-				'<p align="center">Press the <b>space bar</b> when you are ready to start.</font></p></div>',
-			instFirstCombinedTouch:[
-				'<div>',
-					'<p align="center">',
-						'<u>Part blockNum of nBlocks</u>',
-					'</p>',
-					'<br/>',
-					'<br/>',
-					'<p align="left" style="margin-left:5px">',
-						'Put a left finger over the <b>left</b> green area for <font color="#336600">leftCategory</font> items and for <font color="#0000ff">leftAttribute</font>.</br>',
-						'Put a right finger over the <b>right</b> green area for <font color="#336600">rightCategory</font> items and for <font color="#0000ff">rightAttribute</font>.</br>',
-							'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. Touch the other side. <u>Go as fast as you can</u> while being accurate.</br>',
-						'</p>',
-						'<p align="center">Touch the <b>lower </b> green area to start.</p>',
-				'</div>'
-			].join('\n'),
-
-			instSecondCombined : '<div><p align="center" style="font-size:20px; font-family:arial">' +
-				'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' +
-				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
-				'This is the same as the previous part.<br/>' +
-				'Use the <b>E</b> key for <font color="#336600">leftCategory</font> and for <font color="#0000ff">leftAttribute</font>.<br/>' +
-				'Use the <b>I</b> key for <font color="#336600">rightCategory</font> and for  <font color="#0000ff">rightAttribute</font>.<br/>' +
-				'Each item belongs to only one category.<br/><br/>' +
-				'<u>Go as fast as you can</u> while being accurate.<br/><br/></p>' +
-				'<p align="center">Press the <b>space bar</b> when you are ready to start.</font></p></div>',
-			instSecondCombinedTouch:[
-				'<div>',
-					'<p align="center"><u>Part blockNum of nBlocks</u></p>',
-					'<br/>',
-					'<br/>',
-
-					'<p align="left" style="margin-left:5px">',
-						'Put a left finger over the <b>left</b> green area for <font color="#336600">leftCategory</font> items and for <font color="#0000ff">leftAttribute</font>.<br/>',
-						'Put a right finger over the <b>right</b> green area for <font color="#336600">rightCategory</font> items and for <font color="#0000ff">rightAttribute</font>.<br/>',
-						'<br/>',
-						'<u>Go as fast as you can</u> while being accurate.<br/>',
-					'</p>',
-					'<p align="center">Touch the <b>lower </b> green area to start.</p>',
-				'</div>'
-			].join('\n'),
-
-			instSwitchCategories : '<div><p align="center" style="font-size:20px; font-family:arial">' +
-				'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' +
-				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
-				'<b>Watch out, the labels have changed position!</b><br/>' +
-				'Use the left finger on the <b>E</b> key for <font color="#336600">leftCategory</font>.<br/>' +
-				'Use the right finger on the <b>I</b> key for <font color="#336600">rightCategory</font>.<br/><br/>' +
-				'<u>Go as fast as you can</u> while being accurate.<br/><br/></p>' +
-				'<p align="center">Press the <b>space bar</b> when you are ready to start.</font></p></div>',
-			instSwitchCategoriesTouch: [
-				'<div>',
-					'<p align="center">',
-						'<u>Part blockNum of nBlocks</u>',
-					'</p>',
-					'<p align="left" style="margin-left:5px">',
-						'<br/>',
-						'Watch out, the labels have changed position!<br/>',
-							'Put a left finger over the <b>left</b> green area for <font color="#336600">leftCategory</font> items.<br/>',
-							'Put a right finger over the <b>right</b> green area for <font color="#336600">rightCategory</font> items.<br/>',
-							'Items will appear one at a time.',
-							'<br/>',
-							'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. Touch the other side. <u>Go as fast as you can</u> while being accurate.<br/>',
-						'</p>',
-						'<p align="center">Touch the <b>lower </b> green area to start.</p>',
-				'</div>'
-			].join('\n'),
-
-			instThirdCombined : 'instFirstCombined', //this means that we're going to use the instFirstCombined property for the third combined block as well. You can change that.
-			instFourthCombined : 'instSecondCombined', //this means that we're going to use the instSecondCombined property for the fourth combined block as well. You can change that.
-			instThirdCombinedTouch : 'instFirstCombined', //this means that we're going to use the instFirstCombined property for the third combined block as well. You can change that.
-			instFourthCombinedTouch : 'instSecondCombined', //this means that we're going to use the instSecondCombined property for the fourth combined block as well. You can change that.
-
-			//The default feedback messages for each cutoff -
-			//attribute1, and attribute2 will be replaced with the name of attribute1 and attribute2.
-			//categoryA is the name of the category that is found to be associated with attribute1,
-			//and categoryB is the name of the category that is found to be associated with attribute2.
-			fb_strong_Att1WithCatA_Att2WithCatB : 'Your responses suggested a strong automatic preference for categoryB over categoryA.',
-			fb_moderate_Att1WithCatA_Att2WithCatB : 'Your responses suggested a moderate automatic preference for categoryB over categoryA.',
-			fb_slight_Att1WithCatA_Att2WithCatB : 'Your responses suggested a slight automatic preference for categoryB over categoryA.',
-			fb_equal_CatAvsCatB : 'Your responses suggested no automatic preference between categoryA and categoryB.',
-
+				'<p align="center">Touch the <b>lower </b> green area to start.</font></p></div>', 				
+			//The default feedback messages for each cutoff - 
+			//You will get a comparison feedback for each 
+			//pair, and also single feedback message for each category. 
+			//The feedback variable names will be in the format of Cat1vsCat2_FB for comparisons, and Cat1_FB for single category feedback message.
+			//CATEGORYA, and CATEGORYB will be replaced with the names of the relevant categories.
+			fb_strong_Att1WithCatA_Att2WithCatB : 'Your data suggest strong preference of CATEGORYA over CATEGORYB.',
+			fb_moderate_Att1WithCatA_Att2WithCatB : 'Your data suggest moderate preference of CATEGORYA over CATEGORYB.',
+			fb_slight_Att1WithCatA_Att2WithCatB : 'Your data suggest slight preference of CATEGORYA over CATEGORYB.',
+			fb_equal_CatAvsCatB : 'Your data suggest no preference between CATEGORYA and CATEGORYB.',
+			//Feedback for each CATEGORY, separately. Notice that by default, attribute1 is the positive attribute. 
+			//CATEGORY is the CATEGORY name. Can also use attribute1 and attribute2 to refer to attribute1.name and attribute2.name.
+			fb_strongAssociationForCatWithAtt1 : 'Your data suggest strong positive automatic evaluation of CATEGORY.',
+			fb_moderateAssociationForCatWithAtt1 : 'Your data suggest moderate positive automatic evaluation of CATEGORY.',
+			fb_slightAssociationForCatWithAtt1 : 'Your data suggest slight positive automatic evaluation of CATEGORY.',
+			fb_equalAssociationForCatWithAtts : 'Your data suggest neutral automatic evaluation of CATEGORY.',
+			fb_strongAssociationForCatWithAtt2 : 'Your data suggest strong negative automatic evaluation of CATEGORY.',
+			fb_moderateAssociationForCatWithAtt2 : 'Your data suggest moderate negative automatic evaluation of CATEGORY.',
+			fb_slightAssociationForCatWithAtt2 : 'Your data suggest slight negative automatic evaluation of CATEGORY.',
+			
 			//Error messages in the feedback
 			manyErrors: 'There were too many errors made to determine a result.',
 			tooFast: 'There were too many fast trials to determine a result.',
 			notEnough: 'There were not enough trials to determine a result.'
 		};
-
-		// extend the "current" object with the default
-		_.defaults(piCurrent, options, iatObj);
+		
+		// extend the current object with the default
+		_.defaults(piCurrent, options, batObj);
 		_.extend(API.script.settings, options.settings);
-
+		
         /**
         **** For Qualtrics
         */
@@ -351,21 +327,22 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             // we save as CSV because qualtrics limits to 20K characters and this is more efficient.
             serialize: function (name, logs) {
                 var headers = ['block', 'trial', 'cond', 'comp', 'type', 'cat',  'stim', 'resp', 'err', 'rt', 'd', 'fb', 'bOrd'];
-                console.log(logs);
+                //console.log(logs);
                 var myLogs = [];
                 var iLog;
                 for (iLog = 0; iLog < logs.length; iLog++)
                 {
+					
                     if(!hasProperties(logs[iLog], ['trial_id', 'name', 'responseHandle', 'stimuli', 'media', 'latency'])){
-                        console.log('---MISSING PROPERTIY---');
-                        console.log(logs[iLog]);
-                        console.log('---MISSING PROPERTIY---');
+                        //console.log('---MISSING PROPERTIY---');
+                        //console.log(logs[iLog]);
+                        //console.log('---MISSING PROPERTIY---');
                     }
-                    else if(!hasProperties(logs[iLog].data, ['block', 'condition', 'score', 'cong']))
+                    else if(!hasProperties(logs[iLog].data, ['block', 'condition', 'score']))
                     {
-                        console.log('---MISSING data PROPERTIY---');
-                        console.log(logs[iLog].data);
-                        console.log('---MISSING data PROPERTIY---');
+                        //console.log('---MISSING data PROPERTIY---');
+                        //console.log(logs[iLog].data);
+                        //console.log('---MISSING data PROPERTIY---');
                     }
                     else
                     {
@@ -377,7 +354,6 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         log.data.block, //'block'
                         log.trial_id, //'trial'
                         log.data.condition, //'cond'
-                        log.data.cong, //'comp'
                         log.name, //'type'
                         log.stimuli[0], //'cat'
                         log.media[0], //'stim'
@@ -436,52 +412,27 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 window.minnoJS.logger(serialized);
             }
         });
-
-		// are we on the touch version
+	// are we on the touch version
 		var isTouch = piCurrent.isTouch;
-
-		//We use these objects a lot, so let's read them here
-		var att1 = piCurrent.attribute1;
-		var att2 = piCurrent.attribute2;
-		var cat1 = piCurrent.category1;
-		var cat2 = piCurrent.category2;
-		if (isTouch)
-		{
-			var maxW = piCurrent.touchMaxStimulusWidth;
-			var maxH = piCurrent.touchMaxStimulusHeight;
-			att1.stimulusCss.maxWidth = maxW;
-			att2.stimulusCss.maxWidth = maxW;
-			cat1.stimulusCss.maxWidth = maxW;
-			cat2.stimulusCss.maxWidth = maxW;
-			att1.stimulusCss.maxHeight = maxH;
-			att2.stimulusCss.maxHeight = maxH;
-			cat1.stimulusCss.maxHeight = maxH;
-			cat2.stimulusCss.maxHeight = maxH;
-		}
-
-		//Set the attribute on the left.
-		var rightAttName = (piCurrent.randomAttSide) ? (Math.random() >= 0.5 ? att1.name : att2.name) : att2.name;
-
-		/**
-		 * Create inputs
-		 */
-
-		var leftInput = !isTouch ? {handle:'left',on:'keypressed',key:'e'} : {handle:'left',on:'click', stimHandle:'left'};
-		var rightInput = !isTouch ? {handle:'right',on:'keypressed',key:'i'} : {handle:'right',on:'click', stimHandle:'right'};
-		var proceedInput = !isTouch ? {handle:'space',on:'space'} : {handle:'space',on:'bottomTouch', css:piCurrent.bottomTouchCss};
+		//We use the attribute names a lot, so let's read them here
+		var attribute1 = piCurrent.attribute1;
+		var attribute2 = piCurrent.attribute2;
+		var cats = piCurrent.categories;
 
 		/**
 		*Set basic settings.
 		*/
 		API.addSettings('canvas',piCurrent.canvas);
 		API.addSettings('base_url',piCurrent.base_url);
-		
+	    var leftInput = !isTouch ? {handle:'left',on:'keypressed',key:'e'} : {handle:'left',on:'click', stimHandle:'left'};
+		var rightInput = !isTouch ? {handle:'right',on:'keypressed',key:'i'} : {handle:'right',on:'click', stimHandle:'right'};
+		var proceedInput = !isTouch ? {handle:'space',on:'space'} : {handle:'space',on:'bottomTouch', css:piCurrent.bottomTouchCss};
 		/**
-		 * Create default sorting trial
+		 * Create default Trial
 		 */
 		API.addTrialSets('sort',{
 			// by default each trial is correct, this is modified in case of an error
-			data: {score:0, parcel:'none'}, //We're using only one parcel for computing the score, so we're always going to call it 'first'.
+			data: {score:0, parcel:'first'}, //We're using only one parcel for computing the score.
 			// set the interface for trials
 			input: [
 				{handle:'skip1',on:'keypressed', key:27}, //Esc + Enter will skip blocks
@@ -496,49 +447,30 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					conditions: [{type:'begin'}],
 					actions: [{type:'showStim',handle:'targetStim'}]
 				},
-				// error response
+
+				// error
 				{
 					conditions: [
 						{type:'inputEqualsTrial', property:'corResp',negate:true}, //Not the correct response.
 						{type:'inputEquals',value:['right','left']}	// responded with one of the two responses
 					],
 					actions: [
-						{type:'setTrialAttr', setter:{score:1}},	// set the score to 1
-						{type:'showStim',handle:'error'}, // show error stimulus
-						{type:'trigger',handle:'onError'}	// perhaps we need to end the trial (if no errorCorrection)
+						{type:'showStim',handle:'error'},	// show error stimulus
+						{type:'setTrialAttr', setter:{score:1}}	// set the score to 1
 					]
 				},
-				// error when there is no correction
-				{
-					conditions: [
-						{type:'currentEquals', property:'errorCorrection', value:false}, //no error correction.
-						{type:'inputEquals',value:'onError'} //Was error
-					],
-					actions: [
-						{type:'removeInput',handle:'All'}, //Cannot respond anymore
-						{type:'log'}, // log this trial
-						{type:'trigger',handle:'ITI', duration:piCurrent.errorFBDuration} // Continue to the ITI, after that error fb has been displayed
-					]
-				},
+
 				// correct
 				{
 					conditions: [{type:'inputEqualsTrial', property:'corResp'}],	// check if the input handle is equal to correct response (in the trial's data object)
 					actions: [
-						{type:'removeInput',handle:'All'}, //Cannot respond anymore
-						{type:'hideStim', handle: 'All'}, // hide everything
-						{type:'log'}, // log this trial
-						{type:'trigger',handle:'ITI'} // End the trial after ITI
+						{type:'removeInput',handle:['left','right']}, //Cannot respond anymore
+						{type:'hideStim', handle: 'All'},											// hide everything
+						{type:'log'},																// log this trial
+						{type:'setInput',input:{handle:'end', on:'timeout',duration:piCurrent.ITIDuration}} // trigger the "end action after ITI"
 					]
 				},
-				// Display nothing for ITI until the next trial
-				{
-					conditions: [{type:'inputEquals',value:'ITI'}],
-					actions: [
-						{type:'removeInput',handle:'All'}, //Cannot respond anymore
-						{type:'hideStim', handle: 'All'}, // hide everything
-						{type:'trigger',handle:'end', duration:piCurrent.ITIDuration} // Continue to the ITI, after that error fb has been displayed
-					]
-				},
+
 				// end after ITI
 				{
 					conditions: [{type:'inputEquals',value:'end'}],
@@ -547,14 +479,14 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					]
 				},
 
-				// skip block: enter and then ESC
+				// skip block
 				{
 					conditions: [{type:'inputEquals',value:'skip1'}],
 					actions: [
 						{type:'setInput',input:{handle:'skip2', on:'enter'}} // allow skipping if next key is enter.
 					]
 				},
-				// skip block: then ESC
+				// skip block
 				{
 					conditions: [{type:'inputEquals',value:'skip2'}],
 					actions: [
@@ -592,8 +524,6 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 						conditions: [{type:'inputEquals',value:'space'}],
 						actions: [
 							{type:'hideStim', handle:'All'},
-							{type:'removeInput', handle:'space'},
-							{type:'log'},
 							{type:'trigger', handle:'endTrial', duration:500}
 						]
 					},
@@ -608,15 +538,15 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		/**
 		 * All basic trials.
 		 */
-
+		 
 		//Helper function to create a basic trial for a certain category (or attribute)
 		//as an in or out trial (right is in and left is out).
 		function createBasicTrialSet(params)
 		{//params: side is left or right. stimSet is the name of the stimulus set.
 			var set = [{
-				inherit : 'sort',
+				inherit : 'sort', 
 				data : {corResp : params.side},
-				stimuli :
+				stimuli : 
 				[
 					{inherit:{type:'exRandom',set:params.stimSet}},
 					{inherit:{set:'error'}}
@@ -624,29 +554,45 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			}];
 			return set;
 		}
-
+		
 		var basicTrialSets = {};
+		for (var iTrialType = 0; iTrialType < cats.length; iTrialType++)
+		{
+			////We will create a trial for each category on the left and on the right. 
+			////These trials do not have layouts so they can be used in different blocks.
+
+			//Left
+			basicTrialSets['category'+ (iTrialType+1) + 'left'] = 
+				createBasicTrialSet({side:'left', stimSet: 'category'+(iTrialType+1)});
+			//Right
+			basicTrialSets['category'+ (iTrialType+1) + 'right'] = 
+				createBasicTrialSet({side:'right', stimSet: 'category'+(iTrialType+1)});
+		}
 		//Four trials for the attributes.
-		basicTrialSets.att1left =
-			createBasicTrialSet({side:'left', stimSet: 'att1'});
-		basicTrialSets.att1right =
-			createBasicTrialSet({side:'right', stimSet: 'att1'});
-		basicTrialSets.att2left =
-			createBasicTrialSet({side:'left', stimSet: 'att2'});
-		basicTrialSets.att2right =
-			createBasicTrialSet({side:'right', stimSet: 'att2'});
-		//Four trials for the categories.
-		basicTrialSets.cat1left =
-			createBasicTrialSet({side:'left', stimSet: 'cat1'});
-		basicTrialSets.cat1right =
-			createBasicTrialSet({side:'right', stimSet: 'cat1'});
-		basicTrialSets.cat2left =
-			createBasicTrialSet({side:'left', stimSet: 'cat2'});
-		basicTrialSets.cat2right =
-			createBasicTrialSet({side:'right', stimSet: 'cat2'});
+		basicTrialSets.attribute1left = 
+			createBasicTrialSet({side:'left', stimSet: 'attribute1'});
+		basicTrialSets.attribute1right = 
+			createBasicTrialSet({side:'right', stimSet: 'attribute1'});
+		basicTrialSets.attribute2left = 
+			createBasicTrialSet({side:'left', stimSet: 'attribute2'});
+		basicTrialSets.attribute2right = 
+			createBasicTrialSet({side:'right', stimSet: 'attribute2'});
+			
+		if (piCurrent.practiceBlock)
+		{
+			basicTrialSets.practiceCat1 = 
+				createBasicTrialSet({side:'right', stimSet: 'practiceCat1'});
+			basicTrialSets.practiceCat2 = 
+				createBasicTrialSet({side:'left', stimSet: 'practiceCat2'});
+			basicTrialSets.practiceCats = 
+			[
+				{inherit:{set:'practiceCat1', type:'exRandom'}}, 
+				{inherit:{set:'practiceCat2', type:'exRandom'}}
+			];
+		}
 
 		API.addTrialSets(basicTrialSets);
-
+		
 		/**
 		 *	Stimulus Sets
 		 */
@@ -655,666 +601,725 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		API.addStimulusSets({
 			// This Default stimulus is inherited by the other stimuli so that we can have a consistent look and change it from one place
 			Default: [
-				{css:{color:piCurrent.fontColor,'font-size':'2em'}}
+				{css:{color:'black','font-size':'2em'}}
 			],
 
 			instructions: [
-				{css:{'font-size':'1.4em',color:'black', lineHeight:1.2}, nolog:true, 
-					location: {left:0,top:0}, size:{width:piCurrent.instWidth}}
+				{css:{'font-size':'1.3em',color:'black', lineHeight:1.2}}
 			],
 
-			target: [{
-				data : {handle:'targetStim'}
-			}],
-			att1 :
+			attribute1 : 
 			[{
-				data: {alias:att1.name},
-				inherit : 'target',
-				css:att1.stimulusCss,
-				media : {inherit:{type:'exRandom',set:'att1'}}
+				data: {alias:attribute1.name, handle:'targetStim'}, 
+				inherit : 'Default', 
+				css:attribute1.stimulusCss,
+				media : {inherit:{type:'exRandom',set:'attribute1'}}
 			}],
-			att2 :
+			attribute2 : 
 			[{
-				data: {alias:att2.name},
-				inherit : 'target',
-				css:att2.stimulusCss,
-				media : {inherit:{type:'exRandom',set:'att2'}}
-			}],
-			cat1 :
+				data: {alias:attribute2.name, handle:'targetStim'}, 
+				inherit : 'Default', 
+				css:attribute2.stimulusCss,
+				media : {inherit:{type:'exRandom',set:'attribute2'}}
+			}],		
+			practiceCat1 : 
 			[{
-				data: {alias:cat1.name},
-				inherit : 'target',
-				css:cat1.stimulusCss,
-				media : {inherit:{type:'exRandom',set:'cat1'}}
+				data: {alias:piCurrent.practiceCategory1.name, handle:'targetStim'}, 
+				inherit : 'Default', 
+				css:piCurrent.practiceCategory1.stimulusCss,
+				media : {inherit:{type:'exRandom',set:'practiceCat1'}}
 			}],
-			cat2 :
+			practiceCat2 : 
 			[{
-				data: {alias:cat2.name},
-				inherit : 'target',
-				css:cat2.stimulusCss,
-				media : {inherit:{type:'exRandom',set:'cat2'}}
-			}],
-			// this stimulus used for giving feedback, in this case only the error notification
-			error : [{
-				handle:'error', location: {top: 75}, css:{color:'red','font-size':'4em'}, media: {word:'X'}, nolog:true
-			}],
-
+				data: {alias:piCurrent.practiceCategory2.name, handle:'targetStim'}, 
+				inherit : 'Default', 
+				css:piCurrent.practiceCategory2.stimulusCss,
+				media : {inherit:{type:'exRandom',set:'practiceCat2'}}
+			}],	
 			touchInputStimuli: [
 				{media:{html:'<div></div>'}, size:{height:48,width:30},css:{background:'#00FF00', opacity:0.3, zindex:-1}, location:{right:0}, data:{handle:'right'}},
 				{media:{html:'<div></div>'}, size:{height:48,width:30},css:{background:'#00FF00', opacity:0.3, zindex:-1}, location:{left:0}, data:{handle:'left'}}
-			]
+			],	
+			// this stimulus used for giving feedback, in this case only the error notification
+			error : [{
+				handle:'error', location: {bottom: piCurrent.errorBottom}, css:{color:'red','font-size':'4em'}, media: {word:'X'}, nolog:true
+			}]
 		});
-
+		
+		////Category stimulus sets
+		var catStimulusSets = {};
+		var iCatStim;
+		for (iCatStim = 0; iCatStim < cats.length; iCatStim++)
+		{
+			catStimulusSets['category'+(iCatStim+1)] = 
+			[{
+				data: {alias:cats[iCatStim].name, handle:'targetStim'}, 
+				inherit : 'Default', 
+				css:cats[iCatStim].stimulusCss,
+				media : {inherit:{type:'exRandom',set:'category'+(iCatStim+1)}}
+			}];
+		}
+		API.addStimulusSets(catStimulusSets);
+		
 		/**
 		 *	Media Sets
 		 */
 		API.addMediaSets({
-			att1 : att1.stimulusMedia, att2 : att2.stimulusMedia,
-			cat1 : cat1.stimulusMedia, cat2 : cat2.stimulusMedia
+			attribute1 : attribute1.stimulusMedia,
+			attribute2 : attribute2.stimulusMedia, 
+			practiceCat1 : piCurrent.practiceCategory1.stimulusMedia,
+			practiceCat2 : piCurrent.practiceCategory2.stimulusMedia
 		});
+		
+		//For each category
+		var catMediaSets = {};
+		var iCatMedia;
+		for (iCatMedia = 0; iCatMedia < cats.length; iCatMedia++)
+		{
+			catMediaSets['category'+(iCatMedia+1)] = cats[iCatMedia].stimulusMedia;
+		}
+		API.addMediaSets(catMediaSets);
 
 		/**
 		 *	Create the Task sequence
 		 */
-
+		
 		//helper Function for getting the instructions HTML.
 		function getInstFromTemplate(params)
-		{//params: instTemplate, blockNum, nBlocks, leftCat, rightCat, leftAtt, rightAtt.
-			var retText = params.instTemplate
-				.replace(/leftCategory/g, params.leftCategory)
-				.replace(/rightCategory/g, params.rightCategory)
-				.replace(/leftAttribute/g, params.leftAttribute)
-				.replace(/rightAttribute/g, params.rightAttribute)
-				.replace(/blockNum/g, params.blockNum)
-				.replace(/nBlocks/g, params.nBlocks);
-			return retText;
+		{//params: instTemplate, blockNum, nBlocks, focalCat, focalAtt.
+			var retText = params.instTemplate.replace(/focalAtt/g, params.focalAttName);
+			retText = retText.replace(/focalCat/g, params.focalCatName);
+			retText = retText.replace(/blockNum/g, params.blockNum);
+			retText = retText.replace(/nBlocks/g, params.nBlocks);
+			return (retText);
 		}
-
+		
 		//Helper function to create the trial's layout
 		function getLayout(params)
 		{
-
-			function buildContent(layout){
-				if (!layout){return '';}
-				var isImage = !!layout.image;
-				var content = layout.word || layout.html || layout.image || layout;
-				if (_.isString(layout) || layout.word) {content = _.escape(content);}
-				return isImage ? '<img src="' + piCurrent.base_url.image + content + '" />' : content;
-			}
-
-			function buildStyle(css){
-				css || (css = {});
-				var style = '';
-				for (var i in css) {style += i + ':' + css[i] + ';';}
-				return style;
-			}
-
-			var template = '' +
-			'   <div style="margin:0 1em; text-align:center"> '  +
-			'   	<div style="font-size:0.8em; <%= stimulusData.keysCss %>; visibility:<%= stimulusData.isTouch ? \'hidden\' : \'visible\' %>">  '  +
-			'   		<%= stimulusData.isLeft ? stimulusData.leftKeyText : stimulusData.rightKeyText %>  '  +
-			'   	</div>  '  +
-			'     '  +
-			'   	<div style="font-size:1.3em;<%= stimulusData.firstCss %>">  '  +
-			'   		<%= stimulusData.first %>  '  +
-			'   	</div>  '  +
-			'     '  +
-			'   	<% if (stimulusData.second) { %>  '  +
-			'   		<div style="font-size:2.3em; <%= stimulusData.orCss %>"><%= stimulusData.orText %> </div>  '  +
-			'   		<div style="font-size:1.3em; max-width:100%; <%= stimulusData.secondCss %>">  '  +
-			'   			<%= stimulusData.second %>  '  +
-			'   		</div>  '  +
-			'   	<% } %>  '  +
-			'   </div>  ';
-
-			//Attributes are above the categories.
+		    var leftText = { word:piCurrent.leftKeyText };
+		    var rightText = { word:piCurrent.rightKeyText };
+    		if (params.isTouch)
+    		{
+    		    leftText = { word:piCurrent.leftKeyTextTouch };
+    		    rightText = { word:piCurrent.rightKeyTextTouch };
+    		}
 			var layout = [
 				{
-					location:{left:0, top:0},
-					media:{html:template},
-					data: {
-						first: buildContent(_.get(params, 'left1.title.media')),
-						firstCss: buildStyle(_.get(params, 'left1.title.css')),
-						second: buildContent(_.get(params, 'left2.title.media')),
-						secondCss: buildStyle(_.get(params, 'left2.title.css')),
-						leftKeyText : buildContent(_.get(piCurrent, 'leftKeyText')), 
-						rightKeyText : buildContent(_.get(piCurrent, 'rightKeyText')), 
-						keysCss : buildStyle(_.get(piCurrent, 'keysCss')), 
-						orText : buildContent(_.get(piCurrent, 'orText')), 
-						orCss : buildStyle(_.get(piCurrent, 'orCss')), 
-						isTouch: isTouch,
-						isLeft: true
-					}
+				    location:{left:6,top:1}, media:leftText, 
+				    css:piCurrent.keysCss,
+				    isTouch: isTouch
 				},
 				{
-					location:{right:0, top:0},
-					media:{html:template},
-					data: {
-						first: buildContent(_.get(params, 'right1.title.media')),
-						firstCss: buildStyle(_.get(params, 'right1.title.css')),
-						second: buildContent(_.get(params, 'right2.title.media')),
-						secondCss: buildStyle(_.get(params, 'right2.title.css')),
-						leftKeyText : buildContent(_.get(piCurrent, 'leftKeyText')), 
-						rightKeyText : buildContent(_.get(piCurrent, 'rightKeyText')), 
-						keysCss : buildStyle(_.get(piCurrent, 'keysCss')), 
-						orText : buildContent(_.get(piCurrent, 'orText')), 
-						orCss : buildStyle(_.get(piCurrent, 'orCss')), 
-						isTouch: isTouch,
-						isLeft: false
-					}
+				    location:{right:6,top:1}, 
+				    media:rightText, 
+				    css:piCurrent.keysCss,
+				    isTouch: isTouch
+				}, 
+				{
+				    location:{top:1}, 
+				    media : params.focalCatTitle.media, 
+				    css: params.focalCatTitle.css, 
+				    isTouch: isTouch
 				}
 			];
-
-			if (!params.isInst && params.remindError)
-			{
-				layout.push({
-					location:{bottom:1}, css: {color:piCurrent.fontColor,'font-size':'1em'},
-					media : {html: isTouch ? params.remindErrorTextTouch : params.remindErrorText}
-				});
-			}
-
-			if (!params.isInst && isTouch){
+            if (!params.isInst && params.isTouch){
 				layout.push({inherit:{type:'byData', set:'touchInputStimuli', data:{handle:'right'}}});
 				layout.push({inherit:{type:'byData', set:'touchInputStimuli', data:{handle:'left'}}});
+			}			
+			if (params.showStimuliWithInst && params.isInst)
+			{//Show the starting stimuli with the instructions' layout.
+				layout = layout.concat([				
+					{location:{top:1 + (params.focalCatTitle.height | 3)},
+						media:params.focalCatTitle.startStimulus.media, css:params.focalCatTitle.startStimulus.css}, 
+					{location:{top:1 + (params.focalCatTitle.height | 3) + (params.focalCatTitle.startStimulus.height | 3)},
+						media:{word:'and'}, css:{color:'#000000','font-size':'1.8em'}}, 
+					{location:{top:5 + 1 + (params.focalCatTitle.height | 3) + (params.focalCatTitle.startStimulus.height | 3)}, 
+					media : params.focalAttTitle.media, css: params.focalAttTitle.css},
+					{location:{top:5 + 1 + (params.focalCatTitle.height | 3) + (params.focalCatTitle.startStimulus.height | 3) + (params.focalAttTitle.height | 3)}, 
+					media : params.focalAttTitle.startStimulus.media, css: params.focalAttTitle.startStimulus.css}
+				]); 
+			}
+			else
+			{
+				layout = layout.concat([
+					{location:{top:1+ (params.focalCatTitle.height | 3)},
+						media:{word:'and'}, css:{color:'#000000','font-size':'1.8em'}}, 
+					{location:{top:7 + (params.focalCatTitle.height | 3)}, 
+					media : params.focalAttTitle.media, css: params.focalAttTitle.css}
+				]); 
+			}
+			
+			if (!params.isInst && params.remindError)
+			{//Show a reminder about the error throughout the task
+    			var htmlText={html: params.remindErrorText};
+			    if(params.isTouch)
+			    {
+			        htmlText={html: params.remindErrorTextTouch};
+			    }
+				layout.push({
+					location:{bottom:1}, css: {color:'#000000','font-size':'1em'}, 
+					media : htmlText
+				});
 			}
 
 			return layout;
 		}
-
+		
+		//Helper to get the block's layout
+		function getBlockLayout(params)
+		{
+			//Get the attribute name and css
+			var focalAttTitle = attribute1.title;
+			if (params.focalAtt == 'attribute2')
+			{
+				focalAttTitle = attribute2.title;
+			}
+			
+			return getLayout({
+				focalCatTitle : params.focalCatTitle, 
+				focalAttTitle : focalAttTitle, 
+				showStimuliWithInst : params.showStimuliWithInst, isInst : params.isInst, 
+				remindError : params.remindError, remindErrorText : params.remindErrorText, remindErrorTextTouch : params.remindErrorTextTouch, isTouch:params.isTouch}); 
+		}
+		
 		//helper function for creating an instructions trial
 		function getInstTrial(params)
 		{
+			params.focalAttName = (params.focalAtt == 'attribute2') ? attribute2.name : attribute1.name;
+			
 			var instParams = {isInst : true};
-			//The names of the category and attribute labels.
-			if (params.nCats == 2)
-			{//When there are only two categories in the block, one two of these will appear in the instructions.
-				instParams.leftAttribute = params.left1.name;
-				instParams.rightAttribute = params.right1.name;
-				instParams.leftCategory = params.left1.name;
-				instParams.rightCategory = params.right1.name;
-			}
-			else
-			{
-				instParams.leftAttribute = params.left1.name;
-				instParams.rightAttribute = params.right1.name;
-				instParams.leftCategory = params.left2.name;
-				instParams.rightCategory = params.right2.name;
-			}
 			_.extend(instParams, params);
-			var instLocation={bottom:1};
-			if (isTouch == true)
-			{
-				instLocation={left:0,top:(params.nCats == 2) ? 7 : 10};
-			}
+			
 			var instTrial = {
-				inherit : 'instructions',
+				inherit : 'instructions', 
 				data: {blockStart:true},
-				layout : getLayout(instParams),
+				layout : getBlockLayout(instParams), 
 				stimuli : [
-					{
-						inherit : 'instructions',
-						media : {html : getInstFromTemplate(instParams)},
-						location : instLocation,
-						nolog:true
-					},
-					{
-						data : {handle:'dummy', alias:'dummy'},
-						media : {word:' '},
-						location : {top:1}
+					{ 
+						inherit : 'instructions', 
+						media : {html : getInstFromTemplate(params)}, 
+						//location : {top:(params.nCats == 2) ? 25 : 27}
+						location : {bottom:1}
 					}
 				]
 			};
-
 			return instTrial;
 		}
-
-		//Get a mixer for a mini-block in a 2-categories block.
-		function getMiniMixer2(params)
-		{//{nTrialsInMini : , currentCond : , rightTrial : , leftTrial : , blockNum : , blockLayout : )
-			var mixer = {
-				mixer : 'repeat',
-				times : params.nTrialsInMini/2,
-				data :
-				[
-					{
-						inherit : params.rightTrial,
-						data : {condition : params.currentCond, block : params.blockNum},
-						layout : params.blockLayout
-					},
-					{
-						inherit : params.leftTrial,
-						data : {condition : params.currentCond, block : params.blockNum},
-						layout : params.blockLayout
-					}
-				]
-			};
-			return ({
-				mixer : 'random',
-				data : 	[mixer] //Completely randomize the repeating trials.
-			});
+		
+		//Helper function to get the block's condition
+		function getCondition(params)
+		{
+			var focalAttName = (params.focalAtt == 'attribute1') ? 
+				attribute1.name : attribute2.name;
+			var focalCatName = cats[params.focalCatIndex-1].name;
+			var condition = focalCatName + '/' + focalAttName;
+			return condition;
 		}
+		
+		//Helper function to create a mixer for practice trials
+		function getPracticeTrialsMixer(params)
+		{
+			//Get layout for all the trials.
+			var blockLayout = getBlockLayout(params);
+			//We will need to know which the non-focal attribute is to create OUT trials for it.
+			var nonFocalAtt = (params.focalAtt == 'attribute1') ? 'attribute2' : 'attribute1';
+			//All the trials in the block have these two properties.
+			var blockData = {block : params.blockNum, condition : getCondition(params) + '_practice'};
 
-		//Get a mixer for a mini-block in a 4-categories block.
-		function getMiniMixer4(params)
-		{//{nTrialsInMini : , currentCond : , cong: , rightTrial1 : , leftTrial1 : , rightTrial2 : , leftTrial2 : , blockNum : , blockLayout : , parcel :)
-
-			////Because of the alternation, we randomize the trial order ourselves.
-			var atts = [];
-			var cats = [];
-			var iTrial;
-
-			//Fill
-			for (iTrial = 1; iTrial <= params.nTrialsInMini; iTrial+=4)
+			//The mixer's data always has the focal category, non-focal attribute and non-focal category.
+			var theMixerData = [
+				{//Mixer that repeats all the focal-category trials.
+					mixer : 'repeat', 
+					times : params.practiceTrials.nFocalCat, 
+					data : [
+						{
+							inherit : 'category'+ params.focalCatIndex + 'right', //right is for IN
+							data : blockData, layout : blockLayout
+						}
+					]
+				}, 
+				{//Mixer that repeats all the focal-attribute trials.
+					mixer : 'repeat', 
+					times : params.practiceTrials.nFocalAtt, 
+					data : [
+						{
+							inherit : params.focalAtt + 'right', //right is for IN
+							data : blockData, layout : blockLayout
+						}
+					]
+				}, 
+				{//Mixer that repeats all the non-focal attribute trials
+					mixer : 'repeat', 
+					times : params.practiceTrials.nNonFocalAtt, 
+					data : [
+						{
+							inherit : nonFocalAtt + 'left',  //left is for OUT
+							data : blockData, layout : blockLayout
+						}
+					]
+				}
+			];
+			//Add to the mixer's data all the trials for the non-focal categories.
+			var iCatNonFocal;
+			for (iCatNonFocal = 1; iCatNonFocal <= cats.length; iCatNonFocal++)
 			{
-				atts.push(1);
-				atts.push(2);
-				cats.push(1);
-				cats.push(2);
+				if (iCatNonFocal != params.focalCatIndex)
+				{//If this is not the focal category index, then it is a non-focal category.
+					theMixerData.push({
+						mixer : 'repeat', 
+						times : params.practiceTrials.nNonFocalCats, 
+						data : [
+							{
+								inherit : 'category' + iCatNonFocal + 'left', //left is for OUT
+								data : blockData, layout : blockLayout
+							}
+						]
+					});
+				}
 			}
-			//Randomize order
-			atts = _.shuffle(atts);
-			cats = _.shuffle(cats);
+			
+			var theMixer = {//We use a random mixer to randomize all the practice trials.
+				mixer : 'random', 
+				data : theMixerData
+			};
+			
+			return theMixer;
+		}
+		
+		//Helper function to create a mixer of trials for a whole block.
+		function getBlockMixer(params)
+		{
+			//Get layout for all the trials.
+			var blockLayout = getBlockLayout(params);
 
+
+			//All the trials in the block have these two properties.
+			var blockData = {block : params.blockNum, condition : getCondition(params) };
+
+			//Fill the mini-blocks
 			var mixerData = [];
-			var iCat = 0;
-			var iAtt = 0;
-			for (iTrial = 1; iTrial <= params.nTrialsInMini; iTrial+=2)
+			for (var iMini = 0; iMini < params.nMiniBlocks; iMini++)
 			{
-				mixerData.push(
+				//Because of the alternation, we randomize the trial order ourselves.
+				var attSequence = [];
+				var catSequence = [];
+				var iCatMini = 1;
+				for (var iTimes = 0; iTimes < params.nTrialsPerMiniBlock/4; iTimes++)
 				{
-					inherit : (cats[iCat] == 1) ? params.leftTrial2 : params.rightTrial2,
-					data : {condition : params.currentCond, block : params.blockNum, parcel:params.parcel, cong:params.cong},
-						layout : params.blockLayout
-				});
-				iCat++;
-				mixerData.push(
+					attSequence.push(1);//25% attribute1
+					attSequence.push(2);//25% attribute2
+					catSequence.push(params.focalCatIndex); //25% focal category
+					//25% the other categories
+					var otherCat = 0;
+					for (var iIters = 0; iIters < 50 && otherCat === 0; iIters++)
+					{
+						if (iCatMini > params.nCats)
+						{
+							iCatMini = 1;
+						}
+						if (iCatMini == params.focalCatIndex)
+						{
+							iCatMini++;
+						}
+						else
+						{
+							otherCat = iCatMini;
+						}
+					}
+					catSequence.push(otherCat); //25% focal category
+				}
+				//Here is the randomization.
+				attSequence = _.shuffle(attSequence);
+				catSequence = _.shuffle(catSequence);
+				//And now fill the mini-block
+				for (var iTrial = 0; iTrial < params.nTrialsPerMiniBlock/2; iTrial++)
 				{
-					inherit : (atts[iAtt] == 1) ? params.leftTrial1 : params.rightTrial1,
-					data : {condition : params.currentCond, block : params.blockNum, parcel:params.parcel, cong:params.cong},
-						layout : params.blockLayout
-				});
-				iAtt++;
+					//Attribute trial
+					var att = 'attribute' + attSequence.pop();
+					var attSide = (att == params.focalAtt) ? 'right' : 'left';
+					mixerData.push({
+						inherit : att + attSide, 
+							data : blockData, layout : blockLayout
+					});
+					//Category trial
+					var cat = catSequence.pop();
+					var catSide = (cat == params.focalCatIndex) ? 'right' : 'left';
+					mixerData.push({
+						inherit : 'category' + cat + catSide, 
+							data : blockData, layout : blockLayout
+					});
+				}
 			}
-
-			return ({
+			
+			var theMixer = {//We don't really need a mixer here, so let's just wrap those trials.
 				mixer : 'wrapper',
 				data : mixerData
-			});
+			};
+			
+			return theMixer;
+		}
+		//Helper function to create a mixer of trials for the practice block.
+		function getPracBlockMixer(params)
+		{
+			//Get layout for all the trials.
+			var blockLayout = getBlockLayout(params);
+
+			//All the trials in the block have these two properties.
+			var blockData = {block : params.blockNum, condition : "practiceBlock" };
+
+			//Fill the mini-blocks
+			var mixer = 
+			{
+				mixer : 'repeat', 
+				times : piCurrent.nPracticeBlockTrials/2, 
+				data : [						
+					{inherit:{set:'practiceCats', type:'exRandom'}, data:blockData, layout : blockLayout}, 
+					{inherit:{set:'practiceAtts', type:'exRandom'}, data:blockData, layout : blockLayout}
+				]
+			};
+			
+			return mixer;
 		}
 
 		////////////////////////////////////////////////////////////////
 		////AFTER ALL the helper functions, it is time to create the trial sequence.
 		var trialSequence = [];
+		
+		//We set nBlocks with the assumption that there is only one focal attribute
+		var nBlocks = cats.length * piCurrent.nCategoryAttributeBlocks; 
+		//Set the first focal attribute.
+		var focalAttribute = piCurrent.focalAttribute;
+		if (focalAttribute == 'both')
+		{//Showing both attributes.
+			nBlocks = nBlocks*2; //The two attributes will be focal, so double the number of blocks.
+			focalAttribute = piCurrent.firstFocalAttribute;
+			if (focalAttribute == 'random')
+			{//Choose the first focal attribute randomly.
+				focalAttribute = (Math.random() < 0.5) ? 'attribute1' : 'attribute2';
+			}
+		}
 
-		var globalObj = piCurrent;
-
-        //Count the number of blocks in this task
-        var nBlocks = (globalObj.blockAttributes_nTrials<1 ? 0 : 1) + 
-        (globalObj.blockCategories_nTrials<1 ? 0 : 1) + 
-        (globalObj.blockFirstCombined_nTrials<1 ? 0 : 2) + 
-        (globalObj.blockSecondCombined_nTrials<1 ? 0 : 2) + 
-        (globalObj.blockSwitch_nTrials<1 ? 0 : 1);
-
-		//These parameters are used to create trials.
-		var blockParamsAtts = {
-			nBlocks : nBlocks,
-			remindError : globalObj.remindError,
-			remindErrorText : globalObj.remindErrorText,
-			remindErrorTextTouch : globalObj.remindErrorTextTouch
-		};
-		//////////////////////////////
-		////Block 1: Categories block
+		//reset iBlock
 		var iBlock = 1;
-		var blockParamsCats = {
-			nBlocks : nBlocks,
-			remindError : globalObj.remindError,
-			remindErrorText : globalObj.remindErrorText,
-			remindErrorTextTouch : globalObj.remindErrorTextTouch
-		};
-		//Set sides
-		var rightCatName = (globalObj.randomBlockOrder ? (Math.random() >= 0.5 ? cat1.name : cat2.name) : cat2.name);
-		var leftCatTrial = 'cat1left';
-		blockParamsCats.left1 = cat1;
-		var rightCatTrial = 'cat2right';
-		blockParamsCats.right1 = cat2;
-		if (rightCatName == cat1.name)
-		{
-			blockParamsCats.right1 = cat1;
-			rightCatTrial = 'cat1right';
-			blockParamsCats.left1 = cat2;
-			leftCatTrial = 'cat2left';
-		}
-		var blockCondition = blockParamsCats.left1.name + ',' + blockParamsCats.right1.name;
-		blockParamsCats.nMiniBlocks = globalObj.blockCategories_nMiniBlocks;
-		blockParamsCats.nTrials = globalObj.blockCategories_nTrials;
-		blockParamsCats.blockNum = iBlock;
-		blockParamsCats.nCats = 2;
-		blockParamsCats.instTemplate = isTouch ? globalObj.instCategoriesPracticeTouch : globalObj.instCategoriesPractice;
+		var instTemplateVar;
 
-		var blockLayout = getLayout(blockParamsCats);
-		var nTrialsInMini = blockParamsCats.nTrials/blockParamsCats.nMiniBlocks;
-		var iBlock2Mini;
-		
-		//Add trials, but only if there are trials in this block
-		if (blockParamsCats.nTrials > 0)
+		//First, push the practice block into the sequence
+		if (piCurrent.practiceBlock)
 		{
-    		trialSequence.push(getInstTrial(blockParamsCats));
-    		for (iBlock2Mini = 1; iBlock2Mini <= blockParamsCats.nMiniBlocks; iBlock2Mini++)
-    		{
-    			trialSequence.push(getMiniMixer2({
-    			nTrialsInMini : nTrialsInMini, currentCond : blockCondition,
-    			rightTrial : rightCatTrial, leftTrial : leftCatTrial, blockNum : iBlock,
-    			blockLayout : blockLayout}));
-    		}
-    		iBlock++;
+			nBlocks++;
+			instTemplateVar = isTouch ? piCurrent.instTemplateTouch : piCurrent.instTemplate;
+			var pracParams = {
+				 instTemplate: instTemplateVar, 
+				focalAtt:focalAttribute, 
+				focalCatName:piCurrent.practiceCategory1.name, 
+				focalCatTitle:piCurrent.practiceCategory1.title, 
+				nBlocks : nBlocks, 
+				showStimuliWithInst : piCurrent.showStimuliWithInst, 
+				remindError : piCurrent.remindError, 
+				remindErrorText : piCurrent.remindErrorText, 
+				remindErrorTextTouch : piCurrent.remindErrorTextTouch, 
+				isTouch: piCurrent.isTouch,
+				blockNum:1
+			};
+			//Instruction trial
+			trialSequence.push(getInstTrial(pracParams));
+			//Create attribute trial set for the practice block
+			var nonFocalAttribute = (focalAttribute == 'attribute1' ? 'attribute2' : 'attribute1');
+			API.addTrialSets('practiceAtts', 
+			[
+				{inherit : {set:focalAttribute + 'right', type:'exRandom'}}, 
+				{inherit : {set:nonFocalAttribute + 'left', type:'exRandom'}}
+			]);
+			//Block mixer
+			trialSequence.push(getPracBlockMixer(pracParams));
+			//Advance block counter
+			iBlock++;
 		}
 		
-		//////////////////////////////
-		////Block 2: Attributes
-		//Set variables related to the sides
-		blockParamsAtts.left1 = att1;
-		blockParamsAtts.right1 = att2;
-		//Names of the trials in this block
-		var leftAttTrial = 'att1left';
-		var rightAttTrial = 'att2right';
-		if (rightAttName == att1.name)
-		{
-			blockParamsAtts.right1 = att1;
-			rightAttTrial = 'att1right';
-			leftAttTrial = 'att2left';
-			blockParamsAtts.left1 = att2;
+		//Set the category order: the sequence of focal categories.
+		var categoryOrder = [];
+		var iCatOrder;
+		for (iCatOrder = 1; iCatOrder <= cats.length; iCatOrder++)
+		{//We start from 1 because the names of the trial-sets, stimulus-sets and media-sets start with 1.
+			categoryOrder.push(iCatOrder);
 		}
-		//Set the block's condition
-		blockCondition = blockParamsAtts.left1.name + ',' + blockParamsAtts.right1.name;
-		var COMPATIBLE = 'compatible';
-		var INCOMPATIBLE = 'incompatible';
-		var isCompatible = INCOMPATIBLE;
-		if ( (rightAttName == att1.name && rightCatName == cat1.name) || 
-			(rightAttName == att2.name && rightCatName == cat2.name) )
-		{
-			isCompatible = COMPATIBLE;
+		if (piCurrent.focalCategoryOrder == 'random')
+		{//Shuffle the order of the categories.
+			categoryOrder = _.shuffle(categoryOrder);
 		}
-		//console.log('rightAttName='+rightAttName+' rightCatName='+rightCatName+' att1.name='+att1.name+' cat1.name='+cat1.name + 'isCompatible='+isCompatible);
-		
-		//Number variables
-		blockParamsAtts.nMiniBlocks = globalObj.blockAttributes_nMiniBlocks;
-		blockParamsAtts.nTrials = globalObj.blockAttributes_nTrials;
-		blockParamsAtts.blockNum = iBlock;
-		blockParamsAtts.nCats = 2;
-		//Instructions trial
-		blockParamsAtts.instTemplate = isTouch ? globalObj.instAttributePracticeTouch : globalObj.instAttributePractice;
-		//Layout for the sorting trials
-		blockLayout = getLayout(blockParamsAtts);
-		//Number of trials in a mini block.
-		nTrialsInMini = blockParamsAtts.nTrials/blockParamsAtts.nMiniBlocks;
-		//Add a mixer for each mini block.
-		var iBlock1Mini;
-		if (blockParamsAtts.nTrials > 0)
-		{
-    		trialSequence.push(getInstTrial(blockParamsAtts));
-    		for (iBlock1Mini = 1; iBlock1Mini <= blockParamsAtts.nMiniBlocks; iBlock1Mini++)
-    		{
-    			trialSequence.push(getMiniMixer2(
-    			{nTrialsInMini : nTrialsInMini, currentCond : blockCondition,
-    			rightTrial : rightAttTrial, leftTrial : leftAttTrial, blockNum : iBlock,
-    			blockLayout : blockLayout}));
-    		}
-    		iBlock++;
-		}
-		//////////////////////////////
-		////Block 3: First combined block
-		var blockParamsCombined = {
-			nBlocks : nBlocks,
-			remindError : globalObj.remindError,
-			remindErrorText : globalObj.remindErrorText,
-			remindErrorTextTouch : globalObj.remindErrorTextTouch
+		//These parameters are used to create trials.
+		instTemplateVar = isTouch ? piCurrent.instTemplateTouch : piCurrent.instTemplate;
+		var blockParams = {
+			instTemplate: instTemplateVar, 
+			focalAtt:focalAttribute, 
+			practiceTrials : piCurrent.practiceTrials, 
+			nMiniBlocks : piCurrent.nMiniBlocks, 
+			nTrialsPerMiniBlock : piCurrent.nTrialsPerMiniBlock,
+			nCats : cats.length,
+			nBlocks : nBlocks, 
+			showStimuliWithInst : piCurrent.showStimuliWithInst, 
+			remindError : piCurrent.remindError, 
+			remindErrorText : piCurrent.remindErrorText,
+			remindErrorTextTouch : piCurrent.remindErrorTextTouch, 
+			isTouch: piCurrent.isTouch
 		};
-		//We get the categories from the first two blocks.
-		blockParamsCombined.right1 = blockParamsAtts.right1;
-		blockParamsCombined.left1 = blockParamsAtts.left1;
-		blockParamsCombined.right2 = blockParamsCats.right1;
-		blockParamsCombined.left2 = blockParamsCats.left1;
-		blockCondition = blockParamsCombined.left2.name + '/' + blockParamsCombined.left1.name + ',' + blockParamsCombined.right2.name + '/' + blockParamsCombined.right1.name;
-		//We will send the condition of the third block to the server at the end.
-		var block3Cond = blockCondition;
-		//Number variables.
-		blockParamsCombined.nMiniBlocks = globalObj.blockFirstCombined_nMiniBlocks;
-		blockParamsCombined.nTrials = globalObj.blockFirstCombined_nTrials;
-		blockParamsCombined.blockNum = iBlock;
-		blockParamsCombined.nCats = 4;
-		//Instructions trial.
-		blockParamsCombined.instTemplate = isTouch ? globalObj.instFirstCombinedTouch : globalObj.instFirstCombined;
-		//Get the layout for the sorting trials.
-		blockLayout = getLayout(blockParamsCombined);
-		//Fill the trials.
-		nTrialsInMini = blockParamsCombined.nTrials/blockParamsCombined.nMiniBlocks;
-		var iBlock3Mini;
-		
-		if (blockParamsCombined.nTrials > 0)
-		{
-    		trialSequence.push(getInstTrial(blockParamsCombined));
-    		for (iBlock3Mini = 1; iBlock3Mini <= blockParamsCombined.nMiniBlocks; iBlock3Mini++)
-    		{
-    			trialSequence.push(getMiniMixer4({
-    			nTrialsInMini : nTrialsInMini, currentCond : blockCondition, cong:isCompatible, 
-    			rightTrial1 : rightAttTrial, leftTrial1 : leftAttTrial,
-    			rightTrial2 : rightCatTrial, leftTrial2 : leftCatTrial,
-    			blockNum : iBlock, blockLayout : blockLayout, parcel:'first'}));
-    		}
-			iBlock++;
-		}
-		//////////////////////////////
-		////Second combined block.
-		blockParamsCombined.blockNum = iBlock;
-		blockParamsCombined.nMiniBlocks = globalObj.blockSecondCombined_nMiniBlocks;
-		blockParamsCombined.nTrials = globalObj.blockSecondCombined_nTrials;
-		//Instructions trial.
-		blockParamsCombined.instTemplate = isTouch ? globalObj.instSecondCombinedTouch : globalObj.instSecondCombined;
-		//The layout for the sorting trials.
-		blockLayout = getLayout(blockParamsCombined);
-		//Fill the trials
-		nTrialsInMini = blockParamsCombined.nTrials/blockParamsCombined.nMiniBlocks;
-		var iBlock4Mini;
-		if (blockParamsCombined.nTrials > 0)
-		{
-			trialSequence.push(getInstTrial(blockParamsCombined));
-			for (iBlock4Mini = 1; iBlock4Mini <= blockParamsCombined.nMiniBlocks; iBlock4Mini++)
-			{
-				trialSequence.push(getMiniMixer4({
-				nTrialsInMini : nTrialsInMini, currentCond : blockCondition, cong:isCompatible, 
-				rightTrial1 : rightAttTrial, leftTrial1 : leftAttTrial,
-				rightTrial2 : rightCatTrial, leftTrial2 : leftCatTrial,
-				blockNum : iBlock, blockLayout : blockLayout, parcel:'second'}));
+		var iCycle1Att;
+		for (iCycle1Att = 0; iCycle1Att < piCurrent.nCategoryAttributeBlocks; iCycle1Att++)
+		{//Each cycle exhausts all the possible focal-category blocks.
+			var iCatBlocks;
+			for (iCatBlocks = 0; iCatBlocks < cats.length; iCatBlocks++)
+			{//One block per category
+				//Extend the block's params object with parameters specific for this block.
+				var curBlockParams1 = _.extend(blockParams, 
+						{blockNum:iBlock, focalCatIndex:categoryOrder[iCatBlocks], 
+						focalCatName:cats[categoryOrder[iCatBlocks]-1].name, 
+						focalCatTitle:cats[categoryOrder[iCatBlocks]-1].title});
+				//Instruction trial
+				trialSequence.push(getInstTrial(curBlockParams1));
+				//Practice block mixer
+				trialSequence.push(getPracticeTrialsMixer(curBlockParams1));
+				//Block mixer
+				trialSequence.push(getBlockMixer(curBlockParams1));
+				//Advance block counter
+				iBlock++;
 			}
-		    iBlock++;
-		}
-		isCompatible = (isCompatible==INCOMPATIBLE ? COMPATIBLE : INCOMPATIBLE);
-		//////////////////////////////
-		////Switch categories side block.
-		//Do the switch
-		blockParamsCats.right1 = blockParamsCombined.left2;
-		blockParamsCats.left1 = blockParamsCombined.right2;
-		rightCatTrial = (rightCatTrial == 'cat1right') ? 'cat2right' : 'cat1right';
-		leftCatTrial = (leftCatTrial == 'cat1left') ? 'cat2left' : 'cat1left';
-		blockParamsCats.instTemplate = isTouch ? globalObj.instSwitchCategoriesTouch : globalObj.instSwitchCategories;
-		//Get numbers
-		blockParamsCats.nMiniBlocks = globalObj.blockSwitch_nMiniBlocks;
-		blockParamsCats.nTrials = globalObj.blockSwitch_nTrials;
-		//The rest is like blocks 1 and 2.
-		blockCondition = blockParamsCats.left1.name + ',' + blockParamsCats.right1.name;
-		blockParamsCats.blockNum = iBlock;
-		blockParamsCats.nCats = 2;
-		//The layout for the sorting trials.
-		blockLayout = getLayout(blockParamsCats);
-		//Fill the trials.
-		nTrialsInMini = blockParamsCats.nTrials/blockParamsCats.nMiniBlocks;
-		var iBlock5Mini;
-		if (blockParamsCats.nTrials > 0)
-		{
-    		trialSequence.push(getInstTrial(blockParamsCats));
-    		for (iBlock5Mini = 1; iBlock5Mini <= blockParamsCats.nMiniBlocks; iBlock5Mini++)
-    		{
-    			trialSequence.push(getMiniMixer2({
-    			nTrialsInMini : nTrialsInMini, currentCond : blockCondition,
-    			rightTrial : rightCatTrial, leftTrial : leftCatTrial, blockNum : iBlock,
-    			blockLayout : blockLayout}));
-    		}
-    		iBlock++;
-		}
-		//////////////////////////////
-		////The other combined block
-		//Get the categories side from the switch block.
-		blockParamsCombined.right2 = blockParamsCats.right1;
-		blockParamsCombined.left2 = blockParamsCats.left1;
-		blockCondition = blockParamsCombined.left2.name + '/' + blockParamsCombined.left1.name + ',' + blockParamsCombined.right2.name + '/' + blockParamsCombined.right1.name;
-		//Number variables.
-		blockParamsCombined.nMiniBlocks = globalObj.blockFirstCombined_nMiniBlocks;
-		blockParamsCombined.nTrials = globalObj.blockFirstCombined_nTrials;
-		blockParamsCombined.blockNum = iBlock;
-		blockParamsCombined.nCats = 4;
-		//Instruction trial.
-		blockParamsCombined.instTemplate = isTouch ? globalObj.instFirstCombinedTouch : globalObj.instFirstCombined;
-		if (globalObj.instThirdCombined != 'instFirstCombined')
-		{
-			blockParamsCombined.instTemplate = isTouch ? globalObj.instThirdCombinedTouch : globalObj.instThirdCombined;
-		}
-		//Layout for the sorting trials.
-		blockLayout = getLayout(blockParamsCombined);
-		//Fill the trials.
-		nTrialsInMini = blockParamsCombined.nTrials/blockParamsCombined.nMiniBlocks;
-		var iBlock6Mini;
-		if (blockParamsCombined.nTrials > 0)
-		{
-    		trialSequence.push(getInstTrial(blockParamsCombined));
-    		for (iBlock6Mini = 1; iBlock6Mini <= blockParamsCombined.nMiniBlocks; iBlock6Mini++)
-    		{
-    			trialSequence.push(getMiniMixer4({
-    			nTrialsInMini : nTrialsInMini, currentCond : blockCondition, cong:isCompatible, 
-    			rightTrial1 : rightAttTrial, leftTrial1 : leftAttTrial,
-    			rightTrial2 : rightCatTrial, leftTrial2 : leftCatTrial,
-    			blockNum : iBlock, blockLayout : blockLayout, parcel:'first'}));
-    		}
-			iBlock++;
-		}
-		//////////////////////////////
-		////Second combined block.
-		//Seventh block is another combined block.
-		blockParamsCombined.blockNum = iBlock;
-		blockParamsCombined.nMiniBlocks = globalObj.blockSecondCombined_nMiniBlocks;
-		blockParamsCombined.nTrials = globalObj.blockSecondCombined_nTrials;
-		//Instructions trial.
-		blockParamsCombined.instTemplate = isTouch ? globalObj.instSecondCombinedTouch : globalObj.instSecondCombined;
-		if (globalObj.instFourthCombined != 'instSecondCombined')
-		{
-			blockParamsCombined.instTemplate = isTouch ? globalObj.instFourthCombinedTouch : globalObj.instFourthCombined;
-		}
-		//Layout for sorting trials.
-		blockLayout = getLayout(blockParamsCombined);
-		//Fill the trials.
-		nTrialsInMini = blockParamsCombined.nTrials/blockParamsCombined.nMiniBlocks;
-		var iBlock7Mini;
-		if (blockParamsCombined.nTrials > 0)
-		{
-			trialSequence.push(getInstTrial(blockParamsCombined));
-			for (iBlock7Mini = 1; iBlock7Mini <= blockParamsCombined.nMiniBlocks; iBlock7Mini++)
-			{
-				trialSequence.push(getMiniMixer4({
-				nTrialsInMini : nTrialsInMini, currentCond : blockCondition, cong:isCompatible, 
-				rightTrial1 : rightAttTrial, leftTrial1 : leftAttTrial,
-				rightTrial2 : rightCatTrial, leftTrial2 : leftCatTrial,
-				blockNum : iBlock, blockLayout : blockLayout, parcel:'second'}));
+			if (!piCurrent.switchFocalAttributeOnce && 
+				piCurrent.focalAttribute == 'both')
+			{//Switch attributes each cycle
+				focalAttribute = (focalAttribute == 'attribute1') ? 'attribute2' : 'attribute1';
+				blockParams.focalAtt = focalAttribute;
+				var iCatBlocks2;
+				for (iCatBlocks2 = 0; iCatBlocks2 < cats.length; iCatBlocks2++)
+				{
+					//Extend the block's params object with parameters specific for this block.
+					var curBlockParams2 = _.extend(blockParams, 
+						{blockNum:iBlock, focalCatIndex:categoryOrder[iCatBlocks2], 
+						focalCatName:cats[categoryOrder[iCatBlocks2]-1].name, 
+						focalCatTitle:cats[categoryOrder[iCatBlocks2]-1].title});
+						//Instructions trial
+						trialSequence.push(getInstTrial(curBlockParams2));
+						//Practice block mixer
+						trialSequence.push(getPracticeTrialsMixer(curBlockParams2));
+						//Block mixer
+						trialSequence.push(getBlockMixer(curBlockParams2));
+						//Advance block counter
+						iBlock++;
+				}
+				//Switch the focal attribute back, for the next cycle.
+				focalAttribute = (focalAttribute == 'attribute1') ? 'attribute2' : 'attribute1';
 			}
 		}
-		//////////////////////////////
+
+		if (piCurrent.switchFocalAttributeOnce && 
+			piCurrent.focalAttribute == 'both')
+		{//Switch attributes only after all the first attribute's cycles
+			focalAttribute = (focalAttribute == 'attribute1') ? 'attribute2' : 'attribute1';
+			blockParams.focalAtt = focalAttribute;
+			var iCycle2Att;
+			for (iCycle2Att = 0; iCycle2Att < piCurrent.nCategoryAttributeBlocks; iCycle2Att++)
+			{
+				var iCat2Att;
+				for (iCat2Att = 0; iCat2Att < cats.length; iCat2Att++)
+				{
+					var curBlockParams3 = _.extend(blockParams, 
+						{blockNum:iBlock, focalCatIndex:categoryOrder[iCat2Att], 
+						focalCatName:cats[categoryOrder[iCat2Att]-1].name, 
+						focalCatTitle:cats[categoryOrder[iCat2Att]-1].title});
+					//Instructions trial
+					trialSequence.push(getInstTrial(curBlockParams3));
+					//Practice block mixer
+					trialSequence.push(getPracticeTrialsMixer(curBlockParams3));
+					//Block mixer
+					trialSequence.push(getBlockMixer(curBlockParams3));
+					//Advance block counter
+					iBlock++;
+				}
+			}
+		}
 		//Add final trial
+		
 		trialSequence.push({
 			inherit : 'instructions',
 			data: {blockStart:true},
-			layout : [{media:{word:''}}],
+			layout : [{media:{word:''}}], 
 			stimuli : [
-				{
-					inherit : 'Default',
+				{ 
+					inherit : 'Default', 
 					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
 				}
 			]
 		});
-
+		
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
 
 		/**
 		*Compute scores and feedback messages
 		**/
-		var errorLatencyUse = piCurrent.errorCorrection ? 'latency' : 'penalty';
-		//Settings for the score computation.
-		scorer.addSettings('compute',{
-			ErrorVar:'score',
-			condVar:'cong',
-			//condition 1
-			cond1VarValues: [COMPATIBLE],
-			//condition 2
-			cond2VarValues: [INCOMPATIBLE],
-			parcelVar : "parcel", 
-			parcelValue : ['first', 'second'],
-			fastRT : 150, //Below this reaction time, the latency is considered extremely fast.
-			maxFastTrialsRate : 0.1, //Above this % of extremely fast responses within a condition, the participant is considered too fast.
-			minRT : 400, //Below this latency
-			maxRT : 10000, //above this
-			errorLatency : {use:errorLatencyUse, penalty:600, useForSTD:true},
-			postSettings : {score:"score",msg:"feedback",url:"/implicit/scorer"}
+		
+		function computeSingleCatFB(inCatIndex)
+		{
+			//The score is computed such that the score is more positive when the latency of cond2 is smaller (faster).
+			//We want to compute a score that is more positive when the category is more strongly associated with attribute1.
+			var catName = cats[inCatIndex].name;
+			var cond1VarValues = [catName + '/' + attribute2.name];
+			var cond2VarValues = [catName + '/' + attribute1.name];
+			var iCatScore;
+			for (iCatScore = 0; iCatScore < cats.length; iCatScore++)
+			{
+				if (iCatScore != inCatIndex)
+				{
+					cond1VarValues.push(cats[iCatScore].name + '/' + attribute1.name);
+					cond2VarValues.push(cats[iCatScore].name + '/' + attribute2.name);
+				}
+			}		
+		
+			//the Scorer that compute the user feedback
+			scorer.addSettings('compute',{
+				ErrorVar:'score',
+				condVar:"condition",
+				cond1VarValues: cond1VarValues, //scoring condition 1
+				cond2VarValues: cond2VarValues, //scoring condition 2
+				fastRT : 150, //Below this reaction time, the latency is considered extremely fast.
+				maxFastTrialsRate : 0.1, //Above this % of extremely fast responses within a condition, the participant is considered too fast.
+				minRT : 400, //Not below this latency
+				maxRT : 2000, //Not above this
+				errorLatency : {use:"latency", penalty:600, useForSTD:true},
+				postSettings : {score: "score", msg:"feeedback", url:"/implicit/scorer"}
+			});
+
+		// function getFB(inText, categoryA, categoryB)
+		// {
+		// 	var retText = inText.replace(/attribute1/g, att1.name);
+		// 	retText = retText.replace(/attribute2/g, att2.name);
+		// 	retText = retText.replace(/categoryA/g, categoryA);
+		// 	retText = retText.replace(/categoryB/g, categoryB);
+		// 	return retText;
+		// }
+
+			
+			var scoreObj = {	
+				MessageDef : [
+					{ cut:'-0.65', message:piCurrent.fb_strongAssociationForCatWithAtt2}, 
+					{ cut:'-0.35', message:piCurrent.fb_moderateAssociationForCatWithAtt2 },
+					{ cut:'-0.15', message:piCurrent.fb_slightAssociationForCatWithAtt2 },
+					{ cut:'0.15', message:piCurrent.fb_equalAssociationForCatWithAtts},
+					{ cut:'0.35', message:piCurrent.fb_slightAssociationForCatWithAtt1},
+					{ cut:'0.65', message:piCurrent.fb_moderateAssociationForCatWithAtt1 },
+					{ cut:'105', message:piCurrent.fb_strongAssociationForCatWithAtt1 }
+				],
+				manyErrors : piCurrent.manyErrors,
+				tooFast : piCurrent.tooFast,
+				notEnough : piCurrent.notEnough
+			};
+			
+			//Replace CATEGORY, attribute1 and attribute2 in each message, with the names of those categories.
+			for (var iCut = 0; iCut < scoreObj.MessageDef.length; iCut++)
+			{
+				var tmp = scoreObj.MessageDef[iCut].message.replace(/CATEGORY/g, catName);
+				tmp = tmp.replace(/attribute1/g, attribute1.name);
+				tmp = tmp.replace(/attribute2/g, attribute2.name);
+				scoreObj.MessageDef[iCut].message = tmp;
+			}
+			
+			scorer.addSettings('message',scoreObj);
+			
+			var scored = scorer.computeD();
+			
+			scored.problem = (
+				scored.FBMsg == piCurrent.manyErrors || 
+				scored.FBMsg == piCurrent.tooFast || 
+				scored.FBMsg == piCurrent.notEnough);
+			
+			return (scored);
+		}
+		
+		function getPreferenceMessage(params)
+		{//params: score1, score2, name1, name2
+		
+			var diffScore = (params.score2 - params.score1) / 2;
+
+			var messageDefs = [
+				{cutoff : -0.65, message : piCurrent.fb_strong_Att1WithCatA_Att2WithCatB}, 
+				{cutoff : -0.35, message : piCurrent.fb_moderate_Att1WithCatA_Att2WithCatB}, 
+				{cutoff : -0.15, message : piCurrent.fb_slight_Att1WithCatA_Att2WithCatB}, 
+				{cutoff : 0.15, message : piCurrent.fb_equal_CatAvsCatB}, 
+				{cutoff : 0.35, message : piCurrent.fb_slight_Att1WithCatA_Att2WithCatB}, 
+				{cutoff : 0.65, message : piCurrent.fb_moderate_Att1WithCatA_Att2WithCatB}, 
+				{cutoff : 1000, message : piCurrent.fb_strong_Att1WithCatA_Att2WithCatB}
+			];
+			
+			var fbMsg = '';
+			for (var iCut = 0; iCut < messageDefs.length && fbMsg === ''; iCut++)
+			{
+				if (diffScore < messageDefs[iCut].cutoff)
+				{
+					fbMsg = messageDefs[iCut].message;
+					if (messageDefs[iCut].cutoff < 0)
+					{
+						fbMsg = fbMsg.replace(/CATEGORYA/g, params.name1);
+						fbMsg = fbMsg.replace(/CATEGORYB/g, params.name2);
+					}
+					else
+					{
+						fbMsg = fbMsg.replace(/CATEGORYA/g, params.name2);
+						fbMsg = fbMsg.replace(/CATEGORYB/g, params.name1);
+					}
+					fbMsg = fbMsg.replace(/attribute1/g, attribute1.name);
+					fbMsg = fbMsg.replace(/attribute2/g, attribute2.name);
+				}
+			}
+			
+			return({fb:fbMsg, score:diffScore});
+		}
+		
+		//What to do at the end of the task.
+		API.addSettings('hooks',{
+			endTask: function(){
+				//Compute and send the score
+				
+				var scoreObj = {};
+
+				var iCatEnd;
+				for (iCatEnd = 0; iCatEnd < cats.length; iCatEnd++)
+				{
+					var tScoreObj = computeSingleCatFB(iCatEnd);
+					scoreObj[cats[iCatEnd].name + '_FB'] = tScoreObj.FBMsg;
+					scoreObj[cats[iCatEnd].name + '_score'] = tScoreObj.DScore;
+					var iOtherCatEnd;
+					for (iOtherCatEnd = 0; iOtherCatEnd < iCatEnd; iOtherCatEnd++) //All the comparisons.
+					{
+						var prfObj = {};
+						if (tScoreObj.problem)
+						{//If couldn't compute a score for this category, then can't compute preference
+							prfObj = {fb : tScoreObj.FBMsg, score : -9};
+						}
+						else
+						{//Compute preference
+							prfObj = getPreferenceMessage({
+									score1 : scoreObj[cats[iCatEnd].name + '_score'], 
+									score2 : scoreObj[cats[iOtherCatEnd].name + '_score'], 
+									name1 : cats[iCatEnd].name, 
+									name2 : cats[iOtherCatEnd].name});
+						}
+						scoreObj[cats[iOtherCatEnd].name + '-versus-' + cats[iCatEnd].name + '_FB'] = prfObj.fb;
+						scoreObj[cats[iOtherCatEnd].name + '-versus-' + cats[iCatEnd].name + '_score'] = prfObj.score;
+					}
+				}
+				scoreObj.feedback = scoreObj[cats[0].name + '-versus-' + cats[1].name+ '_FB'];
+				
+				//API.save(scoreObj);
+				piCurrent.batScoreObj = scoreObj;
+				piCurrent.feedback = scoreObj.feedback;
+				window.minnoJS.onEnd();
+
+			}
 		});
-
-		//Helper function to set the feedback messages.
-		function getFB(inText, categoryA, categoryB)
-		{
-			var retText = inText.replace(/attribute1/g, att1.name);
-			retText = retText.replace(/attribute2/g, att2.name);
-			retText = retText.replace(/categoryA/g, categoryA);
-			retText = retText.replace(/categoryB/g, categoryB);
-			return retText;
-		}
-
-		//Set the feedback messages.
-		var messageDef = [
-				{ cut:'-0.65', message : getFB(piCurrent.fb_strong_Att1WithCatA_Att2WithCatB, cat1.name, cat2.name) },
-				{ cut:'-0.35', message : getFB(piCurrent.fb_moderate_Att1WithCatA_Att2WithCatB, cat1.name, cat2.name) },
-				{ cut:'-0.15', message : getFB(piCurrent.fb_slight_Att1WithCatA_Att2WithCatB, cat1.name, cat2.name) },
-				{ cut:'0.15', message : getFB(piCurrent.fb_equal_CatAvsCatB, cat1.name, cat2.name) },
-				{ cut:'0.35', message : getFB(piCurrent.fb_slight_Att1WithCatA_Att2WithCatB, cat2.name, cat1.name) },
-				{ cut:'0.65', message : getFB(piCurrent.fb_moderate_Att1WithCatA_Att2WithCatB, cat2.name, cat1.name) },
-				{ cut:'5', message : getFB(piCurrent.fb_strong_Att1WithCatA_Att2WithCatB, cat2.name, cat1.name) }
-		];
-		var scoreMessageObject = { MessageDef : messageDef };
-		if (piCurrent.manyErrors !== '')
-		{
-			scoreMessageObject.manyErrors = piCurrent.manyErrors;
-		}
-		if (piCurrent.tooFast !== '')
-		{
-			scoreMessageObject.tooFast = piCurrent.tooFast;
-		}
-		if (piCurrent.notEnough !== '')
-		{
-			scoreMessageObject.notEnough = piCurrent.notEnough;
-		}
-		//Set messages to the scorer.
-        scorer.addSettings('message',scoreMessageObject);
-        API.addSettings('hooks',{
-            endTask: function(){
-                //console.log('compute score');
-                var DScoreObj = scorer.computeD();
-                piCurrent.feedback = DScoreObj.FBMsg;
-                piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-                //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
-                //YBYB: API.save will not work in qualtrics
-                //API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
-                //Perhaps we need to add this to support Qualtrics
-                window.minnoJS.onEnd();
-            }
-        });
-
+		
 		return API.script;
 	}
-
+		
 	return iatExtension;
 });
+
