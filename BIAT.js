@@ -369,7 +369,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
                             9, //'block'
                             999, //'trial'
                             'end', //'cond'
-                            '', //'comp'
+                       //     '', //'comp'
                             '', //'type'
                             '', //'cat'
                             '', //'stim'
