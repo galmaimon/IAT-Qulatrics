@@ -326,7 +326,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
             // Transform logs into a string
             // we save as CSV because qualtrics limits to 20K characters and this is more efficient.
             serialize: function (name, logs) {
-                var headers = ['block', 'trial', 'cond', 'comp', 'type', 'cat',  'stim', 'resp', 'err', 'rt', 'd', 'fb', 'bOrd'];
+                var headers = ['block', 'trial', 'cond', 'comp', 'type', 'cat',  'stim', 'resp', 'err', 'rt', 'fb'];
                 //console.log(logs);
                 var myLogs = [];
                 var iLog;
@@ -360,9 +360,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
                         log.responseHandle, //'resp'
                         log.data.score, //'err'
                         log.latency, //'rt'
-                        '', //'d'
-                        '', //'fb'
-                        '' //'bOrd'
+                        '' //'fb'
+                       
                         ]; });
                 //console.log('mapped');
                 //Add a line with the feedback, score and block-order condition
@@ -377,9 +376,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
                             '', //'resp'
                             '', //'err'
                             '', //'rt'
-                            piCurrent.d, //'d'
-                            piCurrent.feedback, //'fb'
-                            block3Cond //'bOrd'
+                           
+                            piCurrent.feedback //'fb'
+                           
                         ]);
                 //console.log('added');
                         
