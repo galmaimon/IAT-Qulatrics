@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://galmaimon.github.io/BIATimage.js'], function(APIConstructor, iatExtension){
+define(['pipAPI', 'https://galmaimon.github.io/BIAT.js'], function(APIConstructor, iatExtension){
   var API = new APIConstructor();
 
 	
