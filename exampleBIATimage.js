@@ -57,7 +57,7 @@ define(['pipAPI', 'https://galmaimon.github.io/BIAT.js'], function(APIConstructo
 						height : 4, //Height (because we need to know where to put the next item in the title)
 						startStimulus : { 
 						//If you're using a startStimulus, set here. If not, set the parameter showStimuliWithInst to false (see later below)
-						media : {image : 'black1.jpg'}, 
+						media : {word : ""}, 
 							css : {color:'#31b404','font-size':'1em'}, 
 							height : 2
 						}
@@ -80,7 +80,7 @@ define(['pipAPI', 'https://galmaimon.github.io/BIAT.js'], function(APIConstructo
 						css : {color:'#31b404','font-size':'1.8em'}, 
 						height : 4,
 						startStimulus : {
-							media : {image : 'yf4.jpg'},  
+							media : {word : ''},  
 							css : {color:'#31b404','font-size':'1em'}, 
 							height : 2
 						}
