@@ -180,7 +180,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
 				stimulusCss : {color:'#0000FF','font-size':'2em'} 
 			},
 			base_url : {//Where are your images at?
-				image : '/implicit/user/yba/pipexample/biat/images/'
+				image : 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.2.8/docs/images/'
 			},
 
 			//practiceTrials are a few trials at the beginning of the task (Sriram & Greenwald recommend 2 trials for each category).
