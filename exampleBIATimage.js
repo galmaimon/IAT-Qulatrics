@@ -98,7 +98,7 @@ define(['pipAPI', 'https://galmaimon.github.io/BIAT.js'], function(APIConstructo
 				}
 			],
 			base_url : {//Where are your images at?
-				image : 'https://baranan.github.io/minno-tasks/images/'
+				image : 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.2.8/docs/images/'
 				
 			} 
 	});
