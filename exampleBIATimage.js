@@ -59,7 +59,7 @@ define(['pipAPI', 'https://galmaimon.github.io/BIAT.js'], function(APIConstructo
 						//If you're using a startStimulus, set here. If not, set the parameter showStimuliWithInst to false (see later below)
 						media : {image : 'blacks.jpg'}, 
 							css : {color:'#31b404','font-size':'1em'}, 
-							height : 4
+							height : 10
 						}
 					}, 
 					stimulusMedia : [ //Stimuli content as PIP's media objects
@@ -82,7 +82,7 @@ define(['pipAPI', 'https://galmaimon.github.io/BIAT.js'], function(APIConstructo
 						startStimulus : {
 							media : {image : 'whites.jpg'},  
 							css : {color:'#31b404','font-size':'1em'}, 
-							height : 4
+							height : 10
 						}
 					}, 
 					stimulusMedia : [ //Stimuli content as PIP's media objects
