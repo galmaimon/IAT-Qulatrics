@@ -739,7 +739,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
 				layout = layout.concat([				
 					{location:{top:1 + (params.focalCatTitle.height | 3)},
 						media:params.focalCatTitle.startStimulus.media, css:params.focalCatTitle.startStimulus.css}, 
-					{location:{top:1 + (params.focalCatTitle.height | 10) + (params.focalCatTitle.startStimulus.height | 10)},
+					{location:{top:1 + (params.focalCatTitle.height | 3) + (params.focalCatTitle.startStimulus.height | 3)},
 						media:{word:'and'}, css:{color:'#000000','font-size':'1.8em'}}, 
 					{location:{top:10 + 1 + (params.focalCatTitle.height | 5) + (params.focalCatTitle.startStimulus.height | 5)}, 
 					media : params.focalAttTitle.media, css: params.focalAttTitle.css},
