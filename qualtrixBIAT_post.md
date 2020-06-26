@@ -17,7 +17,7 @@ The script that we created for building BIATs is an extension, implemented as a 
 ### Into Qualtrics
 To run an BIAT on Qualtrics study, I followed the guide from an earlier [post](https://minnojs.github.io/minnojs-blog/qualtrics/). 
 The BIAT will run from a single question in your survey, separated from any other question by a Page Break, like this:
-![Qualtrics image](../images/quiat1.png)
+![Qualtrics image](https://github.com/minnojs/minnojs-blog/blob/master/images/quiat1.png)
 
 Then, click the JS icon in the BIAT question, and add the following code: 
 ```js
