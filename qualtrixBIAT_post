@@ -62,8 +62,9 @@ This code will run our example Qualtric BIAT from this page. Start with that exa
 
 If you go to [our example](https://galmaimon.github.io/exampleBIAT.js), you will see how simple it can be to define your own IAT:
 ```js
-define(['pipAPI', 'https://galmaimon.github.io/BIAT.js'], function(APIConstructor, iatExtension){
+define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/qbiat6.js'], function(APIConstructor, iatExtension){
   var API = new APIConstructor();
+
 	
 	return iatExtension({
 		practiceCategory1 : 
@@ -113,68 +114,84 @@ define(['pipAPI', 'https://galmaimon.github.io/BIAT.js'], function(APIConstructo
 			},
 			categories : [  //As many categories you need.
 				{
-					name : 'category1', //Will appear in the data.
+					name : 'Black People', //Will appear in the data.
 					title : {
-						media : {word : 'Category1'}, //Name of the category presented in the task.
+						media : {word : 'Black People'}, //Name of the category presented in the task.
 						css : {color:'#31b404','font-size':'1.8em'}, //Style of the category title.
 						height : 4, //Height (because we need to know where to put the next item in the title)
 						startStimulus : { 
 						//If you're using a startStimulus, set here. If not, set the parameter showStimuliWithInst to false (see later below)
-							media : {word : 'cat1A, cat1B'}, 
+						media : {image : 'blacks.jpg'}, 
 							css : {color:'#31b404','font-size':'1em'}, 
 							height : 2
 						}
 					}, 
 					stimulusMedia : [ //Stimuli content as PIP's media objects
-						{word : 'cat1A'}, 
-						{word : 'cat1B'}
+					{image : 'black1.jpg'}, 
+        			{image : 'black2.jpg'}, 
+        			{image : 'black3.jpg'}, 
+        			{image : 'black4.jpg'}, 
+        			{image : 'black5.jpg'}, 
+        			{image : 'black6.jpg'}
 					], 
 					//Stimulus css (style of the stimuli)
 					stimulusCss : {color:'#31b404','font-size':'2em'}
 				},	
 				{
-					name : 'category2', 
+					name : 'White people', 
 					title : {
-						media : {word : 'Category2'}, 
+						media : {word : 'White people'}, 
 						css : {color:'#31b404','font-size':'1.8em'}, 
 						height : 4,
 						startStimulus : {
-							media : {word : 'cat2A, cat2B'}, 
+							media : {image : 'whites.jpg'},  
 							css : {color:'#31b404','font-size':'1em'}, 
 							height : 2
 						}
 					}, 
 					stimulusMedia : [ //Stimuli content as PIP's media objects
-						{word : 'cat2A'}, 
-						{word : 'cat2B'}
+					{image : 'yf1.jpg'}, 
+        			{image : 'yf4.jpg'}, 
+        			{image : 'yf5.jpg'}, 
+        			{image : 'ym2.jpg'}, 
+        			{image : 'ym3.jpg'}, 
+        			{image : 'ym5.jpg'}
 					], 
 					//Stimulus css
 					stimulusCss : {color:'#31b404','font-size':'2em'}
 				}
-			]
+			],
+			base_url : {//Where are your images at?
+			image : 'https://baranan.github.io/minno-tasks/images/'
+				
+			} 
 	});
 });
-```
-In the first line, we tell Minno where the [full IAT script](https://galmaiimon.github.io/BIAT.js) is:
-`define(['pipAPI', 'https://galmaimon.github.io/BIAT.js'], function(APIConstructor, iatExtension){`
 
-At the beginning of [that script](https://galmaimon.github.io/exwmplwBIAT.js),  you will see the practice category, each BIAT test begin with a practice block include 8 trials, in our case Mammals-pleasant(bird) trial in witch each focal and non focal category will appear in twice.
+
+
+
+```
+In the first line, we tell Minno where the [full IAT script](https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/qbiat6.js) is:
+`define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/qbiat6.js'], function(APIConstructor, iatExtension){`
+
+At the beginning of [that script](https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/exampleBIATimage.js),  you will see the practice category, each BIAT test begin with a practice block include 8 trials, in our case Mammals-pleasant(bird) trial in witch each focal and non focal category will appear in twice.
 The focal attribute in our example is Pleasant and will throughout the task, you can change it to both of the focal attribute if you want.
 After the practice categories you will see the categories in the test, you can set as many categories as you would like, all the categories will includes in the trial, one as the focal category and the others as non focal category and the numbers of stimuli of the focal and non-focal will be equal. In our example there are only 2 categories called category1 and category2
 
 
 ### Use your own script file
 
-Next, it’s time to create your own IAT. For that, you need to create a script like the example script, and post it online. If you have your own website (e.g., a home directory hosted by your university), you can put that script on that website. It is a static file so pretty much any server will suffice. Or, you can use a free online service for that. My example is hosted on GitHub Pages, which is free and [easy to setup](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site). 
+Next, it’s time to create your own BIAT. For that, you need to create a script like the example script, and post it online. If you have your own website (e.g., a home directory hosted by your university), you can put that script on that website. It is a static file so pretty much any server will suffice. Or, you can use a free online service for that. My example is hosted on GitHub Pages, which is free and [easy to setup](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site). 
 
 First, just copy my code and put it on your server. Change the url in the JavaScript code you entered to Qualtrics earlier, and see that the IAT runs fine. 
 
-### Define your IAT
+### Define your BIAT
 
 Now, change your code to build the IAT you need. If you’re using photos, put them in your own directory and change your IAT script to search for images there: base_url: {image:’YOUR URL GOES HERE’}.
 If you’re using words rather than photos, you need to update the [media](https://minnojs.github.io/minno-time/0.5/time/API.html#media) object of the categories. For instance: {word: 'Tyrone'}.
 
-If you want to update the attributes, see how the attributes are defined in the [extension script](https://baranan.github.io/minno-tasks/quiat8.js) and override them by defining your own attributes in your IAT script.
+If you want to update the attributes, see how the attributes are defined in the [extension script](https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/qbiat6.js) and override them by defining your own attributes in your IAT script.
 
 Although our IAT script supports touch devices, the IAT does not detect automatically whether the participant is using a touch device (e.g., mobile). Therefore, if you want your participants to run the IAT on a mobile device or a tablet, you will need to create an IAT version specifically for those participants (in your script, set isTouch:true in the IAT parameters). 
 
@@ -183,7 +200,7 @@ Although our IAT script supports touch devices, the IAT does not detect automati
 The original [post](https://minnojs.github.io/minnojs-blog/qualtrics/) about running MinnoJS scripts from Qualtrics explains the how to process the data saved by Qualtrics. [Here](https://github.com/baranan/minno-tasks/blob/master/docs/minno.qualtrics.iat.process.rmd)([download from [here](https://baranan.github.io/minno-tasks/minno.qualtrics.iat.process.rmd)] is an R (well, rmd) script that you can use to analyze the IAT data. If you don’t feel comfortable using R, here is how to create a csv file with the IAT data, using Excel. 
 1. Download the data from Qualtrics as csv.
 2. Open the csv file with Excel
-3. Copy only the cells with IAT data. For instance, because the IAT was in Q3 in my Qualtrics questionnaire, the relevant column is under Q3. Select only the cells with that data and copy those cells.
+3. Copy only the cells with IAT data. For instance, because the BIAT was in Q3 in my Qualtrics questionnaire, the relevant column is under Q3. Select only the cells with that data and copy those cells.
 4. Open a notepad (or notepad++ or any other simple editor) and paste the data (the cells you copied) to that file.
 5. Replace (usually, using ctrl-H) the text *“block,trial* with the text *block,trial* (to remove the “ before block)
 6. Replace “”” (three double quotes) with “” (two double quotes)
