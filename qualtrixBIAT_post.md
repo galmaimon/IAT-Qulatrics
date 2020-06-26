@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Running BIAT extention from Qulatrics
-author: Gal_Maimon
+author: Gal Maimon
 ---
 
 [Project Implicit](http://projectimplicit.net/) has developed [MinnoJS](https://minnojs.github.io/) to program web studies. 
@@ -10,16 +10,16 @@ The IAT is a commonly used indirect measure of social cognition (read more about
 If you reached this blog post, you probably know what the IAT is and you want to use it in your own study. In this blog post, I will explain how you can use our script in a Qulatrics study. 
 
 ### Project Implicit's MinnoJS BIAT extension 
-We will use a [modification](https:// galmaimon.github.io/BIAT.js) of an BIAT MinnoJS [script](https:// galmaimon.github.io/BIAT.js) that Project Implicit has developed. In Project Implicit, we use that script to run the study from Open Minno Suite, our platform for running web studies. Before you decide to use that script in Qualtrics, please consider using our free platform as an alternative to Qualtrics (you can read more about it here). 
+We will use a [modification](https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/qbiat6.js) of an BIAT MinnoJS [script](https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/qbiat6.js) that Project Implicit has developed. In Project Implicit, we use that script to run the study from Open Minno Suite, our platform for running web studies. Before you decide to use that script in Qualtrics, please consider using our free platform as an alternative to Qualtrics (you can read more about it here). 
 
 The script that we created for building BIATs is an extension, implemented as a function that creates an BIAT from a few arguments (i.e., parameters) that the researcher defines. You can read more about the basic idea of using extensions in Minno on [this page](https://github.com/baranan/minno-tasks/blob/master/implicitmeasures.md).
 
 ### Into Qualtrics
-To run an IAT on Qualtrics study, I followed the guide from an earlier [post](https://minnojs.github.io/minnojs-blog/qualtrics/). 
-The IAT will run from a single question in your survey, separated from any other question by a Page Break, like this:
+To run an BIAT on Qualtrics study, I followed the guide from an earlier [post](https://minnojs.github.io/minnojs-blog/qualtrics/). 
+The BIAT will run from a single question in your survey, separated from any other question by a Page Break, like this:
 ![Qualtrics image](../images/quiat1.png)
 
-Then, click the JS icon in the IAT question, and add the following code: 
+Then, click the JS icon in the BIAT question, and add the following code: 
 ```js
 Qualtrics.SurveyEngine.addOnload(function () {
     // hide question and next button
@@ -40,7 +40,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
     // This function gets activated only after MinnoJS is loaded
     function onLoad() {
         // Run your study (just set the correct URL)
-        minnoJS(canvas, 'https://galmaimon.github.io/exampleBIAT.js');
+        minnoJS(canvas, 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/exampleBIATimage.js');
         // MinnoJS doesn't know about Qualtrics, we pass a function to inject the results into the question
         // For some reason `piGlobal` isn't available so we attach it to `minnoJS`
         minnoJS.logger = function (value) {
@@ -56,11 +56,11 @@ Qualtrics.SurveyEngine.addOnload(function () {
 
 This code will run our example Qualtric BIAT from this page. Start with that example. After you verify that it runs fine on your Qualtrics survey, replace it with your own IAT (we’ll get to that shortly). 
 
-**IMPORTANT NOTE:** to skip blocks when you’re testing the IAT, use the key combination: Esc, Enter.
+**IMPORTANT NOTE:** to skip blocks when you’re testing the BIAT, use the key combination: Esc, Enter.
 
 ### How we define the BIAT
 
-If you go to [our example](https://galmaimon.github.io/exampleBIAT.js), you will see how simple it can be to define your own IAT:
+If you go to [our example](https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/exampleBIATimage.js), you will see how simple it can be to define your own IAT:
 ```js
 define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/qbiat6.js'], function(APIConstructor, iatExtension){
   var API = new APIConstructor();
@@ -172,10 +172,10 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualt
 
 
 ```
-In the first line, we tell Minno where the [full IAT script](https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/qbiat6.js) is:
+In the first line, we tell Minno where the [full BIAT script](https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/qbiat6.js) is:
 `define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/qbiat6.js'], function(APIConstructor, iatExtension){`
 
-At the beginning of [that script](https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/exampleBIATimage.js),  you will see the practice category, each BIAT test begin with a practice block include 8 trials, in our case Mammals-pleasant(bird) trial in witch each focal and non focal category will appear in twice.
+At the beginning of [that script](https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/exampleBIATimage.js),  you will see the practice category, each BIAT test begin with a practice block include 8 trials, in our case Mammals-pleasant(bird) trial in wich each focal and non focal category will appear in twice.
 The focal attribute in our example is Pleasant and will throughout the task, you can change it to both of the focal attribute if you want.
 After the practice categories you will see the categories in the test, you can set as many categories as you would like, all the categories will includes in the trial, one as the focal category and the others as non focal category and the numbers of stimuli of the focal and non-focal will be equal. In our example there are only 2 categories called category1 and category2
 
@@ -188,19 +188,19 @@ First, just copy my code and put it on your server. Change the url in the JavaSc
 
 ### Define your BIAT
 
-Now, change your code to build the IAT you need. If you’re using photos, put them in your own directory and change your IAT script to search for images there: base_url: {image:’YOUR URL GOES HERE’}.
+Now, change your code to build the BIAT you need. If you’re using photos, put them in your own directory and change your IAT script to search for images there: base_url: {image:’YOUR URL GOES HERE’}.
 If you’re using words rather than photos, you need to update the [media](https://minnojs.github.io/minno-time/0.5/time/API.html#media) object of the categories. For instance: {word: 'Tyrone'}.
 
 If you want to update the attributes, see how the attributes are defined in the [extension script](https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualtrics/qbiat6.js) and override them by defining your own attributes in your IAT script.
 
-Although our IAT script supports touch devices, the IAT does not detect automatically whether the participant is using a touch device (e.g., mobile). Therefore, if you want your participants to run the IAT on a mobile device or a tablet, you will need to create an IAT version specifically for those participants (in your script, set isTouch:true in the IAT parameters). 
+Although our BIAT script supports touch devices, the BIAT does not detect automatically whether the participant is using a touch device (e.g., mobile). Therefore, if you want your participants to run the IAT on a mobile device or a tablet, you will need to create an IAT version specifically for those participants (in your script, set isTouch:true in the IAT parameters). 
 
-### Processing the IAT data
+### Processing the BIAT data
 
 The original [post](https://minnojs.github.io/minnojs-blog/qualtrics/) about running MinnoJS scripts from Qualtrics explains the how to process the data saved by Qualtrics. [Here](https://github.com/baranan/minno-tasks/blob/master/docs/minno.qualtrics.iat.process.rmd)([download from [here](https://baranan.github.io/minno-tasks/minno.qualtrics.iat.process.rmd)] is an R (well, rmd) script that you can use to analyze the IAT data. If you don’t feel comfortable using R, here is how to create a csv file with the IAT data, using Excel. 
 1. Download the data from Qualtrics as csv.
 2. Open the csv file with Excel
-3. Copy only the cells with IAT data. For instance, because the BIAT was in Q3 in my Qualtrics questionnaire, the relevant column is under Q3. Select only the cells with that data and copy those cells.
+3. Copy only the cells with BIAT data. For instance, because the BIAT was in Q3 in my Qualtrics questionnaire, the relevant column is under Q3. Select only the cells with that data and copy those cells.
 4. Open a notepad (or notepad++ or any other simple editor) and paste the data (the cells you copied) to that file.
 5. Replace (usually, using ctrl-H) the text *“block,trial* with the text *block,trial* (to remove the “ before block)
 6. Replace “”” (three double quotes) with “” (two double quotes)
