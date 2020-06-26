@@ -141,11 +141,11 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
 				title : {
 					media : {word : 'Pleasant'}, 
 					css : {color:'#0000FF','font-size':'1.8em'}, 
-					height : 4,
+					height : 2,
 					startStimulus : {
 						media : {word : 'Joy, Love, Happy, Good'}, 
 						css : {color:'#0000FF','font-size':'1em'}, 
-						height : 2
+						height : 0
 					}
 				}, 
 				stimulusMedia : [ //Stimuli content as PIP's media objects
@@ -163,11 +163,11 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor,Scorer, _) {
 				title : {
 					media : {word : 'Unpleasant'}, 
 					css : {color:'#0000FF','font-size':'1.8em'}, 
-					height : 4,
+					height : 2,
 					startStimulus : {
 						media : {word : 'Horrible, Evil, Nasty, Bad'}, 
 						css : {color:'#0000FF','font-size':'1em'}, 
-						height : 2
+						height : 0
 					}
 				}, 
 				stimulusMedia : [ //Stimuli content as PIP's media objects
