@@ -208,7 +208,7 @@ If you don’t feel comfortable using R, here is how to create a csv file with t
 9. You can open that csv file to make sure that it is fine. 
 
 The steps in an animated gif:
-![Data image](../images/processiat.gif)
+![Data image](https://minnojs.github.io/minnojs-blog/images/processiat.gif)
 
 ### Any questions?
 
