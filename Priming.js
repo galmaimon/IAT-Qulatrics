@@ -262,9 +262,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                             '', //'resp'
                             '', //'err'
                             '', //'rt'
-                            piCurrent.d, //'d'
+                           // piCurrent.d, //'d'
                             piCurrent.feedback, //'fb'
-                            block3Cond //'bOrd'
+                            //block3Cond //'bOrd'
                         ]);
                 //console.log('added');
                         
@@ -405,7 +405,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 						]
 					},
 					{
-						conditions: [{type:'inputEquals',value:'end'}], //What to do when endTrial is called.
+						conditions: [{type:'inputEquals',value:'goBlank'}], //What to do when endTrial is called.
 						actions: [
 							{type:'hideStim',handle:'All'},
 							{type:'showStim',handle:'blankScreen'}, //show blankScreen
@@ -678,7 +678,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		API.addSettings('hooks',{
 			endTask: function(){
 				//Compute and send the score
-				
+				var logs=ATI.getLogs();
+				console.log(logs);
 				var scoreObj = {};
 				var savedFeedback = false;
 				for (var iCat = 0; iCat < primeCats.length; iCat++)
