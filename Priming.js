@@ -212,7 +212,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             // Transform logs into a string
             // we save as CSV because qualtrics limits to 20K characters and this is more efficient.
             serialize: function (name, logs) {
-                var headers = ['block', 'trial', 'cond', 'comp', 'type', 'cat',  'stim', 'resp', 'err', 'rt', 'd', 'fb', 'bOrd'];
+                var headers = ['block', 'trial', 'cond', 'type', 'cat',  'stim', 'resp', 'err', 'rt', 'd', 'fb', 'bOrd'];
                 console.log(logs);
                 var myLogs = [];
                 var iLog;
@@ -255,7 +255,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                             9, //'block'
                             999, //'trial'
                             'end', //'cond'
-                            '', //'comp'
+                          // '', //'comp'
                             '', //'type'
                             '', //'cat'
                             '', //'stim'
@@ -405,7 +405,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 						]
 					},
 					{
-						conditions: [{type:'inputEquals',value:'goBlank'}], //What to do when endTrial is called.
+						conditions: [{type:'inputEquals',value:'end'}], //What to do when endTrial is called.
 						actions: [
 							{type:'hideStim',handle:'All'},
 							{type:'showStim',handle:'blankScreen'}, //show blankScreen
