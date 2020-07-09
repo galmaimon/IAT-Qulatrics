@@ -145,7 +145,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			}, 
 			//Set the image folder here.
 			base_url : {
-				image : '/implicit/user/yba/pipexample/epmulti/images/'
+				image : 'https://app-prod-03.implicit.harvard.edu/implicit/showfiles.jsp?user=yba&study=expimp/images'
 			}, 
 			primeDuration : 200, //Default prime duration
 			fixationDuration : 0, //No fixation by default
