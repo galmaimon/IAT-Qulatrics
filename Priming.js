@@ -716,8 +716,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				}
                 //Save all those scores for the session data.
                 piCurrent.feedback = DScoreObj.FBMsg;
-                window.minnoJS.onEnd();
 				piCurrent.scoreObj = scoreObj;
+				window.minnoJS.onEnd();
 				//Record also in the database.
 				//API.save(scoreObj);
 			}
