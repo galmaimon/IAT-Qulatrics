@@ -211,7 +211,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             },
             // Transform logs into a string
             // we save as CSV because qualtrics limits to 20K characters and this is more efficient.
-            serialized: function (name, logs) {
+            serialize: function (name, logs) {
                 var headers = ['block', 'trial', 'cond', 'type', 'cat',  'stim', 'resp', 'err', 'rt', 'd', 'fb', 'bOrd'];
                 console.log(logs);
                 var myLogs = [];
@@ -716,7 +716,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					}
 				}
                 //Save all those scores for the session data.
-                piCurrent.feedback = DScoreObj.FBMsg;
+              //  piCurrent.feedback = DScoreObj.FBMsg;
 				piCurrent.scoreObj = scoreObj;
 				window.minnoJS.onEnd();
 				//Record also in the database.
