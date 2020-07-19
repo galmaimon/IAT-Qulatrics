@@ -211,7 +211,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             },
             // Transform logs into a string
             // we save as CSV because qualtrics limits to 20K characters and this is more efficient.
-            serialize: function (name, logs) {
+            serialized: function (name, logs) {
                 var headers = ['block', 'trial', 'cond', 'type', 'cat',  'stim', 'resp', 'err', 'rt', 'd', 'fb', 'bOrd'];
                 console.log(logs);
                 var myLogs = [];
@@ -678,7 +678,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		API.addSettings('hooks',{
 			endTask: function(){
 				//Compute and send the score
-				var logs=ATI.getLogs();
+				var logs=API.getLogs();
 				console.log(logs);
 				var scoreObj = {};
 				var savedFeedback = false;
