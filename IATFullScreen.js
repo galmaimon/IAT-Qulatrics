@@ -29,8 +29,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			isTouch:false, //Set whether the task is on a touch device.
 			//Set the canvas of the task
 			canvas : {
-				height: '200px',
- 				 width: '50%',
+				maxWidth: '70%',
 				proportions : 0.7,
 				background: '#ffffff',
 				borderWidth: 5,
@@ -169,7 +168,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			orText : 'or', 
 			orCss : {'font-size':'1.8em', color:'#000000'},
 			
-			instWidth : 99, //The width of the instructions stimulus
+			instWidth : 200, //The width of the instructions stimulus
 			
 			finalText : 'Press space to continue to the next task', 
 			finalTouchText : 'Touch the bottom green area to continue to the next task',
@@ -496,7 +495,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					//API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
 					//Perhaps we need to add this to support Qualtrics
 					window.minnoJS.onEnd();
-				}
+				},
 			});
 		/**
 		 * Create default sorting trial
