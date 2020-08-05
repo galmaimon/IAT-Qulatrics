@@ -783,7 +783,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			'     '  +
 			'   	<% if (stimulusData.second) { %>  '  +
 			'   		<div style="font-size:2.3em; <%= stimulusData.orCss %>"><%= stimulusData.orText %> </div>  '  +
-			'   		<div style="font-size:1.3em; max-width:100%; <%= stimulusData.secondCss %>">  '  +
+			'   		<div style="font-size:1.3em; max-width:50%; <%= stimulusData.secondCss %>">  '  +
 			'   			<%= stimulusData.second %>  '  +
 			'   		</div>  '  +
 			'   	<% } %>  '  +
