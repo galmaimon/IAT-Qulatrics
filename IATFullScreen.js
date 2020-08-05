@@ -31,6 +31,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			canvas : {
 				maxWidth: '100%',
 				position: '0%',
+				margin: 0,
 			//	proportions : 0.7,
 				background: '#ffffff',
 				borderWidth: 5,
