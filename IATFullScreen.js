@@ -29,9 +29,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			isTouch:false, //Set whether the task is on a touch device.
 			//Set the canvas of the task
 			canvas : {
-				maxWidth: '10%',
-				maxHeight: 1200,
-				proportions : 0.9,
+				maxWidth: '100%',
+				width  = $(window).width()*2,
+				height = 630*2,
+				proportions : 0.7,
 				background: '#ffffff',
 				borderWidth: 5,
 				canvasBackground: '#ffffff',
@@ -169,7 +170,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			orText : 'or', 
 			orCss : {'font-size':'1.8em', color:'#000000'},
 			
-			instWidth : 200, //The width of the instructions stimulus
+			instWidth : 99, //The width of the instructions stimulus
 			
 			finalText : 'Press space to continue to the next task', 
 			finalTouchText : 'Touch the bottom green area to continue to the next task',
@@ -783,7 +784,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			'     '  +
 			'   	<% if (stimulusData.second) { %>  '  +
 			'   		<div style="font-size:2.3em; <%= stimulusData.orCss %>"><%= stimulusData.orText %> </div>  '  +
-			'   		<div style="font-size:1.3em; max-width:50%; <%= stimulusData.secondCss %>">  '  +
+			'   		<div style="font-size:1.3em; max-width:100%; <%= stimulusData.secondCss %>">  '  +
 			'   			<%= stimulusData.second %>  '  +
 			'   		</div>  '  +
 			'   	<% } %>  '  +
