@@ -1250,9 +1250,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				}
 			]
         });
-        trialSequence.push(
-            scorer.message()
-        );
+        // trialSequence.push(
+        //     scorer.message()
+        // );
 
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
