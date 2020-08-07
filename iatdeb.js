@@ -1249,10 +1249,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
 				}
 			]
-        });
-        // trialSequence.push(
-        //     scorer.message()
-        // );
+		});
 
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
