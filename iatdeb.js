@@ -481,7 +481,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					var DScoreObj = scorer.computeD();
 					piCurrent.feedback = DScoreObj.FBMsg;
 					piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-					//console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
+					console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
 					//YBYB: API.save will not work in qualtrics
 					//API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
 					//Perhaps we need to add this to support Qualtrics
@@ -1326,7 +1326,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		//Set messages to the scorer.
         scorer.addSettings('message',scoreMessageObject);
         console.log("FINISHED SHOULD RETURN SCORE")
-        console.log(scorer.message);
+        console.log(piCurrent.feedback);
 
 		return API.script;
 	}
