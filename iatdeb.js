@@ -1262,11 +1262,13 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			layout : [{media:{word:''}}],
 			stimuli : [
 				{
-                    inherit : 'Default',
-					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.feedback)},
+					inherit : 'Default',
+                    media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.debriefing)}
+                    
 				}
 			]
         });
+        console.log(piCurrent.debriefing);
 
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
