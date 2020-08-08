@@ -164,7 +164,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			
 			finalText : 'Press space to continue to the next task', 
             finalTouchText : 'Touch the bottom green area to continue to the next task',
-            debriefing: 'score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback,
+            debriefing: '',
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
@@ -1251,7 +1251,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				}
 			]
         });
-        
+        piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
+
         ////////////////////////////
         //debrefing
         trialSequence.push({
