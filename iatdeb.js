@@ -618,7 +618,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					}
 				]
 			}
-		]);
+        ]);
+        
 
 		/**
 		 * All basic trials.
@@ -1263,7 +1264,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			stimuli : [
 				{
 					inherit : 'Default',
-                    media : {message : piCurrent.debriefing}
+                    media : {word : piCurrent.debriefing}
                     
 				}
 			]
