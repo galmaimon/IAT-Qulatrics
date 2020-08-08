@@ -1249,7 +1249,21 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
 				}
 			]
-		});
+        });
+        
+        ////////////////////////////
+        //debrefing
+        // trialSequence.push({
+        //     inherit : 'instructions',
+		// 	data: {blockStart:true},
+		// 	layout : [{media:{word:''}}],
+		// 	stimuli : [
+		// 		{
+		// 			inherit : 'Default',
+		// 			media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
+		// 		}
+		// 	]
+        // });
 
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
@@ -1311,6 +1325,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		}
 		//Set messages to the scorer.
 		scorer.addSettings('message',scoreMessageObject);
+        console.log(scorer.message);
 
 		return API.script;
 	}
