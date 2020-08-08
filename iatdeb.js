@@ -441,7 +441,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		// are we on the touch version
 		var isTouch = piCurrent.isTouch;
 
-		//We use these objects a lot, so let's read them here
+        //We use these objects a lot, so let's read them here
+        var debriefing=piCurrent.feedback
 		var att1 = piCurrent.attribute1;
 		var att2 = piCurrent.attribute2;
 		var cat1 = piCurrent.category1;
@@ -482,9 +483,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					var DScoreObj = scorer.computeD();
 					piCurrent.feedback = DScoreObj.FBMsg;
                     piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-                    piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
+                    //piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
                     console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
-                    console.log(piCurrent.debriefing);
+                    console.log(debriefing);
 					//YBYB: API.save will not work in qualtrics
 					//API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
 					//Perhaps we need to add this to support Qualtrics
@@ -1264,7 +1265,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			stimuli : [
 				{
 					inherit : 'Default',
-                    media : {word : piCurrent.debriefing}
+                    media : {word : debriefing}
                     
 				}
 			]
