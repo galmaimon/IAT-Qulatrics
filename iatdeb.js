@@ -164,7 +164,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			
 			finalText : 'Press space to continue to the next task', 
             finalTouchText : 'Touch the bottom green area to continue to the next task',
-            debriefing: 'final test not shown',
+            //debriefing: 'final test not shown',
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
@@ -485,6 +485,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                     piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
                     console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
                     console.log(piCurrent.debriefing);
+                    iatObj.debriefing=piCurrent.debriefing;
 					//YBYB: API.save will not work in qualtrics
 					//API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
 					//Perhaps we need to add this to support Qualtrics
