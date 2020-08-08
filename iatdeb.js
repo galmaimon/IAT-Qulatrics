@@ -442,7 +442,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		var isTouch = piCurrent.isTouch;
 
         //We use these objects a lot, so let's read them here
-        var debriefing=piCurrent.feedback
+        //var debriefing=piCurrent.feedback
 		var att1 = piCurrent.attribute1;
 		var att2 = piCurrent.attribute2;
 		var cat1 = piCurrent.category1;
@@ -484,7 +484,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					piCurrent.feedback = DScoreObj.FBMsg;
                     piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
                     piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
-                    console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
+                    //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
+                    console.log("DEBRIEFING");
                     console.log(piCurrent.debriefing);
 					//YBYB: API.save will not work in qualtrics
 					//API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
@@ -1270,7 +1271,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				}
 			]
         });
-        console.log(piCurrent.debriefing);
+        //console.log(piCurrent.debriefing);
 
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
