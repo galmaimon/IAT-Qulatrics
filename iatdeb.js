@@ -483,7 +483,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					piCurrent.feedback = DScoreObj.FBMsg;
                     piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
                     piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
-					console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
+                    console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
+                    console.log(piCurrent.debriefing);
 					//YBYB: API.save will not work in qualtrics
 					//API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
 					//Perhaps we need to add this to support Qualtrics
