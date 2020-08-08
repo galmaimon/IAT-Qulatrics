@@ -164,7 +164,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			
 			finalText : 'Press space to continue to the next task', 
             finalTouchText : 'Touch the bottom green area to continue to the next task',
-            debriefing: 'this is the feedback',
+            debriefing: 'score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback,
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
@@ -1261,8 +1261,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			stimuli : [
 				{
                     inherit : 'Default',
-				//	media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.debriefing)},
-					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.feedback)}
+					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.debriefing)},
+				//	media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.feedback)}
 				}
 			]
         });
