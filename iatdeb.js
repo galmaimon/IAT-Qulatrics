@@ -1264,8 +1264,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         ////////////////////////////
         //debrefing
          trialSequence.push(
-            console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
-            debriefingPage;
+            console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback),
+            debriefingPage
 
 
 
