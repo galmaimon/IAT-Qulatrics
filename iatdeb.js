@@ -164,7 +164,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			
 			finalText : 'Press space to continue to the next task', 
             finalTouchText : 'Touch the bottom green area to continue to the next task',
-            //debriefing: 'final test not shown',
+            debriefing: 'didnt update',
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
@@ -483,9 +483,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					var DScoreObj = scorer.computeD();
 					piCurrent.feedback = DScoreObj.FBMsg;
                     piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-                    //piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
+                    piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
                     console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
-                    console.log(debriefing);
+                    console.log(piCurrent.debriefing);
 					//YBYB: API.save will not work in qualtrics
 					//API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
 					//Perhaps we need to add this to support Qualtrics
@@ -1265,7 +1265,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			stimuli : [
 				{
 					inherit : 'Default',
-                    media : {word : debriefing}
+                    media : {word : piCurrent.debriefing}
                     
 				}
 			]
