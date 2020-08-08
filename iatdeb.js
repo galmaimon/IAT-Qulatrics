@@ -163,7 +163,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			instWidth : 99, //The width of the instructions stimulus
 			
 			finalText : 'Press space to continue to the next task', 
-			finalTouchText : 'Touch the bottom green area to continue to the next task',
+            finalTouchText : 'Touch the bottom green area to continue to the next task',
+            debriefing: 'this is the feedback',
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
@@ -1263,22 +1264,17 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         
         ////////////////////////////
         //debrefing
-         trialSequence.push(
-            console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback),
-            debriefingPage
-
-
-
-        //     inherit : 'instructions',
-		// 	data: {blockStart:true},
-		// 	layout : [{media:{word:''}}],
-		// 	stimuli : [
-		// 		{
-		// 			inherit : 'Default',
-		// 			media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
-		// 		}
-		// 	]
-         );
+        trialSequence.push({
+			inherit : 'instructions',
+			data: {blockStart:true},
+			layout : [{media:{word:''}}],
+			stimuli : [
+				{
+					inherit : 'Default',
+					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.debriefingPage)}
+				}
+			]
+        });
 
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
