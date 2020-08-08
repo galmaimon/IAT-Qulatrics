@@ -1266,7 +1266,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			stimuli : [
 				{
 					inherit : 'Default',
-                    media : {word : piCurrent.debriefing}
+					media:{html:<div class="result" style="background-color:lightyellow">
+                    <b>%=showFeedback()%</b>
+                </div>
+                },
                     
 				}
 			]
