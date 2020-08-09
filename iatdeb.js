@@ -615,12 +615,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			// generic instructions trial, to be inherited by all other inroduction trials
 			{
 				// set block as generic so we can inherit it later
-				data: {blockStart:true, condition:'debriefing', score:0, block:0},
+				data: {blockStart:true},
 
 				// create user interface (just click to move on...)
-				input: [
-					proceedInput
-				],
+				// input: [
+				// 	proceedInput
+				// ],
 
 				interactions: [
 					// display instructions
