@@ -1260,8 +1260,42 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         ////////////////////////////
         //debrefing
         trialSequence.push({
-			inherit : 'instructions',
-			data: {blockStart:true},
+            interactions: [
+                // display instructions
+                {
+                   // conditions: [{type:'begin'}],
+                    actions: [
+                        {type:'showStim',handle:'All'}
+                    ]
+                },
+                // space hit, end trial soon
+                {
+                   // conditions: [{type:'inputEquals',value:'space'}],
+                    actions: [
+                        {type:'custom', value:function(condtion, inputData, trial){
+                            var DScoreObj = scorer.computeD();
+					        piCurrent.feedback = DScoreObj.FBMsg;
+                            piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
+                            piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
+                        //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
+                            console.log("DEBRIEFING");
+                            console.log(piCurrent.debriefing);
+                            // do your mojo here and return true or false
+                        }}
+                    ]
+                },
+                {
+                    conditions: [{type:'inputEquals',value:'endTrial'}],
+                    actions: [{type:'endTrial'}],
+                    stimuli : [
+                        {
+                            inherit : 'Default',
+                            media : {word : piCurrent.debriefing}
+                            
+                        }]
+                }
+            ],
+            data: {blockStart:true},
 			layout : [{media:{word:''}}],
 			stimuli : [
 				{
@@ -1271,7 +1305,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				}
 			]
         });
-        //console.log(piCurrent.debriefing);
+            
 
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
