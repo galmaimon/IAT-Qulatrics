@@ -1251,12 +1251,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         trialSequence.push({
             interactions: [
                 // display instructions
-                // {
-                //     conditions: [{type:'begin'}],
-                //     actions: [
-                //         {type:'showStim',handle:'All'}
-                //     ]
-                // },
+                 {
+                     conditions: [{type:'begin'}],
+                     actions: [
+                        {type:'trigger',handle:'later',duration:250}
+                     ]
+                 },
                 // space hit, end trial soon
                 {
                     conditions: [{type:'custom', value:function(condtion, inputData, trial){
@@ -1270,19 +1270,20 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                             // do your mojo here and return true or false
                         }}
                     ],
-                    actions:[{type: 'showStim'}]
+                    actions:[{type:'trigger',handle:'now'}]
                 },
                 {
                     conditions: [{type:'inputEquals',value:'endTrial'}],
                     actions: [{type:'endTrial'}],
-                    stimuli : [
-                        {
-                            inherit : 'Default',
-                            media : {word : piCurrent.feedback}
-                            
-                        }]
+                    
                 }
             ],
+            stimuli : [
+                {
+                    inherit : 'Default',
+                    media : {word : piCurrent.feedback}
+                    
+                }]
             // data: {blockStart:true},
 			// layout : [{media:{word:''}}],
 			// stimuli : [
