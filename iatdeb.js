@@ -1253,13 +1253,13 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 // display instructions
                  {
                      conditions: [{type:'begin'}],
-                     actions: [
-                        {type:'trigger',handle:'later',duration:250}
-                     ]
+                     actions: [{type:'showStim',handle:'targetStim'}]
+
+                     
                  },
                 // space hit, end trial soon
                 {
-                    conditions: [{type:'custom', value:function(condtion, inputData, trial){
+                    conditions: [{type:'custom', value:function(){
                             var DScoreObj = scorer.computeD();
 					        piCurrent.feedback = DScoreObj.FBMsg;
                             piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
