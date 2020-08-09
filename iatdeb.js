@@ -164,7 +164,6 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			
 			finalText : 'Press space to continue to the next task', 
             finalTouchText : 'Touch the bottom green area to continue to the next task',
-            debriefing: "no update",
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
@@ -479,17 +478,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		API.addSettings('base_url',piCurrent.base_url);
 		API.addSettings('hooks',{
 				endTask: function(){
-					//console.log('compute score');
-					var DScoreObj = scorer.computeD();
-					piCurrent.feedback = DScoreObj.FBMsg;
-                    piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-                    piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
-                    //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
-                    console.log("DEBRIEFING");
-                    console.log(piCurrent.debriefing);
-					//YBYB: API.save will not work in qualtrics
-					//API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
-					//Perhaps we need to add this to support Qualtrics
+					
 					window.minnoJS.onEnd();
 				}
 			});
@@ -1262,22 +1251,22 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         trialSequence.push({
             interactions: [
                 // display instructions
-                {
-                    conditions: [{type:'begin'}],
-                    actions: [
-                        {type:'showStim',handle:'All'}
-                    ]
-                },
+                // {
+                //     conditions: [{type:'begin'}],
+                //     actions: [
+                //         {type:'showStim',handle:'All'}
+                //     ]
+                // },
                 // space hit, end trial soon
                 {
                     conditions: [{type:'custom', value:function(condtion, inputData, trial){
                             var DScoreObj = scorer.computeD();
 					        piCurrent.feedback = DScoreObj.FBMsg;
                             piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-                            piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
+                            //piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
                         //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
                             console.log("DEBRIEFING");
-                            console.log(piCurrent.debriefing);
+                           // console.log(piCurrent.debriefing);
                             // do your mojo here and return true or false
                         }}
                     ],
@@ -1289,20 +1278,20 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                     stimuli : [
                         {
                             inherit : 'Default',
-                            media : {word : piCurrent.debriefing}
+                            media : {word : piCurrent.feedback}
                             
                         }]
                 }
             ],
-            data: {blockStart:true},
-			layout : [{media:{word:''}}],
-			stimuli : [
-				{
-					inherit : 'Default',
-                    media : {word : piCurrent.debriefing}
+            // data: {blockStart:true},
+			// layout : [{media:{word:''}}],
+			// stimuli : [
+			// 	{
+			// 		inherit : 'Default',
+            //         media : {word : piCurrent.debriefing}
                     
-				}
-			]
+			// 	}
+			// ]
         });
             
 
