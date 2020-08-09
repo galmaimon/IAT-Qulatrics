@@ -611,7 +611,52 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			}
         ]);
         
+        API.addTrialSets('debrieffing', [
+			// generic instructions trial, to be inherited by all other inroduction trials
+			{
+				// set block as generic so we can inherit it later
+				data: {blockStart:true, condition:'debriefing', score:0, block:0},
 
+				// create user interface (just click to move on...)
+				input: [
+					proceedInput
+				],
+
+				interactions: [
+					// display instructions
+					{
+						conditions: [{type:'begin'}],
+						actions: [
+							{type:'showStim',handle:'All'}
+						]
+					},
+					// space hit, end trial soon
+					{
+                        conditions: [{type:'custom', value:function(){
+                            var DScoreObj = scorer.computeD();
+					        piCurrent.feedback = DScoreObj.FBMsg;
+                            piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
+                            //piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
+                        //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
+                            console.log("DEBRIEFING");
+                           // console.log(piCurrent.debriefing);
+                            // do your mojo here and return true or false
+                        }}
+                    ],					
+                    	actions: [
+							{type:'hideStim', handle:'All'},
+							{type:'removeInput', handle:'space'},
+							{type:'log'},
+							{type:'trigger', handle:'endTrial', duration:500}
+						]
+					},
+					{
+						conditions: [{type:'inputEquals',value:'endTrial'}],
+						actions: [{type:'endTrial'}]
+					}
+				]
+			}
+        ]);
 		/**
 		 * All basic trials.
 		 */
@@ -1249,51 +1294,61 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         ////////////////////////////
         //debrefing
         trialSequence.push({
-            interactions: [
-                // display instructions
-                 {
-                     conditions: [{type:'begin'}],
-                     actions: [{type:'showStim',handle:'targetStim'}]
+            inherit : 'debriefing',
+			data: {blockStart:true},
+			layout : [{media:{word:''}}],
+			stimuli : [
+				{
+					inherit : 'Default',
+					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.feedback)}
+				}
+			]
+        });
+        //     interactions: [
+        //         // display instructions
+        //          {
+        //              conditions: [{type:'begin'}],
+        //              actions: [{type:'showStim',handle:'targetStim'}]
 
                      
-                 },
-                // space hit, end trial soon
-                {
-                    conditions: [{type:'custom', value:function(){
-                            var DScoreObj = scorer.computeD();
-					        piCurrent.feedback = DScoreObj.FBMsg;
-                            piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-                            //piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
-                        //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
-                            console.log("DEBRIEFING");
-                           // console.log(piCurrent.debriefing);
-                            // do your mojo here and return true or false
-                        }}
-                    ],
-                    actions:[{type:'trigger',handle:'now'}]
-                },
-                {
-                    conditions: [{type:'inputEquals',value:'endTrial'}],
-                    actions: [{type:'endTrial'}],
+        //          },
+        //         // space hit, end trial soon
+        //         {
+        //             conditions: [{type:'custom', value:function(){
+        //                     var DScoreObj = scorer.computeD();
+		// 			        piCurrent.feedback = DScoreObj.FBMsg;
+        //                     piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
+        //                     //piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
+        //                 //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
+        //                     console.log("DEBRIEFING");
+        //                    // console.log(piCurrent.debriefing);
+        //                     // do your mojo here and return true or false
+        //                 }}
+        //             ],
+        //             actions:[{type:'trigger',handle:'now'}]
+        //         },
+        //         {
+        //             conditions: [{type:'inputEquals',value:'endTrial'}],
+        //             actions: [{type:'endTrial'}],
                     
-                }
-            ],
-            stimuli : [
-                {
-                    inherit : 'Default',
-                    media : {word : "debriefing"}
+        //         }
+        //     ],
+        //     stimuli : [
+        //         {
+        //             inherit : 'Default',
+        //             media : {word : "debriefing"}
                     
-                }]
-            // data: {blockStart:true},
-			// layout : [{media:{word:''}}],
-			// stimuli : [
-			// 	{
-			// 		inherit : 'Default',
-            //         media : {word : piCurrent.debriefing}
+        //         }]
+        //     // data: {blockStart:true},
+		// 	// layout : [{media:{word:''}}],
+		// 	// stimuli : [
+		// 	// 	{
+		// 	// 		inherit : 'Default',
+        //     //         media : {word : piCurrent.debriefing}
                     
-			// 	}
-			// ]
-        });
+		// 	// 	}
+		// 	// ]
+        // });
             
 
 		//Add the trials sequence to the API.
