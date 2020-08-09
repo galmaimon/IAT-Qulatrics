@@ -2,7 +2,7 @@
 define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) {
 
 	/**
-	Created by: Yoav Bar-Anan (baranan@gmail.com). Modified by Elad
+	Created by: Yoav Bar-Anan (baranan@gmail.com). Modified by Gal
 	 * @param  {Object} options Options that replace the defaults...
 	 * @return {Object}         PIP script
 	**/
@@ -11,15 +11,20 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 	{
 		var API = new APIConstructor();		
 		var scorer = new Scorer();
-		var piCurrent = API.getCurrent();
-		var el = document.documentElement;
-		var rfs = el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-		if (rfs) rfs.call(el);
-		else if(window.ActiveXObject){
-    // for Internet Explorer
-    	var wscript = new window.ActiveXObject('WScript.Shell');
-    	if (wscript!=null) wscript.SendKeys('{F11}');
-}
+        var piCurrent = API.getCurrent();
+        // fullscreen mode is false, if full-screen is wanted change fullscreen value to be true
+        // changing fullscreen value to be true will make the task fullscreen after the first question in Qualtrics, which mean that the trials will begin in full screen
+        var fullScreen=false;
+        if(fullscreen){
+            var el = document.documentElement;
+		    var rfs = el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+		    if (rfs) rfs.call(el);
+		    else if(window.ActiveXObject){
+        // for Internet Explorer
+    	    var wscript = new window.ActiveXObject('WScript.Shell');
+    	    if (wscript!=null) wscript.SendKeys('{F11}');
+            }
+        }
 		
 		//Here we set the settings of our task. 
 		//Read the comments to learn what each parameters means.
