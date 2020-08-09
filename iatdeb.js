@@ -1280,7 +1280,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                             console.log(piCurrent.debriefing);
                             // do your mojo here and return true or false
                         }}
-                    ]
+                    ],
+                    actions:[{type: 'showStim'}]
                 },
                 {
                     conditions: [{type:'inputEquals',value:'endTrial'}],
