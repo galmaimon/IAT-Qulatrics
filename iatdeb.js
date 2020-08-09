@@ -1281,7 +1281,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             stimuli : [
                 {
                     inherit : 'Default',
-                    media : {word : piCurrent.feedback}
+                    media : {word : "debriefing"}
                     
                 }]
             // data: {blockStart:true},
