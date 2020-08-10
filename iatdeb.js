@@ -1303,36 +1303,43 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
 				interactions: [
 					// display instructions
-					{
-						conditions: [{type:'begin'}],
-						actions: [
-							{type:'showStim',handle:'All'}
-						]
-					},
+			                        {//If no fixation duration, then start with the prime
+                            conditions: [{type:'begin'}],
+                            actions: [
+                                {type:'custom',fn:function(options,eventData)
+                                    {
+                                        var DScoreObj = scorer.computeD();
+					                    piCurrent.feedback = DScoreObj.FBMsg;
+                                        piCurrent.d = DScoreObj.DScore;
+                                    }
+                                },
+                                
+                            ]
+                        },
 					// space hit, end trial soon
-					{
-                        conditions: [{type:'custom', value:function(){
-                            var DScoreObj = scorer.computeD();
-					        piCurrent.feedback = DScoreObj.FBMsg;
-                            piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-                            //piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
-                        //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
-                            console.log("DEBRIEFING");
-                           // console.log(piCurrent.debriefing);
-                            // do your mojo here and return true or false
-                        }}
-                    ],					
-                    	actions: [
-							{type:'hideStim', handle:'All'},
-							{type:'removeInput', handle:'space'},
-							{type:'log'},
-							{type:'trigger', handle:'endTrial', duration:500}
-						]
-					},
-					{
-						conditions: [{type:'inputEquals',value:'endTrial'}],
-						actions: [{type:'endTrial'}]
-					}
+					// {
+                    //     conditions: [{type:'custom', value:function(){
+                    //         var DScoreObj = scorer.computeD();
+					//         piCurrent.feedback = DScoreObj.FBMsg;
+                    //         piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
+                    //         //piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
+                    //     //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
+                    //         console.log("DEBRIEFING");
+                    //        // console.log(piCurrent.debriefing);
+                    //         // do your mojo here and return true or false
+                    //     }}
+                    // ],					
+                    // 	actions: [
+					// 		{type:'hideStim', handle:'All'},
+					// 		{type:'removeInput', handle:'space'},
+					// 		{type:'log'},
+					// 		{type:'trigger', handle:'endTrial', duration:500}
+					// 	]
+					// },
+					// {
+					// 	conditions: [{type:'inputEquals',value:'endTrial'}],
+					// 	actions: [{type:'endTrial'}]
+					// }
 				],
 			layout : [{media:{word:''}}],
 			stimuli : [
