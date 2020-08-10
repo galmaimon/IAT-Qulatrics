@@ -1312,7 +1312,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         trialSequence.push({
     
                 input: [{handle:'space',on:'space'}],
-                layout: [{media :{word:scorer.computeD().FBMsg}}],
+                layout: [{media :{word: scorer.computeD()}}],
                 interactions: [{
                     conditions: [{type:'inputEquals',value:'space'}],
                     actions: [
