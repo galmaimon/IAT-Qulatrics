@@ -1294,10 +1294,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         //debrefing
         trialSequence.push({
                 stimuli: [{data:{handle:'myStim'},media :{word:''+piCurrent.feedback+''}}],
-                input: [{handle:'space',on:'space'}],
+                //input: [{handle:'space',on:'space'}],
                 layout: [{media :{word:'calculating you result - press enter to continue'}}],
                 interactions: [{
-                    conditions: [{type:'inputEquals',value:'space'}],
+                    conditions: [{type:'begin'}],
                     actions: [{type:'custom',fn:function(options,eventData)
                     {
                         var DScoreObj = scorer.computeD();
@@ -1309,19 +1309,18 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
 
                     }},
-                    {type: 'showStim', handle:'myStim'},
-                    {type:'endTrial'}],
-                }
-
+                    {type: 'showStim', handle:'myStim'}
+                    //{type:'endTrial'}],
+                
             
             ]
-            // stimuli : [
-			// 	{
-			// 		inherit : 'Default',
-			// 		media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.feedback)}
-			// 	}
-			// ]
-        });
+        },
+        {
+            conditions: [{type:'inputEquals',value:'endTrial'}],
+            actions: [{type:'endTrial'}]
+        }
+    ]});
+           
         // trialSequence.push({
     
         //         input: [{handle:'space',on:'space'}],
