@@ -1300,7 +1300,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                     conditions: [{type:'inputEquals',value:'space'}],
                     actions: [{type:'endTrial'}]
                 }]});
-    trialSequence.push({
+        trialSequence.push({
     
                 input: [{handle:'space',on:'space'}],
                 layout: [{media :{word:'calculating your result:'}}],
@@ -1312,17 +1312,16 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                              var DScoreObj = scorer.computeD();
                              piCurrent.feedback = DScoreObj.FBMsg;
                              piCurrent.d = DScoreObj.DScore;
-                             console.log(piCurrent.feedback)
+                             console.log(piCurrent.feedback);
                          }
                      },
                      
                  ]
                 }],
             });
-            trialSequence.push({
-            
+        trialSequence.push({
                 input: [{handle:'space',on:'space'}],
-                layout: [{media :{word:DScoreObj.FBMsg}}],
+                layout: [{media :{word: DScoreObj.FBMsg}}],
                 interactions: [{
                     conditions: [{type:'inputEquals',value:'space'}],
                     actions: [{type:'endTrial'}]
