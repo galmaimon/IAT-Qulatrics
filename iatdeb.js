@@ -163,7 +163,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			instWidth : 99, //The width of the instructions stimulus
 			
 			finalText : 'Press space to continue to the next task', 
-			finalTouchText : 'Touch the bottom green area to continue to the next task',
+            finalTouchText : 'Touch the bottom green area to continue to the next task',
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
@@ -282,8 +282,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' +
 				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
 				'<b>Watch out, the labels have changed position!</b><br/>' +
-				'Use the left finger on the <b>E</b> key for <font color="#336600">leftCategory</font>.<br/>' +
-				'Use the right finger on the <b>I</b> key for <font color="#336600">rightCategory</font>.<br/><br/>' +
+				'Put the left finger on the <b>E</b> key for <font color="#336600">leftCategory</font>.<br/>' +
+				'Put the right finger on the <b>I</b> key for <font color="#336600">rightCategory</font>.<br/><br/>' +
 				'<u>Go as fast as you can</u> while being accurate.<br/><br/></p>' +
 				'<p align="center">Press the <b>space bar</b> when you are ready to start.</font></p></div>',
 			instSwitchCategoriesTouch: [
@@ -302,8 +302,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 						'</p>',
 						'<p align="center">Touch the <b>lower </b> green area to start.</p>',
 				'</div>'
-			].join('\n'),
-
+            ].join('\n'),
+            
 			instThirdCombined : 'instFirstCombined', //this means that we're going to use the instFirstCombined property for the third combined block as well. You can change that.
 			instFourthCombined : 'instSecondCombined', //this means that we're going to use the instSecondCombined property for the fourth combined block as well. You can change that.
 			instThirdCombinedTouch : 'instFirstCombined', //this means that we're going to use the instFirstCombined property for the third combined block as well. You can change that.
@@ -334,8 +334,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         API.addSettings('onEnd', window.minnoJS.onEnd);
 
 		//For debugging the logger
-		//window.minnoJS.logger = console.log;
-		//window.minnoJS.onEnd = console.log;
+		window.minnoJS.logger = console.log;
+		window.minnoJS.onEnd = console.log;
 		
         API.addSettings('logger', {
             // gather logs in array
@@ -351,21 +351,21 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             // we save as CSV because qualtrics limits to 20K characters and this is more efficient.
             serialize: function (name, logs) {
                 var headers = ['block', 'trial', 'cond', 'comp', 'type', 'cat',  'stim', 'resp', 'err', 'rt', 'd', 'fb', 'bOrd'];
-                console.log(logs);
+                //console.log(logs);
                 var myLogs = [];
                 var iLog;
                 for (iLog = 0; iLog < logs.length; iLog++)
                 {
                     if(!hasProperties(logs[iLog], ['trial_id', 'name', 'responseHandle', 'stimuli', 'media', 'latency'])){
-                        console.log('---MISSING PROPERTIY---');
-                        console.log(logs[iLog]);
-                        console.log('---MISSING PROPERTIY---');
+                        //console.log('---MISSING PROPERTIY---');
+                        //console.log(logs[iLog]);
+                        //console.log('---MISSING PROPERTIY---');
                     }
-                    else if(!hasProperties(logs[iLog].data, ['block', 'condition', 'score']))
+                    else if(!hasProperties(logs[iLog].data, ['block', 'condition', 'score', 'cong']))
                     {
-                        console.log('---MISSING data PROPERTIY---');
-                        console.log(logs[iLog].data);
-                        console.log('---MISSING data PROPERTIY---');
+                        //console.log('---MISSING data PROPERTIY---');
+                        //console.log(logs[iLog].data);
+                        //console.log('---MISSING data PROPERTIY---');
                     }
                     else
                     {
@@ -377,6 +377,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         log.data.block, //'block'
                         log.trial_id, //'trial'
                         log.data.condition, //'cond'
+                        log.data.cong, //'comp'
                         log.name, //'type'
                         log.stimuli[0], //'cat'
                         log.media[0], //'stim'
@@ -439,7 +440,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		// are we on the touch version
 		var isTouch = piCurrent.isTouch;
 
-		//We use these objects a lot, so let's read them here
+        //We use these objects a lot, so let's read them here
 		var att1 = piCurrent.attribute1;
 		var att2 = piCurrent.attribute2;
 		var cat1 = piCurrent.category1;
@@ -474,7 +475,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		*/
 		API.addSettings('canvas',piCurrent.canvas);
 		API.addSettings('base_url',piCurrent.base_url);
-		
+		API.addSettings('hooks',{
+				endTask: function(){
+					
+					window.minnoJS.onEnd();
+				}
+			});
 		/**
 		 * Create default sorting trial
 		 */
@@ -602,8 +608,54 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					}
 				]
 			}
-		]);
+        ]);
+        
+        // API.addTrialSets('debrieffing', [
+		// 	// generic instructions trial, to be inherited by all other inroduction trials
+		// 	{
+		// 		// set block as generic so we can inherit it later
+		// 		data: {blockStart:true},
 
+		// 		// create user interface (just click to move on...)
+		// 		// input: [
+		// 		// 	proceedInput
+		// 		// ],
+
+		// 		interactions: [
+		// 			// display instructions
+		// 			{
+		// 				conditions: [{type:'begin'}],
+		// 				actions: [
+		// 					{type:'showStim',handle:'All'}
+		// 				]
+		// 			},
+		// 			// space hit, end trial soon
+		// 			{
+        //                 conditions: [{type:'custom', value:function(){
+        //                     var DScoreObj = scorer.computeD();
+		// 			        piCurrent.feedback = DScoreObj.FBMsg;
+        //                     piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
+        //                     //piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
+        //                 //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
+        //                     console.log("DEBRIEFING");
+        //                    // console.log(piCurrent.debriefing);
+        //                     // do your mojo here and return true or false
+        //                 }}
+        //             ],					
+        //             	actions: [
+		// 					{type:'hideStim', handle:'All'},
+		// 					{type:'removeInput', handle:'space'},
+		// 					{type:'log'},
+		// 					{type:'trigger', handle:'endTrial', duration:500}
+		// 				]
+		// 			},
+		// 			{
+		// 				conditions: [{type:'inputEquals',value:'endTrial'}],
+		// 				actions: [{type:'endTrial'}]
+		// 			}
+		// 		]
+		// 	}
+        // ]);
 		/**
 		 * All basic trials.
 		 */
@@ -1236,7 +1288,62 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
 				}
 			]
-		});
+        });
+       
+        ////////////////////////////
+        //debrefing
+        trialSequence.push({
+            				// set block as generic so we can inherit it later
+				data: {blockStart:true},
+
+				// create user interface (just click to move on...)
+				// input: [
+				// 	proceedInput
+				// ],
+
+				interactions: [
+					// display instructions
+					{
+						conditions: [{type:'begin'}],
+						actions: [
+							{type:'showStim',handle:'All'}
+						]
+					},
+					// space hit, end trial soon
+					{
+                        conditions: [{type:'custom', value:function(){
+                            var DScoreObj = scorer.computeD();
+					        piCurrent.feedback = DScoreObj.FBMsg;
+                            piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
+                            //piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
+                        //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
+                            console.log("DEBRIEFING");
+                           // console.log(piCurrent.debriefing);
+                            // do your mojo here and return true or false
+                        }}
+                    ],					
+                    	actions: [
+							{type:'hideStim', handle:'All'},
+							{type:'removeInput', handle:'space'},
+							{type:'log'},
+							{type:'trigger', handle:'endTrial', duration:500}
+						]
+					},
+					{
+						conditions: [{type:'inputEquals',value:'endTrial'}],
+						actions: [{type:'endTrial'}]
+					}
+				],
+			layout : [{media:{word:''}}],
+			stimuli : [
+				{
+					inherit : 'Default',
+					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.feedback)}
+				}
+			]
+        });
+        
+            
 
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
@@ -1298,20 +1405,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		}
 		//Set messages to the scorer.
         scorer.addSettings('message',scoreMessageObject);
-        API.addSettings('hooks',{
-            endTask: function(){
-                //console.log('compute score');
-                var DScoreObj = scorer.computeD();
-                piCurrent.feedback = DScoreObj.FBMsg;
-                piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-                //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
-                //YBYB: API.save will not work in qualtrics
-                //API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
-                //Perhaps we need to add this to support Qualtrics
-                window.minnoJS.onEnd();
-            }
-        });
-
+        
 		return API.script;
 	}
 

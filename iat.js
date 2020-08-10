@@ -351,21 +351,21 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             // we save as CSV because qualtrics limits to 20K characters and this is more efficient.
             serialize: function (name, logs) {
                 var headers = ['block', 'trial', 'cond', 'comp', 'type', 'cat',  'stim', 'resp', 'err', 'rt', 'd', 'fb', 'bOrd'];
-                console.log(logs);
+                //console.log(logs);
                 var myLogs = [];
                 var iLog;
                 for (iLog = 0; iLog < logs.length; iLog++)
                 {
                     if(!hasProperties(logs[iLog], ['trial_id', 'name', 'responseHandle', 'stimuli', 'media', 'latency'])){
-                        console.log('---MISSING PROPERTIY---');
-                        console.log(logs[iLog]);
-                        console.log('---MISSING PROPERTIY---');
+                        //console.log('---MISSING PROPERTIY---');
+                        //console.log(logs[iLog]);
+                        //console.log('---MISSING PROPERTIY---');
                     }
-                    else if(!hasProperties(logs[iLog].data, ['block', 'condition', 'score']))
+                    else if(!hasProperties(logs[iLog].data, ['block', 'condition', 'score', 'cong']))
                     {
-                        console.log('---MISSING data PROPERTIY---');
-                        console.log(logs[iLog].data);
-                        console.log('---MISSING data PROPERTIY---');
+                        //console.log('---MISSING data PROPERTIY---');
+                        //console.log(logs[iLog].data);
+                        //console.log('---MISSING data PROPERTIY---');
                     }
                     else
                     {
@@ -377,6 +377,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         log.data.block, //'block'
                         log.trial_id, //'trial'
                         log.data.condition, //'cond'
+                        log.data.cong, //'comp'
                         log.name, //'type'
                         log.stimuli[0], //'cat'
                         log.media[0], //'stim'

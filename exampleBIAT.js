@@ -50,40 +50,48 @@ define(['pipAPI', 'https://galmaimon.github.io/BIAT.js'], function(APIConstructo
 			},
 			categories : [  //As many categories you need.
 				{
-					name : 'category1', //Will appear in the data.
+					name : 'Black People', //Will appear in the data.
 					title : {
-						media : {word : 'Category1'}, //Name of the category presented in the task.
+						media : {word : 'Black People'}, //Name of the category presented in the task.
 						css : {color:'#31b404','font-size':'1.8em'}, //Style of the category title.
 						height : 4, //Height (because we need to know where to put the next item in the title)
 						startStimulus : { 
 						//If you're using a startStimulus, set here. If not, set the parameter showStimuliWithInst to false (see later below)
-							media : {word : 'cat1A, cat1B'}, 
+						media : {image : 'blacks.jpg'}, 
 							css : {color:'#31b404','font-size':'1em'}, 
 							height : 2
 						}
 					}, 
 					stimulusMedia : [ //Stimuli content as PIP's media objects
-						{word : 'cat1A'}, 
-						{word : 'cat1B'}
+					{image : 'black1.jpg'}, 
+        			{image : 'black2.jpg'}, 
+        			{image : 'black3.jpg'}, 
+        			{image : 'black4.jpg'}, 
+        			{image : 'black5.jpg'}, 
+        			{image : 'black6.jpg'}
 					], 
 					//Stimulus css (style of the stimuli)
 					stimulusCss : {color:'#31b404','font-size':'2em'}
 				},	
 				{
-					name : 'category2', 
+					name : 'White people', 
 					title : {
-						media : {word : 'Category2'}, 
+						media : {word : 'White people'}, 
 						css : {color:'#31b404','font-size':'1.8em'}, 
 						height : 4,
 						startStimulus : {
-							media : {word : 'cat2A, cat2B'}, 
+							media : {image : 'whites.jpg'},  
 							css : {color:'#31b404','font-size':'1em'}, 
 							height : 2
 						}
 					}, 
 					stimulusMedia : [ //Stimuli content as PIP's media objects
-						{word : 'cat2A'}, 
-						{word : 'cat2B'}
+					{image : 'yf1.jpg'}, 
+        			{image : 'yf4.jpg'}, 
+        			{image : 'yf5.jpg'}, 
+        			{image : 'ym2.jpg'}, 
+        			{image : 'ym3.jpg'}, 
+        			{image : 'ym5.jpg'}
 					], 
 					//Stimulus css
 					stimulusCss : {color:'#31b404','font-size':'2em'}
@@ -91,6 +99,7 @@ define(['pipAPI', 'https://galmaimon.github.io/BIAT.js'], function(APIConstructo
 			],
 			base_url : {//Where are your images at?
 				image : 'https://baranan.github.io/minno-tasks/images/'
+				
 			} 
 	});
 });
