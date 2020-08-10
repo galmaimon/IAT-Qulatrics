@@ -1303,7 +1303,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
     trialSequence.push({
     
                 input: [{handle:'space',on:'space'}],
-                layout: [{media :{word:'your result:'+piCurrent.feedback}}],
+                layout: [{media :{word:'calculating your result:'}}],
                 interactions: [{
                     conditions: [{type:'inputEquals',value:'space'}],
                     actions: [
@@ -1319,6 +1319,14 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                  ]
                 }],
             });
+            trialSequence.push({
+            
+                input: [{handle:'space',on:'space'}],
+                layout: [{media :{word:DScoreObj.FBMsg}}],
+                interactions: [{
+                    conditions: [{type:'inputEquals',value:'space'}],
+                    actions: [{type:'endTrial'}]
+                }]});
         
             
 		//Add the trials sequence to the API.
