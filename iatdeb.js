@@ -1298,12 +1298,21 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 layout: [{media :{word:'calculating you result'}}],
                 interactions: [{
                     conditions: [{type:'inputEquals',value:'space'}],
-                    actions: [{type:'endTrial'}]
+                    actions: [{type:'custom',fn:function(options,eventData)
+                    {
+                        var DScoreObj = scorer.computeD();
+                        piCurrent.feedback = DScoreObj.FBMsg;
+                        piCurrent.d = DScoreObj.DScore;
+                        console.log(piCurrent.feedback);
+                        //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
+
+                    }},
+                    {type:'endTrial'}]
                 }]});
         trialSequence.push({
     
                 input: [{handle:'space',on:'space'}],
-                layout: [{media :{word:'calculating your result:'}}],
+                layout: [{media :{word:'score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback}}],
                 interactions: [{
                     conditions: [{type:'inputEquals',value:'space'}],
                     actions: [
@@ -1313,7 +1322,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                              piCurrent.feedback = DScoreObj.FBMsg;
                              piCurrent.d = DScoreObj.DScore;
                              console.log(piCurrent.feedback);
-                             media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
+                             //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
 
                          }
                         }
