@@ -1307,25 +1307,35 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
 
                     }},
-                    {type:'endTrial'}]
-                }]});
-        trialSequence.push({
-    
-                input: [{handle:'space',on:'space'}],
-                layout: [{media :{word: scorer.computeD()}}],
-                interactions: [{
-                    conditions: [{type:'inputEquals',value:'space'}],
-                    actions: [
-                        {type:'custom',fn:function(options,eventData)
-                         {
-                             var DScoreObj = scorer.computeD();
-                             piCurrent.feedback = DScoreObj.FBMsg;
-                             piCurrent.d = DScoreObj.DScore;
-                             console.log(piCurrent.feedback);
-                             //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
+                    {type:'endTrial'}],
+                }
 
-                         }
-                        }
+            
+            ],
+            stimuli : [
+				{
+					inherit : 'Default',
+					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.feedback)}
+				}
+			]
+        });
+        // trialSequence.push({
+    
+        //         input: [{handle:'space',on:'space'}],
+        //         layout: [{media :{word: piCurrent.feedback}}],
+        //         interactions: [{
+        //             conditions: [{type:'inputEquals',value:'space'}],
+        //             actions: [
+        //                 {type:'custom',fn:function(options,eventData)
+        //                  {
+        //                      var DScoreObj = scorer.computeD();
+        //                      piCurrent.feedback = DScoreObj.FBMsg;
+        //                      piCurrent.d = DScoreObj.DScore;
+        //                      console.log(piCurrent.feedback);
+        //                      //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
+
+        //                  }
+        //                 }
 
 
                     //  },
@@ -1334,9 +1344,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
                     //     {type:'message',value: DScoreObj.FBMsg}
                      
-                 ]
-                }],
-            });
+            //      ]
+            //     }],
+            // });
 
         
             
