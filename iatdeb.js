@@ -1293,65 +1293,34 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         ////////////////////////////
         //debrefing
         trialSequence.push({
-            				// set block as generic so we can inherit it later
-				data: {blockStart:true},
-
-				// create user interface (just click to move on...)
-				// input: [
-				// 	proceedInput
-				// ],
-
-				interactions: [
-					// display instructions
-			                        {//If no fixation duration, then start with the prime
-                            conditions: [{type:'begin'}],
-                            actions: [
-                                {type:'custom',fn:function(options,eventData)
-                                    {
-                                        var DScoreObj = scorer.computeD();
-					                    piCurrent.feedback = DScoreObj.FBMsg;
-                                        piCurrent.d = DScoreObj.DScore;
-                                    }
-                                },
-                                
-                            ]
-                        },
-					// space hit, end trial soon
-					// {
-                    //     conditions: [{type:'custom', value:function(){
-                    //         var DScoreObj = scorer.computeD();
-					//         piCurrent.feedback = DScoreObj.FBMsg;
-                    //         piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-                    //         //piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
-                    //     //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
-                    //         console.log("DEBRIEFING");
-                    //        // console.log(piCurrent.debriefing);
-                    //         // do your mojo here and return true or false
-                    //     }}
-                    // ],					
-                    // 	actions: [
-					// 		{type:'hideStim', handle:'All'},
-					// 		{type:'removeInput', handle:'space'},
-					// 		{type:'log'},
-					// 		{type:'trigger', handle:'endTrial', duration:500}
-					// 	]
-					// },
-					// {
-					// 	conditions: [{type:'inputEquals',value:'endTrial'}],
-					// 	actions: [{type:'endTrial'}]
-					// }
-				],
-			layout : [{media:{word:''}}],
-			stimuli : [
-				{
-					inherit : 'Default',
-					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.feedback)}
-				}
-			]
-        });
+            
+                input: [{handle:'space',on:'space'}],
+                layout: [{media :{word:'calculating you result'}}],
+                interactions: [{
+                    conditions: [{type:'inputEquals',value:'space'}],
+                    actions: [{type:'endTrial'}]
+                }]});
+    trialSequence.push({
+    
+                input: [{handle:'space',on:'space'}],
+                layout: [{media :{word:'your result:'+piCurrent.feedback}}],
+                interactions: [{
+                    conditions: [{type:'inputEquals',value:'space'}],
+                    actions: [
+                        {type:'custom',fn:function(options,eventData)
+                         {
+                             var DScoreObj = scorer.computeD();
+                             piCurrent.feedback = DScoreObj.FBMsg;
+                             piCurrent.d = DScoreObj.DScore;
+                             console.log(piCurrent.feedback)
+                         }
+                     },
+                     
+                 ]
+                }],
+            });
         
             
-
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
 
