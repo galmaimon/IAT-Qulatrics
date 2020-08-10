@@ -1294,8 +1294,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         //debrefing
         trialSequence.push({
             
-                input: [{handle:'',on:''}],
-                layout: [{media :{word:'calculating you result'}}],
+                input: [{handle:'space',on:'space'}],
+                layout: [{media :{word:'calculating you result - press enter to continue'}}],
                 interactions: [{
                     conditions: [{type:'inputEquals',value:'space'}],
                     actions: [{type:'custom',fn:function(options,eventData)
@@ -1311,8 +1311,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 }]});
         trialSequence.push({
     
-                input: [{handle:'',on:''}],
-                layout: [{media :{word:'score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback}}],
+                input: [{handle:'space',on:'space'}],
+                layout: [{media :{word:scorer.computeD().FBMsg}}],
                 interactions: [{
                     conditions: [{type:'inputEquals',value:'space'}],
                     actions: [
