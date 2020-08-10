@@ -1315,17 +1315,15 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                              console.log(piCurrent.feedback);
                          }
                      },
+                    
+                        {type:'message',value: piCurrent.feedback},
+
+                        {type:'message',value: DScoreObj.FBMsg}
                      
                  ]
                 }],
             });
-        trialSequence.push({
-                input: [{handle:'space',on:'space'}],
-                layout: [{media :{word: DScoreObj.FBMsg}}],
-                interactions: [{
-                    conditions: [{type:'inputEquals',value:'space'}],
-                    actions: [{type:'endTrial'}]
-                }]});
+
         
             
 		//Add the trials sequence to the API.
