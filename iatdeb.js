@@ -1293,7 +1293,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         ////////////////////////////
         //debrefing
         trialSequence.push({
-                stimuli: [{data:{handle:'myStim'},media :{word:piCurrent.feedback}}],
+                stimuli: [{data:{handle:'myStim'},media :{word:''+piCurrent.feedback+''}}],
                 input: [{handle:'space',on:'space'}],
                 layout: [{media :{word:'calculating you result - press enter to continue'}}],
                 interactions: [{
