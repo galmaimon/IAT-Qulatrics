@@ -1314,11 +1314,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                              piCurrent.d = DScoreObj.DScore;
                              console.log(piCurrent.feedback);
                          }
-                     },
+                        }
+                    //  },
                     
-                        {type:'message',value: piCurrent.feedback},
+                    //     {type:'message',value: piCurrent.feedback},
 
-                        {type:'message',value: DScoreObj.FBMsg}
+                    //     {type:'message',value: DScoreObj.FBMsg}
                      
                  ]
                 }],
