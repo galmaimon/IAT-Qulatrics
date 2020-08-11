@@ -1291,11 +1291,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         });
        
         ////////////////////////////
+
         //debrefing
         trialSequence.push({
-                stimuli: [{data:{handle:'myStim'},media :{word:''+piCurrent.feedback+''}}],
+                stimuli: [{data:{handle:'myStim'},media :{word: '<%=piCurrent.feedback%>'}}],
                 //input: [{handle:'space',on:'space'}],
-                layout: [{media :{word:'-'}}],
+                layout: [{media :{word: '<%=piCurrent.feedback%>'}}],
                 interactions: [{
                     conditions: [{type:'begin'}],
                     actions: [{type:'custom',fn:function(options,eventData)
