@@ -1294,7 +1294,17 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
         //debrefing
         trialSequence.push({
-            stimuli: [{data:{handle:'feedbackstim'},media :{word: ''+globalObj.feedback+''}}],
+            stimuli: [{data:{handle:'feedbackstim'},
+            customize : function(globalObj){
+
+               var DScoreObj = scorer.computeD();
+                piCurrent.feedback = DScoreObj.FBMsg;
+                piCurrent.d = DScoreObj.DScore;
+                console.log(globalObj.feedback);
+
+            },
+            
+            media :{word: ''+piCurrent.feedback+''}}],
                 //input: [{handle:'space',on:'space'}],
                 layout: [{media :{word: 'nn'}}],
                 interactions: [{
