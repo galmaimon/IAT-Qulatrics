@@ -1304,7 +1304,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         var DScoreObj = scorer.computeD();
                         piCurrent.feedback = DScoreObj.FBMsg;
                         piCurrent.d = DScoreObj.DScore;
-                        console.log(piCurrent.feedback);
+                        console.log(globalObj.feedback);
 
                         
                         //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
