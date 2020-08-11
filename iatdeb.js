@@ -164,6 +164,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			
 			finalText : 'Press space to continue to the next task', 
             finalTouchText : 'Touch the bottom green area to continue to the next task',
+            feedback:'',
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
@@ -476,19 +477,11 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		API.addSettings('canvas',piCurrent.canvas);
 		API.addSettings('base_url',piCurrent.base_url);
 		API.addSettings('hooks',{
-			
-            endTask: function(){
-                //console.log('compute score');
-                var DScoreObj = scorer.computeD();
-                piCurrent.feedback = DScoreObj.FBMsg;
-                piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-                //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
-                //YBYB: API.save will not work in qualtrics
-                //API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
-                //Perhaps we need to add this to support Qualtrics
-                window.minnoJS.onEnd();
-            },
-        });
+				endTask: function(){
+					
+					window.minnoJS.onEnd();
+				}
+			});
 		/**
 		 * Create default sorting trial
 		 */
@@ -1301,36 +1294,36 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         ////////////////////////////
 
         //debrefing
-//         trialSequence.push({
-//             stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=piCurrent.feedback%>'}}],
-//                 //input: [{handle:'space',on:'space'}],
-//                 layout: [{media :{word: 'nn'}}],
-//                 interactions: [{
-//                     conditions: [{type:'begin'}],
-//                     actions: [{type:'custom',fn:function(options,eventData)
-//                     {  
-//                         var DScoreObj = scorer.computeD();
-//                         piCurrent.feedback = DScoreObj.FBMsg;
-//                         piCurrent.d = DScoreObj.DScore;
-//                         console.log(piCurrent.feedback);
+        trialSequence.push({
+            stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=piCurrent.feedback%>'}}],
+                //input: [{handle:'space',on:'space'}],
+                layout: [{media :{word: 'nn'}}],
+                interactions: [{
+                    conditions: [{type:'begin'}],
+                    actions: [{type:'custom',fn:function(options,eventData)
+                    {  
+                        var DScoreObj = scorer.computeD();
+                        piCurrent.feedback = DScoreObj.FBMsg;
+                        piCurrent.d = DScoreObj.DScore;
+                        console.log(piCurrent.feedback);
 
                         
-//                         //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
+                        //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
 
-//                     }},
-//                     {type: 'showStim', handle:'feedbackstim'}
-//                     //{type:'endTrial'}],
+                    }},
+                    {type: 'showStim', handle:'feedbackstim'}
+                    //{type:'endTrial'}],
                 
             
-//             ]
-//         },
-//         {
-//             conditions: [{type:'inputEquals',value:'endTrial'}],
-//             actions: [{type:'endTrial'}]
-//         }
-//     ]
+            ]
+        },
+        {
+            conditions: [{type:'inputEquals',value:'endTrial'}],
+            actions: [{type:'endTrial'}]
+        }
+    ]
 
-// });
+});
            
         // trialSequence.push({
     
@@ -1365,36 +1358,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
-        API.addSequence({
-            stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=piCurrent.feedback%>'}}],
-                //input: [{handle:'space',on:'space'}],
-                layout: [{media :{word: 'nn'}}],
-                interactions: [{
-                    conditions: [{type:'begin'}],
-                    actions: [{type:'custom',fn:function(options,eventData)
-                    {  
-                        var DScoreObj = scorer.computeD();
-                        piCurrent.feedback = DScoreObj.FBMsg;
-                        piCurrent.d = DScoreObj.DScore;
-                        console.log(piCurrent.feedback);
-
-                        
-                        //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
-
-                    }},
-                    {type: 'showStim', handle:'feedbackstim'}
-                    //{type:'endTrial'}],
-                
-            
-            ]
-        },
-        {
-            conditions: [{type:'inputEquals',value:'endTrial'}],
-            actions: [{type:'endTrial'}]
-        }
-    ]
-
-});
+        
 		/**
 		*Compute scores and feedback messages
 		**/
