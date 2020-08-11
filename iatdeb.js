@@ -1295,7 +1295,6 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
         //debrefing
         trialSequence.push({
-            stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=piCurrent.debriefing%>'}}],
                 //input: [{handle:'space',on:'space'}],
                 layout: [{media :{word: 'nn'}}],
                 interactions: [{
@@ -1323,9 +1322,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             conditions: [{type:'inputEquals',value:'endTrial'}],
             actions: [{type:'endTrial'}]
         }
-    ]
+    ],
+    stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=piCurrent.debriefing%>'}}]
 
-});
+}
+
+);
            
         // trialSequence.push({
     
