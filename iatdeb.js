@@ -1294,21 +1294,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
         //debrefing
         trialSequence.push({
-            stimuli: [{data:{handle:'feedbackstim'},
-            customize : function(globalObj){
-
-               var DScoreObj = scorer.computeD();
-                piCurrent.feedback = DScoreObj.FBMsg;
-                piCurrent.d = DScoreObj.DScore;
-                console.log(piCurrent.feedback);
-                API.addGlobal({myFlag: piCurrent.feedback});
-                var g=API.getGlobal.myFlag;
-                console.log(g);
-
-
-            },
-            
-            media :{word: ''+API.getGlobal().myFlag+''}}],
+            stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=piCurrent.feedback%>'}}],
                 //input: [{handle:'space',on:'space'}],
                 layout: [{media :{word: 'nn'}}],
                 interactions: [{
@@ -1318,16 +1304,13 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         var DScoreObj = scorer.computeD();
                         piCurrent.feedback = DScoreObj.FBMsg;
                         piCurrent.d = DScoreObj.DScore;
-                        console.log(globalObj.feedback);
-                        //API.addGlobal({myFlag: piCurrent.feedback});
-
-
+                        console.log(piCurrent.feedback);
 
                         
                         //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
 
-                    }},
-                    {type: 'showStim', handle:'feedbackstim'}
+                    }}
+                 //   {type: 'showStim', handle:'feedbackstim'}
                     //{type:'endTrial'}],
                 
             
