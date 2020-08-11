@@ -1304,13 +1304,13 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         piCurrent.feedback = DScoreObj.FBMsg;
                         piCurrent.d = DScoreObj.DScore;
                         console.log(piCurrent.feedback);
-                        stimuli: [{data:{handle:'myStim'},media :{word: '<%=piCurrent.feedback%>'}}];
+                        stimuli: [{data:{handle:'gal'},media :{word: '<%=piCurrent.feedback%>'}}];
 
                         
                         //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
 
                     }},
-                    {type: 'showStim', handle:'myStim'}
+                    {type: 'showStim', handle:'gal'}
                     //{type:'endTrial'}],
                 
             
