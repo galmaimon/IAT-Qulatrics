@@ -164,7 +164,6 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			
 			finalText : 'Press space to continue to the next task', 
             finalTouchText : 'Touch the bottom green area to continue to the next task',
-            debriefing:'null',
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
@@ -1295,6 +1294,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
         //debrefing
         trialSequence.push({
+            stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=globalObj.feedback%>'}}],
                 //input: [{handle:'space',on:'space'}],
                 layout: [{media :{word: 'nn'}}],
                 interactions: [{
@@ -1305,8 +1305,6 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         piCurrent.feedback = DScoreObj.FBMsg;
                         piCurrent.d = DScoreObj.DScore;
                         console.log(piCurrent.feedback);
-                        piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback
-                        console.log(piCurrent.debriefing)
 
                         
                         //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
@@ -1322,12 +1320,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             conditions: [{type:'inputEquals',value:'endTrial'}],
             actions: [{type:'endTrial'}]
         }
-    ],
-    stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=piCurrent.debriefing%>'}}]
+    ]
 
-}
-
-);
+});
            
         // trialSequence.push({
     
