@@ -1301,10 +1301,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 piCurrent.feedback = DScoreObj.FBMsg;
                 piCurrent.d = DScoreObj.DScore;
                 console.log(piCurrent.feedback);
+                API.addGlobal({myFlag: piCurrent.feedback});
+
 
             },
             
-            media :{word: ''+piCurrent.feedback+''}}],
+            media :{word: ''+API.getGlobal().myFlag+''}}],
                 //input: [{handle:'space',on:'space'}],
                 layout: [{media :{word: 'nn'}}],
                 interactions: [{
@@ -1315,6 +1317,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         piCurrent.feedback = DScoreObj.FBMsg;
                         piCurrent.d = DScoreObj.DScore;
                         console.log(globalObj.feedback);
+                        //API.addGlobal({myFlag: piCurrent.feedback});
+
+
 
                         
                         //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
