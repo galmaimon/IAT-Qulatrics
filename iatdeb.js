@@ -1300,7 +1300,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                var DScoreObj = scorer.computeD();
                 piCurrent.feedback = DScoreObj.FBMsg;
                 piCurrent.d = DScoreObj.DScore;
-                console.log(globalObj.feedback);
+                console.log(piCurrent.feedback);
 
             },
             
