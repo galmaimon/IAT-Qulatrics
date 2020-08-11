@@ -1302,6 +1302,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 piCurrent.d = DScoreObj.DScore;
                 console.log(piCurrent.feedback);
                 API.addGlobal({myFlag: piCurrent.feedback});
+                var g=API.getGlobal.myFlag;
+                console.log(g);
 
 
             },
