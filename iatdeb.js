@@ -9,7 +9,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
 
 	//////////////////////todo://////////////////////////////
-בתחילת הקוד לעשות לעשות nofeedback yet
+// בתחילת הקוד לעשות לעשות nofeedback yet
 
 
 
