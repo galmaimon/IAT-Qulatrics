@@ -1304,7 +1304,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         trialSequence.push({
             stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=current.feedback%>'}}],
                 input: [{handle:'space',on:'space'}],
-                layout: [{media :{word: 'nn'}}],
+                layout: [{media :{word: ''}}],
                 interactions: [{
                     conditions: [{type:'begin'}],
                     actions: [{type:'custom',fn:function(options,eventData)
