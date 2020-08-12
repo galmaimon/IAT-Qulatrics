@@ -1299,7 +1299,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         });
        
         ////////////////////////////
-
+piCurrent.feedback='new';
         //debrefing
         trialSequence.push({
             stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=current.feedback%>'}}],
