@@ -1312,7 +1312,6 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         var DScoreObj = scorer.computeD();
                         piCurrent.feedback = DScoreObj.FBMsg;
 						piCurrent.d = DScoreObj.DScore;
-						current.feedback=piCurrent.feedback;
                         console.log(piCurrent.feedback);
 
                         
@@ -1327,7 +1326,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         },
         {
             conditions: [{type:'inputEquals',value:'endTrial'}],
-            actions: [{type:'endTrial'}]
+            actions: [{type: 'showStim', handle:'feedbackstim'},{type:'endTrial'}]
         }
     ]
 
