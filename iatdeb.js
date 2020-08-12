@@ -1326,9 +1326,29 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         },
         {
             conditions: [{type:'inputEquals',value:'endTrial'}],
-            actions: [{type: 'showStim', handle:'feedbackstim'},{type:'endTrial'}]
+            actions: [{type:'endTrial'}]
         }
     ]
+
+});
+trialSequence.push({
+	stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=current.feedback%>'}}],
+		//input: [{handle:'space',on:'space'}],
+		layout: [{media :{word: 'nn'}}],
+		interactions: [{
+			conditions: [{type:'begin'}],
+			actions: [
+		   {type: 'showStim', handle:'feedbackstim'}
+			//{type:'endTrial'}],
+		//edit
+	
+	]
+},
+{
+	conditions: [{type:'inputEquals',value:'endTrial'}],
+	actions: [{type:'endTrial'}]
+}
+]
 
 });
            
