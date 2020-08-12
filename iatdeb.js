@@ -1325,7 +1325,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             ]
         },
         {
-            conditions: [{type:'inputEquals',value:'endTrial'}],
+            conditions: [{type:'inputEquals',value:'space'}],
             actions: [{type:'endTrial'}]
         }
     ]
@@ -1334,7 +1334,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 trialSequence.push({
 	stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=current.feedback%>'}}],
 		//input: [{handle:'space',on:'space'}],
-		layout: [{media :{word: 'nn'}}],
+		layout: [{media :{word: 'mm'}}],
 		interactions: [{
 			conditions: [{type:'begin'}],
 			actions: [
@@ -1345,41 +1345,14 @@ trialSequence.push({
 	]
 },
 {
-	conditions: [{type:'inputEquals',value:'endTrial'}],
+	conditions: [{type:'inputEquals',value:'space'}],
 	actions: [{type:'endTrial'}]
 }
 ]
 
 });
            
-        // trialSequence.push({
-    
-        //         input: [{handle:'space',on:'space'}],
-        //         layout: [{media :{word: piCurrent.feedback}}],
-        //         interactions: [{
-        //             conditions: [{type:'inputEquals',value:'space'}],
-        //             actions: [
-        //                 {type:'custom',fn:function(options,eventData)
-        //                  {
-        //                      var DScoreObj = scorer.computeD();
-        //                      piCurrent.feedback = DScoreObj.FBMsg;
-        //                      piCurrent.d = DScoreObj.DScore;
-        //                      console.log(piCurrent.feedback);
-        //                      //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
-
-        //                  }
-        //                 }
-
-
-                    //  },
-                    
-                    //     {type:'message',value: piCurrent.feedback},
-
-                    //     {type:'message',value: DScoreObj.FBMsg}
-                     
-            //      ]
-            //     }],
-            // });
+        
 
         
             
