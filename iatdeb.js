@@ -1303,7 +1303,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         //debrefing
         trialSequence.push({
             stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=current.feedback%>'}}],
-                //input: [{handle:'space',on:'space'}],
+                input: [{handle:'space',on:'space'}],
                 layout: [{media :{word: 'nn'}}],
                 interactions: [{
                     conditions: [{type:'begin'}],
@@ -1318,16 +1318,15 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
 
                     }},
-                  {type: 'showStim', handle:'feedbackstim'},
-                    {type:'endTrial'}]
+                  {type: 'showStim', handle:'feedbackstim'}]
                 //edit
             
             //]
-        }
-        // {
-        //     conditions: [{type:'inputEquals',value:'space'}],
-        //     actions: [{type:'endTrial'}]
-        // }
+        },
+         {
+             conditions: [{type:'inputEquals',value:'space'}],
+             actions: [{type:'endTrial'}]
+         }
     ]
 
 });
