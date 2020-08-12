@@ -176,7 +176,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
 			bottomTouchCss: {}, //Add any CSS value you want for changing the css of the bottom touch area.
-			feedback='no feedback yet',
+			feedback: 'no feedback yet',
 			//Instructions text.
 			// You can use the following variables and they will be replaced by
 			// the name of the categories and the block's number variables:
