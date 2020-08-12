@@ -1309,8 +1309,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         
                         //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
 
-                    }}
-                 //   {type: 'showStim', handle:'feedbackstim'}
+                    }},
+                   {type: 'showStim', handle:'feedbackstim'}
                     //{type:'endTrial'}],
                 
             
