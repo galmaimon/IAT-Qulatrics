@@ -1318,7 +1318,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         //media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)};
 
                     }},
-                  // {type: 'showStim', handle:'feedbackstim'}
+                  {type: 'showStim', handle:'feedbackstim'},
                     {type:'endTrial'}]
                 //edit
             
@@ -1331,27 +1331,27 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
     ]
 
 });
-trialSequence.push({
-	stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=current.feedback%>'}}],
-		//input: [{handle:'space',on:'space'}],
-		layout: [{media :{word: 'mm'}}],
-		interactions: [{
-			conditions: [{type:'begin'}],
-			actions: [
-		   {type: 'showStim', handle:'feedbackstim'},
-		   {type: 'endTrial'}
-			//{type:'endTrial'}],
-		//edit
+// trialSequence.push({
+// 	stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=current.feedback%>'}}],
+// 		//input: [{handle:'space',on:'space'}],
+// 		layout: [{media :{word: 'mm'}}],
+// 		interactions: [{
+// 			conditions: [{type:'begin'}],
+// 			actions: [
+// 		   {type: 'showStim', handle:'feedbackstim'},
+// 		   {type: 'endTrial'}
+// 			//{type:'endTrial'}],
+// 		//edit
 	
-	]
-}
-// {
-// 	conditions: [{type:'inputEquals',value:'space'}],
-// 	actions: [{type:'endTrial'}]
+// 	]
 // }
-]
+// // {
+// // 	conditions: [{type:'inputEquals',value:'space'}],
+// // 	actions: [{type:'endTrial'}]
+// // }
+// ]
 
-});
+// });
            
         
 
