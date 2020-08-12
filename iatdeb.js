@@ -1312,7 +1312,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                     }},
                    {type: 'showStim', handle:'feedbackstim'}
                     //{type:'endTrial'}],
-                
+                //edit
             
             ]
         },
