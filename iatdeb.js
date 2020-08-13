@@ -1275,12 +1275,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				layout: [
 					{//pre text on the debriefing page
 						media:'Your feedback is:',
-						location:{left:2,top:35,right:2},
+						location:{left:2,top:40,right:2},
 						css:{padding:'2%',fontSize:'1em'}
 					},
 					{//post text on the debriefing page
 						media:'press enter to finish',
-						location:{left:2,top:50,right:2},
+						location:{left:2,top:55,right:2},
 						css:{padding:'2%',fontSize:'1em'}
 					}
 				],
