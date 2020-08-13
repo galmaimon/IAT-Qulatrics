@@ -380,15 +380,15 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 for (iLog = 0; iLog < logs.length; iLog++)
                 {
                     if(!hasProperties(logs[iLog], ['trial_id', 'name', 'responseHandle', 'stimuli', 'media', 'latency'])){
-                        //console.log('---MISSING PROPERTIY---');
-                        //console.log(logs[iLog]);
-                        //console.log('---MISSING PROPERTIY---');
+                        console.log('---MISSING PROPERTIY---');
+                        console.log(logs[iLog]);
+                        console.log('---MISSING PROPERTIY---');
                     }
                     else if(!hasProperties(logs[iLog].data, ['block', 'condition', 'score', 'cong']))
                     {
-                        //console.log('---MISSING data PROPERTIY---');
-                        //console.log(logs[iLog].data);
-                        //console.log('---MISSING data PROPERTIY---');
+                        console.log('---MISSING data PROPERTIY---');
+                        console.log(logs[iLog].data);
+                        console.log('---MISSING data PROPERTIY---');
                     }
                     else
                     {
@@ -411,7 +411,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         '', //'fb'
                         '' //'bOrd'
                         ]; });
-                //console.log('mapped');
+                console.log('mapped');
                 //Add a line with the feedback, score and block-order condition
                 content.push([
                             9, //'block'
@@ -428,7 +428,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                             piCurrent.feedback, //'fb'
                             block3Cond //'bOrd'
                         ]);
-                //console.log('added');
+                console.log('added');
                         
                 content.unshift(headers);
                 return toCsv(content);
@@ -439,7 +439,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                     {
                         if (!obj.hasOwnProperty(props[iProp]))
                         {
-                            //console.log('missing ' + props[iProp]);
+                            console.log('missing ' + props[iProp]);
                             return false;
                         }
                     }
