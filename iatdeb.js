@@ -517,7 +517,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					window.minnoJS.onEnd();
 				},
 			});
-		/**
+		/*
 		 * Create default sorting trial
 		 */
 		API.addTrialSets('sort',{
