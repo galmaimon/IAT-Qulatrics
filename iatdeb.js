@@ -1280,7 +1280,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					},
 					{//post text on the debriefing page
 						media:'press enter to finish',
-						location:{left:2,top:100,right:2},
+						location:{left:2,top:50,right:2},
 						css:{padding:'2%',fontSize:'1em'}
 					}
 				],
