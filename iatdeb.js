@@ -15,7 +15,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		/*showDebriefing is true witch mean that the user will see his feeadback at the end of the test.
 		If you don't want the feedback to be shown to the user change this value to be false, the score of the test will be save at both cases
 		*/
-		var showDebriefing=true;
+		var showDebriefing=false;
 		
 		/* 
 		fullscreen mode is false, if full-screen is wanted change fullscreen value to be true,
