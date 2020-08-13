@@ -374,25 +374,25 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             // we save as CSV because qualtrics limits to 20K characters and this is more efficient.
             serialize: function (name, logs) {
                 var headers = ['block', 'trial', 'cond', 'comp', 'type', 'cat',  'stim', 'resp', 'err', 'rt', 'd', 'fb', 'bOrd'];
-                console.log(logs);
+                //console.log(logs);
                 var myLogs = [];
                 var iLog;
                 for (iLog = 0; iLog < logs.length; iLog++)
                 {
                     if(!hasProperties(logs[iLog], ['trial_id', 'name', 'responseHandle', 'stimuli', 'media', 'latency'])){
-                        console.log('---MISSING PROPERTIY---');
-                        console.log(logs[iLog]);
-                        console.log('---MISSING PROPERTIY---');
+                        // console.log('---MISSING PROPERTIY---');
+                        // console.log(logs[iLog]);
+                        // console.log('---MISSING PROPERTIY---');
                     }
                     else if(!hasProperties(logs[iLog].data, ['block', 'condition', 'score', 'cong']))
                     {
-                        console.log('---MISSING data PROPERTIY---');
-                        console.log(logs[iLog].data);
-                        console.log('---MISSING data PROPERTIY---');
+                        // console.log('---MISSING data PROPERTIY---');
+                        // console.log(logs[iLog].data);
+                        // console.log('---MISSING data PROPERTIY---');
                     }
                     else
                     {
-                        myLogs.push(logs[iLog]);
+                        // myLogs.push(logs[iLog]);
                     }
                 }
                 var content = myLogs.map(function (log) { 
@@ -411,7 +411,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         '', //'fb'
                         '' //'bOrd'
                         ]; });
-                console.log('mapped');
+                //console.log('mapped');
                 //Add a line with the feedback, score and block-order condition
                 content.push([
                             9, //'block'
@@ -428,7 +428,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                             piCurrent.feedback, //'fb'
                             block3Cond //'bOrd'
                         ]);
-                console.log('added');
+                //console.log('added');
                         
                 content.unshift(headers);
                 return toCsv(content);
