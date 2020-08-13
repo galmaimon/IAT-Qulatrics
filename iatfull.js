@@ -2,7 +2,7 @@
 define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) {
 
 	/**
-	Created by: Yoav Bar-Anan (baranan@gmail.com). Modified by Gal
+	Created by: Yoav Bar-Anan (baranan@gmail.com). Modified by Elad
 	 * @param  {Object} options Options that replace the defaults...
 	 * @return {Object}         PIP script
 	**/
@@ -11,21 +11,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 	{
 		var API = new APIConstructor();		
 		var scorer = new Scorer();
-        var piCurrent = API.getCurrent();
-        // fullscreen mode is false, if full-screen is wanted change fullscreen value to be true
-        // changing fullscreen value to be true will make the task fullscreen after the first question in Qualtrics, which mean that the trials will begin in full screen
-        var fullscreen=false;
-        if(fullscreen){
-            var el = document.documentElement;
-		    var rfs = el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-		    if (rfs) rfs.call(el);
-		    else if(window.ActiveXObject){
-        // for Internet Explorer
-    	    var wscript = new window.ActiveXObject('WScript.Shell');
-    	    if (wscript!=null) wscript.SendKeys('{F11}');
-            }
-        }
-		
+		var piCurrent = API.getCurrent();
+
 		//Here we set the settings of our task. 
 		//Read the comments to learn what each parameters means.
 		//You can also do that from the outside, with a dedicated jsp file.
@@ -34,9 +21,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			isTouch:false, //Set whether the task is on a touch device.
 			//Set the canvas of the task
 			canvas : {
-			//	maxWidth: 725,
-			//	position: '0%',
-			//	margin: 0,
+				maxWidth: 725,
 				proportions : 0.7,
 				background: '#ffffff',
 				borderWidth: 5,
@@ -491,7 +476,6 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		API.addSettings('canvas',piCurrent.canvas);
 		API.addSettings('base_url',piCurrent.base_url);
 		API.addSettings('hooks',{
-			
 				endTask: function(){
 					//console.log('compute score');
 					var DScoreObj = scorer.computeD();
@@ -502,7 +486,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					//API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
 					//Perhaps we need to add this to support Qualtrics
 					window.minnoJS.onEnd();
-				},
+				}
 			});
 		/**
 		 * Create default sorting trial
