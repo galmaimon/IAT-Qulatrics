@@ -198,7 +198,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' +
 			'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
 			'This is the same as the previous part.<br/>' +
-			'<%=current.feedback%> <font color="#336600">leftCategory</font> and for <font color="#0000ff">leftAttribute</font>.<br/>' +
+			'<font color="#336600">leftCategory</font> and for <font color="#0000ff">leftAttribute</font>.<br/>' +
 			'Use the <b>I</b> key for <font color="#336600">rightCategory</font> and for  <font color="#0000ff">rightAttribute</font>.<br/>' +
 			'Each item belongs to only one category.<br/><br/>' +
 			'<u>Go as fast as you can</u> while being accurate.<br/><br/></p>' +
