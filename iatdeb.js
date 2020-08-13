@@ -12,6 +12,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		var API = new APIConstructor();		
 		var scorer = new Scorer();
 		var piCurrent = API.getCurrent();
+		/*showDebriefing is true witch mean that the user will see his feeadback at the end of the test.
+		If you don't want the feedback to be shown to the user change this value to be false, the score of the test will be save at both cases
+		*/
+		var showDebriefing=true;
 		
 		/* 
 		fullscreen mode is false, if full-screen is wanted change fullscreen value to be true,
@@ -183,6 +187,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			//the text that will be shown befor the debriefing trial, the user need to press enter in order to pass to the debriefing page
 			preDebriefingText : 'Press space to continue to your feedback', 
 			preDebriefingTouchText : 'Touch the bottom green area to continue to your feedback',
+			finalText : 'Press space to continue to the next task', 
+			finalTouchText : 'Touch the bottom green area to continue to the next task',
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
@@ -498,6 +504,16 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		API.addSettings('hooks',{
 			
 				endTask: function(){
+					//case showdebriefing is false, the score computes in here
+					if(!showDebriefing){
+					var DScoreObj = scorer.computeD();
+					piCurrent.feedback = DScoreObj.FBMsg;
+					piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
+					}
+					
+					//YBYB: API.save will not work in qualtrics
+					//API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
+					//Perhaps we need to add this to support Qualtrics
 					window.minnoJS.onEnd();
 				},
 			});
@@ -1250,6 +1266,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				blockNum : iBlock, blockLayout : blockLayout, parcel:'second'}));
 			}
 		}
+		if(showDebriefing){
 		//////////////////////////////
 		//Add pre-Page before the debriefing is shown
 		trialSequence.push({
@@ -1306,6 +1323,21 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
     ]
 
 });
+		}
+		//if showDebriefing is false, the test will be ended withoute showing the feedback of the user
+		else{
+			trialSequence.push({
+				inherit : 'instructions',
+				data: {blockStart:true},
+				layout : [{media:{word:''}}],
+				stimuli : [
+					{
+						inherit : 'Default',
+						media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
+					}
+				]
+			});
+		}
 
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
