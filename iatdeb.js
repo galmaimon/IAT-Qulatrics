@@ -177,8 +177,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			
 			instWidth : 99, //The width of the instructions stimulus
 			
-			//finalText : 'Press space to continue to the next task',
-			finalText : 'Press space to continue to your feedback', 
+			//the text that will be shown befor the debriefing trial, the user need to press enter in irder to pass to the debriefing page
+			preDebriefingText : 'Press space to continue to your feedback', 
 			finalTouchText : 'Touch the bottom green area to continue to the next task',
 
 			touchMaxStimulusWidth : '50%', 
@@ -1264,7 +1264,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			stimuli : [
 				{
 					inherit : 'Default',
-					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
+					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.preDebriefingText)}
 				}
 			]
 		});
@@ -1273,11 +1273,17 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			stimuli: [{data:{handle:'feedbackstim'},media :{word:'<%=current.feedback%>'}}],
                 input: [{handle:'space',on:'space'}],
 				layout: [
-					{
+					{//pre text on the debriefing page
 						media:'Your feedback is:',
 						location:{left:2,top:35,right:2},
 						css:{padding:'2%',fontSize:'1em'}
-					}],
+					},
+					{//post text on the debriefing page
+						media:'press enter to finish',
+						location:{left:2,top:100,right:2},
+						css:{padding:'2%',fontSize:'1em'}
+					}
+				],
 			   
 					customize : function(element, global){
 						var DScoreObj = scorer.computeD();
