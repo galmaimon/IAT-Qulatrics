@@ -374,7 +374,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             // we save as CSV because qualtrics limits to 20K characters and this is more efficient.
             serialize: function (name, logs) {
                 var headers = ['block', 'trial', 'cond', 'comp', 'type', 'cat',  'stim', 'resp', 'err', 'rt', 'd', 'fb', 'bOrd'];
-                console.log(logs);
+                //console.log(logs);
                 var myLogs = [];
                 var iLog;
                 for (iLog = 0; iLog < logs.length; iLog++)
