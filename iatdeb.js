@@ -11,10 +11,13 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 	{
 		var API = new APIConstructor();		
 		var scorer = new Scorer();
-        var piCurrent = API.getCurrent();
-        // fullscreen mode is false, if full-screen is wanted change fullscreen value to be true
-        // changing fullscreen value to be true will make the task fullscreen after the first question in Qualtrics, which mean that the trials will begin in full screen
-        var fullscreen=false;
+		var piCurrent = API.getCurrent();
+		
+		/* 
+		fullscreen mode is false, if full-screen is wanted change fullscreen value to be true,
+        changing fullscreen value to be true will make the task fullscreen after the first question in Qualtrics, which mean that the trials will begin in full screen
+		*/
+		var fullscreen=false;
         if(fullscreen){
             var el = document.documentElement;
 		    var rfs = el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
@@ -177,9 +180,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			
 			instWidth : 99, //The width of the instructions stimulus
 			
-			//the text that will be shown befor the debriefing trial, the user need to press enter in irder to pass to the debriefing page
+			//the text that will be shown befor the debriefing trial, the user need to press enter in order to pass to the debriefing page
 			preDebriefingText : 'Press space to continue to your feedback', 
-			finalTouchText : 'Touch the bottom green area to continue to the next task',
+			preDebriefingTouchText : 'Touch the bottom green area to continue to your feedback',
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
@@ -1256,7 +1259,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			}
 		}
 		//////////////////////////////
-		//Add final trial
+		//Add pre-Page before the debriefing is shown
 		trialSequence.push({
 			inherit : 'instructions',
 			data: {blockStart:true},
@@ -1264,22 +1267,28 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			stimuli : [
 				{
 					inherit : 'Default',
-					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.preDebriefingText)}
+					media : {word : (isTouch ? piCurrent.preDebriefingTouchText : piCurrent.preDebriefingText)}
 				}
 			]
 		});
 		
+		/////////////////////////////
+		//add debriefing trial, the feedback will be shown with text above and under ther result.
 		trialSequence.push({
+			//the feedback massege will be shown to the user at the center of the screen
 			stimuli: [{data:{handle:'feedbackstim'},media :{word:'<%=current.feedback%>'}}],
+			//when the user press enter the trial will end, there is no time limit for reading the feedback
                 input: [{handle:'space',on:'space'}],
 				layout: [
-					{//pre text on the debriefing page
+					{//pre-text at the debriefing page, will be shown above the feeaback massege
 						media:'Your feedback is:',
+						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
 						location:{left:2,top:40,right:2},
 						css:{padding:'2%',fontSize:'1em'}
 					},
-					{//post text on the debriefing page
+					{//post-text at the debriefing page, will be shown under the feeaback massege
 						media:'press enter to finish',
+						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
 						location:{left:2,top:55,right:2},
 						css:{padding:'2%',fontSize:'1em'}
 					}
@@ -1296,9 +1305,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                     conditions: [{type:'begin'}],
                     actions: [
                   {type: 'showStim', handle:'feedbackstim'}]
-                //edit
-            
-            //]
+               
         },
          {
              conditions: [{type:'inputEquals',value:'space'}],
