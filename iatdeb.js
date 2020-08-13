@@ -1269,7 +1269,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		});
 		
 		trialSequence.push({
-            stimuli: [{data:{handle:'feedbackstim'},media :{word:'Your feedback is:<br/><br/>'+'<%=current.feedback%>'+'<br/><br/>please press enter to finish your test'}}],
+			stimuli: [{data:{handle:'feedbackstim'},media :{word:'Your feedback is:.<br/>'
+			+'<%=current.feedback%>.<br/>'+'please press enter to finish your test'}}],
                 input: [{handle:'space',on:'space'}],
 				layout: [{media :{word: ''}}],
 			   
