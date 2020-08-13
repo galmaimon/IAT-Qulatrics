@@ -190,19 +190,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			// the name of the categories and the block's number variables:
 			// leftCategory, rightCategory, leftAttribute and rightAttribute, blockNum, nBlocks.
 			// Notice that this is HTML text.
-			// debriefingText:'<div>' +
-			// '<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
-			// 'your feedback is:' +
-			// '<br/><%=current.feedback%>.<br/>' +'</p></div>',
-			debriefingText: '<div><p align="center" style="font-size:20px; font-family:arial">' +
-			'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' +
-			'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
-			'This is the same as the previous part.<br/>' +
-			'<font color="#336600">leftCategory</font> and for <font color="#0000ff">leftAttribute</font>.<br/>' +
-			'Use the <b>I</b> key for <font color="#336600">rightCategory</font> and for  <font color="#0000ff">rightAttribute</font>.<br/>' +
-			'Each item belongs to only one category.<br/><br/>' +
-			'<u>Go as fast as you can</u> while being accurate.<br/><br/></p>' +
-			'<p align="center">Press the <b>space bar</b> when you are ready to start.</font></p></div>',
+			
 			instAttributePractice: '<div><p align="center" style="font-size:20px; font-family:arial">' +
 				'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' +
 				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
@@ -1282,7 +1270,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		});
 		
 		trialSequence.push({
-			stimuli: [{data:{handle:'feedbackstim'},media :{word: globalObj.debriefingText}}],
+			stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=current.feedback%>'}}],
                 input: [{handle:'space',on:'space'}],
 				layout: [{media :{word: ''}}],
 			   
