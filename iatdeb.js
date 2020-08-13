@@ -2,25 +2,30 @@
 define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) {
 
 	/**
-	Created by: Yoav Bar-Anan (baranan@gmail.com). Modified by Elad
+	Created by: Yoav Bar-Anan (baranan@gmail.com). Modified by Gal
 	 * @param  {Object} options Options that replace the defaults...
 	 * @return {Object}         PIP script
 	**/
 
-
-	//////////////////////todo://////////////////////////////
-// בתחילת הקוד לעשות לעשות nofeedback yet
-
-
-
-	//////////////////////////////////////////////////
 	function iatExtension(options)
 	{
 		var API = new APIConstructor();		
 		var scorer = new Scorer();
-		var piCurrent = API.getCurrent();
-		/////picurrent.leftkeytext
-
+        var piCurrent = API.getCurrent();
+        // fullscreen mode is false, if full-screen is wanted change fullscreen value to be true
+        // changing fullscreen value to be true will make the task fullscreen after the first question in Qualtrics, which mean that the trials will begin in full screen
+        var fullscreen=false;
+        if(fullscreen){
+            var el = document.documentElement;
+		    var rfs = el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+		    if (rfs) rfs.call(el);
+		    else if(window.ActiveXObject){
+        // for Internet Explorer
+    	    var wscript = new window.ActiveXObject('WScript.Shell');
+    	    if (wscript!=null) wscript.SendKeys('{F11}');
+            }
+        }
+		
 		//Here we set the settings of our task. 
 		//Read the comments to learn what each parameters means.
 		//You can also do that from the outside, with a dedicated jsp file.
@@ -29,7 +34,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			isTouch:false, //Set whether the task is on a touch device.
 			//Set the canvas of the task
 			canvas : {
-				maxWidth: 725,
+			//	maxWidth: 725,
+			//	position: '0%',
+			//	margin: 0,
 				proportions : 0.7,
 				background: '#ffffff',
 				borderWidth: 5,
@@ -171,12 +178,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			instWidth : 99, //The width of the instructions stimulus
 			
 			finalText : 'Press space to continue to the next task', 
-            finalTouchText : 'Touch the bottom green area to continue to the next task',
+			finalTouchText : 'Touch the bottom green area to continue to the next task',
 
 			touchMaxStimulusWidth : '50%', 
 			touchMaxStimulusHeight : '50%', 
 			bottomTouchCss: {}, //Add any CSS value you want for changing the css of the bottom touch area.
-			feedback: 'no feedback yet',
+
 			//Instructions text.
 			// You can use the following variables and they will be replaced by
 			// the name of the categories and the block's number variables:
@@ -310,8 +317,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 						'</p>',
 						'<p align="center">Touch the <b>lower </b> green area to start.</p>',
 				'</div>'
-            ].join('\n'),
-            
+			].join('\n'),
+
 			instThirdCombined : 'instFirstCombined', //this means that we're going to use the instFirstCombined property for the third combined block as well. You can change that.
 			instFourthCombined : 'instSecondCombined', //this means that we're going to use the instSecondCombined property for the fourth combined block as well. You can change that.
 			instThirdCombinedTouch : 'instFirstCombined', //this means that we're going to use the instFirstCombined property for the third combined block as well. You can change that.
@@ -342,8 +349,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         API.addSettings('onEnd', window.minnoJS.onEnd);
 
 		//For debugging the logger
-		window.minnoJS.logger = console.log;
-		window.minnoJS.onEnd = console.log;
+		//window.minnoJS.logger = console.log;
+		//window.minnoJS.onEnd = console.log;
 		
         API.addSettings('logger', {
             // gather logs in array
@@ -448,7 +455,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		// are we on the touch version
 		var isTouch = piCurrent.isTouch;
 
-        //We use these objects a lot, so let's read them here
+		//We use these objects a lot, so let's read them here
 		var att1 = piCurrent.attribute1;
 		var att2 = piCurrent.attribute2;
 		var cat1 = piCurrent.category1;
@@ -484,10 +491,18 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		API.addSettings('canvas',piCurrent.canvas);
 		API.addSettings('base_url',piCurrent.base_url);
 		API.addSettings('hooks',{
+			
 				endTask: function(){
-					
+					//console.log('compute score');
+					var DScoreObj = scorer.computeD();
+					piCurrent.feedback = DScoreObj.FBMsg;
+					piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
+					//console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
+					//YBYB: API.save will not work in qualtrics
+					//API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
+					//Perhaps we need to add this to support Qualtrics
 					window.minnoJS.onEnd();
-				}
+				},
 			});
 		/**
 		 * Create default sorting trial
@@ -616,54 +631,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					}
 				]
 			}
-        ]);
-        
-        // API.addTrialSets('debrieffing', [
-		// 	// generic instructions trial, to be inherited by all other inroduction trials
-		// 	{
-		// 		// set block as generic so we can inherit it later
-		// 		data: {blockStart:true},
+		]);
 
-		// 		// create user interface (just click to move on...)
-		// 		// input: [
-		// 		// 	proceedInput
-		// 		// ],
-
-		// 		interactions: [
-		// 			// display instructions
-		// 			{
-		// 				conditions: [{type:'begin'}],
-		// 				actions: [
-		// 					{type:'showStim',handle:'All'}
-		// 				]
-		// 			},
-		// 			// space hit, end trial soon
-		// 			{
-        //                 conditions: [{type:'custom', value:function(){
-        //                     var DScoreObj = scorer.computeD();
-		// 			        piCurrent.feedback = DScoreObj.FBMsg;
-        //                     piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-        //                     //piCurrent.debriefing='score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback;
-        //                 //console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
-        //                     console.log("DEBRIEFING");
-        //                    // console.log(piCurrent.debriefing);
-        //                     // do your mojo here and return true or false
-        //                 }}
-        //             ],					
-        //             	actions: [
-		// 					{type:'hideStim', handle:'All'},
-		// 					{type:'removeInput', handle:'space'},
-		// 					{type:'log'},
-		// 					{type:'trigger', handle:'endTrial', duration:500}
-		// 				]
-		// 			},
-		// 			{
-		// 				conditions: [{type:'inputEquals',value:'endTrial'}],
-		// 				actions: [{type:'endTrial'}]
-		// 			}
-		// 		]
-		// 	}
-        // ]);
 		/**
 		 * All basic trials.
 		 */
@@ -1296,12 +1265,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
 				}
 			]
-        });
-       
-        ////////////////////////////
-//piCurrent.feedback='new';
-        //debrefing
-        trialSequence.push({
+		});
+		
+		trialSequence.push({
             stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=current.feedback%>'}}],
                 input: [{handle:'space',on:'space'}],
 				layout: [{media :{word: ''}}],
@@ -1328,35 +1294,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
     ]
 
 });
-// trialSequence.push({
-// 	stimuli: [{data:{handle:'feedbackstim'},media :{word: '<%=current.feedback%>'}}],
-// 		//input: [{handle:'space',on:'space'}],
-// 		layout: [{media :{word: 'mm'}}],
-// 		interactions: [{
-// 			conditions: [{type:'begin'}],
-// 			actions: [
-// 		   {type: 'showStim', handle:'feedbackstim'},
-// 		   {type: 'endTrial'}
-// 			//{type:'endTrial'}],
-// 		//edit
-	
-// 	]
-// }
-// // {
-// // 	conditions: [{type:'inputEquals',value:'space'}],
-// // 	actions: [{type:'endTrial'}]
-// // }
-// ]
 
-// });
-           
-        
-
-        
-            
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
-        
+
 		/**
 		*Compute scores and feedback messages
 		**/
@@ -1413,8 +1354,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			scoreMessageObject.notEnough = piCurrent.notEnough;
 		}
 		//Set messages to the scorer.
-        scorer.addSettings('message',scoreMessageObject);
-        
+		scorer.addSettings('message',scoreMessageObject);
+
 		return API.script;
 	}
 
