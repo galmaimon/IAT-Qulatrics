@@ -1270,9 +1270,14 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		});
 		
 		trialSequence.push({
-			stimuli: [{data:{handle:'feedbackstim'},media :{word: '--------------------------------------Your feedback is:--------------------------------------'+'<%=current.feedback%>'}}],
+			stimuli: [{data:{handle:'feedbackstim'},media :{word:'<%=current.feedback%>'}}],
                 input: [{handle:'space',on:'space'}],
-				layout: [{media :{word: ''}}],
+				layout: [
+					{
+						media:'Your feedback is:',
+						location:{left:2,top:2,right:2},
+						css:{padding:'2%',fontSize:'1em'}
+					}],
 			   
 					customize : function(element, global){
 						var DScoreObj = scorer.computeD();
