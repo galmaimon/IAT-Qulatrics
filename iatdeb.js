@@ -177,7 +177,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			
 			instWidth : 99, //The width of the instructions stimulus
 			
-			finalText : 'Press space to continue to the next task', 
+			//finalText : 'Press space to continue to the next task',
+			finalText : 'Press space to continue to your feedback', 
 			finalTouchText : 'Touch the bottom green area to continue to the next task',
 
 			touchMaxStimulusWidth : '50%', 
