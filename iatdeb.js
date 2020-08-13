@@ -1275,7 +1275,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				layout: [
 					{
 						media:'Your feedback is:',
-						location:{left:2,top:2,right:2},
+						location:{left:2,top:25,right:2},
 						css:{padding:'2%',fontSize:'1em'}
 					}],
 			   
