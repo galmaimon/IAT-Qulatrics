@@ -2,10 +2,6 @@ define(['pipAPI', 'https://galmaimon.github.io/iatfull.js'], function(APIConstru
     var API = new APIConstructor();
 
 	return iatExtension({
-		showDebriefing=false,
-		fullscreen=true,
-
-
 		category1 : {
 			name : 'Career', //Will appear in the data.
 			title : {
