@@ -506,11 +506,11 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		API.addSettings('hooks',{
 				endTask: function(){
                     //console.log('compute score');
-                    if(!showDebriefing){
-                        var DScoreObj = scorer.computeD();
-                        piCurrent.feedback = DScoreObj.FBMsg;
-                        piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-                        }
+                    // if(!showDebriefing){
+                    //     var DScoreObj = scorer.computeD();
+                    //     piCurrent.feedback = DScoreObj.FBMsg;
+                    //     piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
+                    //     }
 					
 					//console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
 					//YBYB: API.save will not work in qualtrics
@@ -1271,7 +1271,32 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
         //if showDebriefing is false, the test will be ended withoute showing the feedback of the user
 
-        
+        // if(!showDebriefing){
+		// 	var DScoreObj = scorer.computeD();
+		// 	piCurrent.feedback = DScoreObj.FBMsg;
+		// 	piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
+		// 	}
+		/**** compute the score
+		 * ***/
+		trialSequence.push({
+			inherit : 'instructions',
+			data: {blockStart:true},
+			layout : [{media:{word:''}}],
+			customize : function(element, global){
+				var DScoreObj = scorer.computeD();
+				piCurrent.feedback = DScoreObj.FBMsg;
+				piCurrent.d = DScoreObj.DScore;
+				//console.log(piCurrent.feedback);
+			},
+
+		interactions: [{
+			conditions: [{type:'begin'}],
+			actions: [
+		  {type: 'endTrial'}]
+	   
+}]
+		});
+		//////////////////////////////////
         if(!showDebriefing){
 		//////////////////////////////
 		//Add final trial
@@ -1324,12 +1349,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         }
                     ],
                    
-                        customize : function(element, global){
-                            var DScoreObj = scorer.computeD();
-                            piCurrent.feedback = DScoreObj.FBMsg;
-                            piCurrent.d = DScoreObj.DScore;
-                            //console.log(piCurrent.feedback);
-                        },
+                        // customize : function(element, global){
+                        //     var DScoreObj = scorer.computeD();
+                        //     piCurrent.feedback = DScoreObj.FBMsg;
+                        //     piCurrent.d = DScoreObj.DScore;
+                        //     //console.log(piCurrent.feedback);
+                        // },
         
                     interactions: [{
                         conditions: [{type:'begin'}],
