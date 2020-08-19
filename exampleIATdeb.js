@@ -2,7 +2,7 @@ define(['pipAPI', 'https://galmaimon.github.io/iatdeb.js'], function(APIConstruc
     var API = new APIConstructor();
 
 	return iatExtension({
-
+		
 		category1 : {
 			name : 'Career', //Will appear in the data.
 			title : {
