@@ -465,7 +465,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
 		// are we on the touch version
 		var isTouch = piCurrent.isTouch;
-
+		var showDebriefing=piCurrent.showDebriefing;
 		//We use these objects a lot, so let's read them here
 		var att1 = piCurrent.attribute1;
 		var att2 = piCurrent.attribute2;
