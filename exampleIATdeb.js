@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://galmaimon.github.io/iatfull.js'], function(APIConstructor, iatExtension){
+define(['pipAPI', 'https://galmaimon.github.io/iatdeb.js'], function(APIConstructor, iatExtension){
     var API = new APIConstructor();
 
 	return iatExtension({
