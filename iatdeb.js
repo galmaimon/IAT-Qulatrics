@@ -25,12 +25,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			 /*showDebriefing is true witch mean that the user will see his feeadback at the end of the test.
 		If you don't want the feedback to be shown to the user change this value to be false, the score of the test will be save at both cases
 		*/
-		showDebriefing=true,
+		showDebriefing:true,
 			/* 
 		fullscreen mode is false, if full-screen is wanted change fullscreen value to be true,
         changing fullscreen value to be true will make the task fullscreen after the first question in Qualtrics, which mean that the trials will begin in full screen
 		*/
-		fullscreen=false,
+		fullscreen:false,
         // if(fullscreen){
         //     var el = document.documentElement;
 		//     var rfs = el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
