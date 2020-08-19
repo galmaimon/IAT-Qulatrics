@@ -12,16 +12,25 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		var API = new APIConstructor();		
 		var scorer = new Scorer();
         var piCurrent = API.getCurrent();
-        /*showDebriefing is true witch mean that the user will see his feeadback at the end of the test.
+       
+		
+		
+		
+
+		//Here we set the settings of our task. 
+		//Read the comments to learn what each parameters means.
+		//You can also do that from the outside, with a dedicated jsp file.
+		var iatObj =
+		{
+			 /*showDebriefing is true witch mean that the user will see his feeadback at the end of the test.
 		If you don't want the feedback to be shown to the user change this value to be false, the score of the test will be save at both cases
 		*/
-		var showDebriefing=true;
-		
-		/* 
+		showDebriefing=true,
+			/* 
 		fullscreen mode is false, if full-screen is wanted change fullscreen value to be true,
         changing fullscreen value to be true will make the task fullscreen after the first question in Qualtrics, which mean that the trials will begin in full screen
 		*/
-		var fullscreen=false;
+		fullscreen=false,
         if(fullscreen){
             var el = document.documentElement;
 		    var rfs = el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
@@ -31,13 +40,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
     	    var wscript = new window.ActiveXObject('WScript.Shell');
     	    if (wscript!=null) wscript.SendKeys('{F11}');
             }
-        }
-
-		//Here we set the settings of our task. 
-		//Read the comments to learn what each parameters means.
-		//You can also do that from the outside, with a dedicated jsp file.
-		var iatObj =
-		{
+        },
 			isTouch:false, //Set whether the task is on a touch device.
 			//Set the canvas of the task
 			canvas : {
