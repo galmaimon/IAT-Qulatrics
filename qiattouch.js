@@ -1305,6 +1305,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             /////////////////////////////
             //add debriefing trial, the feedback will be shown with text above and under ther result.
             trialSequence.push({
+                inherit:'instructions',
                 //the feedback massege will be shown to the user at the center of the screen
                 stimuli: [{data:{handle:'feedbackstim'},media :{word:'<%=current.feedback%>'}}],
                 //when the user press enter the trial will end, there is no time limit for reading the feedback
