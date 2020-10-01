@@ -1291,6 +1291,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             //add debriefing trial, the feedback will be shown with text above and under ther result.
             trialSequence.push({
                 inherit:"instructions",
+                data: {blockStart:true},
+
                 //the feedback massege will be shown to the user at the center of the screen
                 stimuli: [{data:{handle:'feedbackstim'},media :{word:'<%=current.feedback%>'}}],
                 //when the user press enter the trial will end, there is no time limit for reading the feedback
@@ -1300,26 +1302,26 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 						media:piCurrent.debriefingTextTop,
 						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
 						location:{left:2,top:40,right:2},
-						css:{padding:'2%',fontSize:'1em'}
 					},
 					{//post-text at the debriefing page, will be shown under the feeaback massege
 						media:piCurrent.debriefingTextBottom,
 						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
 						location:{left:2,top:55,right:2},
-						css:{padding:'2%',fontSize:'1em'}
-					}
+                    },
+                    {media: isTouch? "Touch the bottom green area to continue": "Press space to continue"
+                    }
 				],
                         
-				interactions: [
-					{
-						conditions: [{type:'begin'}],
-						actions: [{type: 'showStim', handle:'feedbackstim'}]
-					},
-					{
-						conditions: [{type:'inputEquals',value:'space'}],
-						actions: [{type:'endTrial'}]
-					}
-				]    
+				// interactions: [
+				// 	{
+				// 		conditions: [{type:'begin'}],
+				// 		actions: [{type: 'showStim', handle:'feedbackstim'}]
+				// 	},
+				// 	{
+				// 		conditions: [{type:'inputEquals',value:'space'}],
+				// 		actions: [{type:'endTrial'}]
+				// 	}
+				// ]    
 			});		
 		}
 			
