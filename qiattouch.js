@@ -1259,7 +1259,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		trialSequence.push({
 			inherit : 'instructions',
 			data: {blockStart:true},
-			layout : [{media:{word:''}}],
+            // layout : [{media:{word:''}}],
+            layout: [{media : {html: isTouch ? params.remindErrorTextTouch : params.remindErrorText}
+            }],
 			customize : function(element, global){
 				var DScoreObj = scorer.computeD();
 				piCurrent.feedback = DScoreObj.FBMsg;
@@ -1328,12 +1330,13 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		//Add final trial
 		trialSequence.push({
             inherit : 'instructions',
-            input: [proceedInput],
 			data: {blockStart:true},
-			layout : [{media:{word:''}}],
+            // layout : [{media:{word:''}}],
+            layout: [{media : {html: isTouch ? params.remindErrorTextTouch : params.remindErrorText}
+            }],
 			stimuli : [
 				{
-					// inherit : 'Default',
+					inherit : 'Default',
 					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
 				}
 			]
