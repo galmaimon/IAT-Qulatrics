@@ -453,8 +453,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		// are we on the touch version
 		var isTouch = piCurrent.isTouch;
 		var showDebriefing = piCurrent.showDebriefing;
-        var fullscreen = piCurrent.fullscreen;
-        
+		var fullscreen = piCurrent.fullscreen;
 		//We use these objects a lot, so let's read them here
 		var att1 = piCurrent.attribute1;
 		var att2 = piCurrent.attribute2;
@@ -1255,91 +1254,58 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			}
         }
 
-        //////// in this trial the score of the participant is computed//////////////////
-        /////preDebriefing - if the debriefing==true, determine witch text to show
-        var preDebriefing=isTouch ? piCurrent.preDebriefingTouchText : piCurrent.preDebriefingText;
-        /////isTouce - if the touch==true, determine witch text to show
-        var final=isTouch ? piCurrent.finalTouchText : piCurrent.finalText;
+		//////// in this trial the score of the participant is computed//////////////////
+
 		trialSequence.push({
-			inherit : 'instructions',
 			data: {blockStart:true},
-			layout : [{media : {word : ''}}],
+			layout : [{media:{word:''}}],
 			customize : function(element, global){
 				var DScoreObj = scorer.computeD();
 				piCurrent.feedback = DScoreObj.FBMsg;
 				piCurrent.d = DScoreObj.DScore;
-				// console.log(piCurrent.feedback);
-            },
-            //CHANGED BY GAL - showing the relevant page
-            stimuli:[{
-                media : {word : (showDebriefing? preDebriefing: final)}
-            }]
+				//console.log(piCurrent.feedback);
+			},
 
-            ///CHANGED BY GAL - deleted this
-            //  ,
-			//  interactions: [{
-			//  	conditions: [{type:'begin'}],
-			//  	actions: [{type: 'endTrial'}]
-			//  }]
+			interactions: [{
+				conditions: [{type:'begin'}],
+				actions: [{type: 'endTrial'}]
+			}]
 		});
 		
         if(showDebriefing){
-            ///CHANGED BY GAL
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            ////instead of creating a new trial, this wea added to the calculation trial //////
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            
+            //////////////////////////////
             //Add pre-Page before the debriefing is shown
-            // trialSequence.push({
-            //     inherit : 'instructions',
-            //     data: {blockStart:true},
-            //     layout : [{media:{word:''}}],
-            //     stimuli : [
-            //         {
-            //             inherit : 'Default',
-            //             media : {word : (isTouch ? piCurrent.preDebriefingTouchText : piCurrent.preDebriefingText)}
-            //         }
-            //     ]
-            // });
+            trialSequence.push({
+                inherit : 'instructions',
+                data: {blockStart:true},
+                layout : [{media:{word:''}}],
+                stimuli : [
+                    {
+                        inherit : 'Default',
+                        media : {word : (isTouch ? piCurrent.preDebriefingTouchText : piCurrent.preDebriefingText)}
+                    }
+                ]
+            });
             
             /////////////////////////////
             //add debriefing trial, the feedback will be shown with text above and under ther result.
             trialSequence.push({
-
-                //CHANGED BY GAL
-                inherit : 'instructions',
-                data: {blockStart:true},
-                
-
                 //the feedback massege will be shown to the user at the center of the screen
                 stimuli: [{data:{handle:'feedbackstim'},media :{word:'<%=current.feedback%>'}}],
                 //when the user press enter the trial will end, there is no time limit for reading the feedback
-                
-                ///CHANGED BY GAL
-
-				// input: [{handle:'space',on:'space'}],
-                
-                layout: [
+				input: [{handle:'space',on:'space'}],
+				layout: [
 					{//pre-text at the debriefing page, will be shown above the feeaback massege
 						media:piCurrent.debriefingTextTop,
 						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
-						location:{left:2,top:30,right:2}
-						// css:{padding:'2%',fontSize:'1em'}
+						location:{left:2,top:40,right:2},
+						css:{padding:'2%',fontSize:'1em'}
 					},
 					{//post-text at the debriefing page, will be shown under the feeaback massege
 						media:piCurrent.debriefingTextBottom,
 						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
-						location:{left:2,top:45,right:2}
-						// css:{padding:'2%',fontSize:'1em'}
-                    },
-
-                    //CAHNGED BY GAL - add the finaltext to the debriefing page
-
-                    {//final text 
-						media:final,
-						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
-						location:{left:2,top:60,right:2}
-						// css:{padding:'2%',fontSize:'1em'}
+						location:{left:2,top:55,right:2},
+						css:{padding:'2%',fontSize:'1em'}
 					}
 				],
                         
@@ -1355,24 +1321,20 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				]    
 			});		
 		}
-        ///CHANGED BY GAL
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////instead of creating a new trial, this wea added to the calculation trial //////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            
+			
 		//////////////////////////////
 		//Add final trial
-		// trialSequence.push({
-		// 	inherit : 'instructions',
-		// 	data: {blockStart:true},
-		// 	layout : [{media:{word:''}}],
-		// 	stimuli : [
-		// 		{
-		// 			inherit : 'Default',
-		// 			media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
-		// 		}
-		// 	]
-        // });
+		trialSequence.push({
+			inherit : 'instructions',
+			data: {blockStart:true},
+			layout : [{media:{word:''}}],
+			stimuli : [
+				{
+					inherit : 'Default',
+					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
+				}
+			]
+        });
 
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
