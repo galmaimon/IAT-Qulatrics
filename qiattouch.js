@@ -1255,8 +1255,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			}
         }
 
-		//////// in this trial the score of the participant is computed//////////////////
+        //////// in this trial the score of the participant is computed//////////////////
+        /////preDebriefing - if the debriefing==true, determine witch text to show
         var preDebriefing=isTouch ? piCurrent.preDebriefingTouchText : piCurrent.preDebriefingText;
+        /////isTouce - if the touch==true, determine witch text to show
         var final=isTouch ? piCurrent.finalTouchText : piCurrent.finalText;
 		trialSequence.push({
 			inherit : 'instructions',
@@ -1266,11 +1268,14 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				var DScoreObj = scorer.computeD();
 				piCurrent.feedback = DScoreObj.FBMsg;
 				piCurrent.d = DScoreObj.DScore;
-				console.log(piCurrent.feedback);
+				// console.log(piCurrent.feedback);
             },
+            //CHANGED BY GAL - showing the relevant page
             stimuli:[{
                 media : {word : (showDebriefing? preDebriefing: final)}
             }]
+
+            ///CHANGED BY GAL - deleted this
             //  ,
 			//  interactions: [{
 			//  	conditions: [{type:'begin'}],
@@ -1279,7 +1284,11 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		});
 		
         if(showDebriefing){
-            //////////////////////////////
+            ///CHANGED BY GAL
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ////instead of creating a new trial, this wea added to the calculation trial //////
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
             //Add pre-Page before the debriefing is shown
             // trialSequence.push({
             //     inherit : 'instructions',
@@ -1312,6 +1321,15 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
 						location:{left:2,top:55,right:2},
 						css:{padding:'2%',fontSize:'1em'}
+                    },
+
+                    //CAHNGED BY GAL - add the finaltext to the debriefing page
+
+                    {//final text 
+						media:final,
+						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
+						location:{left:2,top:60,right:2},
+						css:{padding:'2%',fontSize:'1em'}
 					}
 				],
                         
@@ -1327,7 +1345,11 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				]    
 			});		
 		}
-			
+        ///CHANGED BY GAL
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////instead of creating a new trial, this wea added to the calculation trial //////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
 		//////////////////////////////
 		//Add final trial
 		// trialSequence.push({
