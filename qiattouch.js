@@ -2,7 +2,7 @@
 define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) {
 
 	/**
-	Created by: Yoav Bar-Anan (baranan@gmail.com). Modified by Elad
+	Created by: Yoav Bar-Anan (baranan@gmail.com). Modified by Gal
 	 * @param  {Object} options Options that replace the defaults...
 	 * @return {Object}         PIP script
 	**/
@@ -11,13 +11,16 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 	{
 		var API = new APIConstructor();		
 		var scorer = new Scorer();
-		var piCurrent = API.getCurrent();
+        var piCurrent = API.getCurrent();
+		
 
 		//Here we set the settings of our task. 
 		//Read the comments to learn what each parameters means.
 		//You can also do that from the outside, with a dedicated jsp file.
 		var iatObj =
 		{
+			fullscreen:false, //Should we show the task in full screen? A Qualtrics-only feature because in the usual Minno, we can go full-screen right at the beginning of the study.
+        
 			isTouch:false, //Set whether the task is on a touch device.
 			//Set the canvas of the task
 			canvas : {
@@ -161,7 +164,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			orCss : {'font-size':'1.8em', color:'#000000'},
 			
 			instWidth : 99, //The width of the instructions stimulus
-			
+            
 			finalText : 'Press space to continue to the next task', 
 			finalTouchText : 'Touch the bottom green area to continue to the next task',
 
@@ -309,6 +312,16 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			instThirdCombinedTouch : 'instFirstCombined', //this means that we're going to use the instFirstCombined property for the third combined block as well. You can change that.
 			instFourthCombinedTouch : 'instSecondCombined', //this means that we're going to use the instSecondCombined property for the fourth combined block as well. You can change that.
 
+			showDebriefing:false, //Show feedback in the last trial? Relevant only in a Qualtrics IAT because in Qualtrics we cannot access the saved feedback and IAT score later in the survey.
+			//Texts for the trials that show the debriefing.
+			preDebriefingText : 'Press space to see your result', //Text in the trial that comes before showing the debriefing.
+			preDebriefingTouchText : 'Touch the bottom green area to see your result', //Touch version for the text in the trial that comes before showing the debriefing.
+			debriefingTextTop : 'Your result:', //Will be shown above the feedback text.
+			//ATTENTION: We do not recommend showing participants their results. The IAT is a typical psychological measure so it is not very accurate. 
+			//In Project Implicit's website, you can see that we added much text to explain that there is still much unknown about the meaning of these results.
+			//We strongly recommend that you provide all these details in the debriefing of the experiment.
+			debriefingTextBottom : 'This result is not a definitive assessment of your attitudes. It is provided for educational purposes only.', //Will be shown below the feedback text. 
+
 			//The default feedback messages for each cutoff -
 			//attribute1, and attribute2 will be replaced with the name of attribute1 and attribute2.
 			//categoryA is the name of the category that is found to be associated with attribute1,
@@ -325,7 +338,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		};
 
 		// extend the "current" object with the default
-		_.defaults(piCurrent, options, iatObj);
+		_.extend(piCurrent, _.defaults(options, iatObj));
 		_.extend(API.script.settings, options.settings);
 
         /**
@@ -357,15 +370,15 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 for (iLog = 0; iLog < logs.length; iLog++)
                 {
                     if(!hasProperties(logs[iLog], ['trial_id', 'name', 'responseHandle', 'stimuli', 'media', 'latency'])){
-                        //console.log('---MISSING PROPERTIY---');
-                        //console.log(logs[iLog]);
-                        //console.log('---MISSING PROPERTIY---');
+                        // console.log('---MISSING PROPERTIY---');
+                        // console.log(logs[iLog]);
+                        // console.log('---MISSING PROPERTIY---');
                     }
                     else if(!hasProperties(logs[iLog].data, ['block', 'condition', 'score', 'cong']))
                     {
-                        //console.log('---MISSING data PROPERTIY---');
-                        //console.log(logs[iLog].data);
-                        //console.log('---MISSING data PROPERTIY---');
+                        // console.log('---MISSING data PROPERTIY---');
+                        // console.log(logs[iLog].data);
+                        // console.log('---MISSING data PROPERTIY---');
                     }
                     else
                     {
@@ -416,7 +429,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                     {
                         if (!obj.hasOwnProperty(props[iProp]))
                         {
-                            //console.log('missing ' + props[iProp]);
+                           // console.log('missing ' + props[iProp]);
                             return false;
                         }
                     }
@@ -439,7 +452,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
 		// are we on the touch version
 		var isTouch = piCurrent.isTouch;
-
+		var showDebriefing = piCurrent.showDebriefing;
+        var fullscreen = piCurrent.fullscreen;
+        
 		//We use these objects a lot, so let's read them here
 		var att1 = piCurrent.attribute1;
 		var att2 = piCurrent.attribute2;
@@ -457,6 +472,16 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			att2.stimulusCss.maxHeight = maxH;
 			cat1.stimulusCss.maxHeight = maxH;
 			cat2.stimulusCss.maxHeight = maxH;
+		}
+		if(fullscreen){
+			var el = document.documentElement;
+			var rfs = el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+			if (rfs) rfs.call(el);
+			else if(window.ActiveXObject){
+		// for Internet Explorer
+			var wscript = new window.ActiveXObject('WScript.Shell');
+			if (wscript!=null) wscript.SendKeys('{F11}');
+			}
 		}
 
 		//Set the attribute on the left.
@@ -477,15 +502,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		API.addSettings('base_url',piCurrent.base_url);
 		API.addSettings('hooks',{
 				endTask: function(){
-					//console.log('compute score');
-					var DScoreObj = scorer.computeD();
-					piCurrent.feedback = DScoreObj.FBMsg;
-					piCurrent.d = DScoreObj.DScore; //YBYB: Added on 28March2017
-					//console.log('score computed, d='+piCurrent.d + " fb=" + piCurrent.feedback);
-					//YBYB: API.save will not work in qualtrics
-					//API.save({block3Cond:block3Cond, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
-					//Perhaps we need to add this to support Qualtrics
-					window.minnoJS.onEnd();
+                    window.minnoJS.onEnd();
 				}
 			});
 		/**
@@ -1236,7 +1253,78 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				rightTrial2 : rightCatTrial, leftTrial2 : leftCatTrial,
 				blockNum : iBlock, blockLayout : blockLayout, parcel:'second'}));
 			}
+        }
+
+		//////// in this trial the score of the participant is computed//////////////////
+
+		trialSequence.push({
+			inherit : 'instructions',
+			data: {blockStart:true},
+			layout : [{media:{word:''}}],
+			customize : function(element, global){
+				var DScoreObj = scorer.computeD();
+				piCurrent.feedback = DScoreObj.FBMsg;
+				piCurrent.d = DScoreObj.DScore;
+				console.log(piCurrent.feedback);
+            }
+            // ,
+
+			// interactions: [{
+			// 	conditions: [{type:'begin'}],
+			// 	actions: [{type: 'endTrial'}]
+			// }]
+		});
+		
+        if(showDebriefing){
+            //////////////////////////////
+            //Add pre-Page before the debriefing is shown
+            trialSequence.push({
+                inherit : 'instructions',
+                data: {blockStart:true},
+                layout : [{media:{word:''}}],
+                stimuli : [
+                    {
+                        inherit : 'Default',
+                        media : {word : (isTouch ? piCurrent.preDebriefingTouchText : piCurrent.preDebriefingText)}
+                    }
+                ]
+            });
+            
+            /////////////////////////////
+            //add debriefing trial, the feedback will be shown with text above and under ther result.
+            trialSequence.push({
+                //the feedback massege will be shown to the user at the center of the screen
+                stimuli: [{data:{handle:'feedbackstim'},media :{word:'<%=current.feedback%>'}}],
+                //when the user press enter the trial will end, there is no time limit for reading the feedback
+				input: [{handle:'space',on:'space'}],
+				layout: [
+					{//pre-text at the debriefing page, will be shown above the feeaback massege
+						media:piCurrent.debriefingTextTop,
+						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
+						location:{left:2,top:40,right:2},
+						css:{padding:'2%',fontSize:'1em'}
+					},
+					{//post-text at the debriefing page, will be shown under the feeaback massege
+						media:piCurrent.debriefingTextBottom,
+						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
+						location:{left:2,top:55,right:2},
+						css:{padding:'2%',fontSize:'1em'}
+					}
+				],
+                        
+				interactions: [
+					{
+						conditions: [{type:'begin'}],
+						actions: [{type: 'showStim', handle:'feedbackstim'}]
+					},
+					{
+						conditions: [{type:'inputEquals',value:'space'}],
+						actions: [{type:'endTrial'}]
+					}
+				]    
+			});		
 		}
+			
 		//////////////////////////////
 		//Add final trial
 		trialSequence.push({
@@ -1249,7 +1337,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
 				}
 			]
-		});
+        });
 
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
