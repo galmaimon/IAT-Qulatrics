@@ -1328,7 +1328,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                     {//final text 
 						media:final,
 						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
-						location:{left:2,top:60,right:2},
+						location:{left:2,top:70,right:2},
 						css:{padding:'2%',fontSize:'1em'}
 					}
 				],
