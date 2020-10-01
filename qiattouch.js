@@ -21,7 +21,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		{
 			fullscreen:false, //Should we show the task in full screen? A Qualtrics-only feature because in the usual Minno, we can go full-screen right at the beginning of the study.
         
-			isTouch:true, //Set whether the task is on a touch device.
+			isTouch:false, //Set whether the task is on a touch device.
 			//Set the canvas of the task
 			canvas : {
 				maxWidth: 725,
@@ -1291,11 +1291,11 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             /////////////////////////////
             //add debriefing trial, the feedback will be shown with text above and under ther result.
             trialSequence.push({
+                inherit:'instructions',
                 //the feedback massege will be shown to the user at the center of the screen
                 stimuli: [{data:{handle:'feedbackstim'},media :{word:'<%=current.feedback%>'}}],
                 //when the user press enter the trial will end, there is no time limit for reading the feedback
-                // input: [{handle:'space',on:'space'}],
-                input: [{proceedInput}],
+                input: [{handle:'space',on:'space'}],
 
 				layout: [
 					{//pre-text at the debriefing page, will be shown above the feeaback massege
