@@ -1267,12 +1267,11 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				piCurrent.d = DScoreObj.DScore;
 				console.log(piCurrent.feedback);
             }
-            // ,
-
-			// interactions: [{
-			// 	conditions: [{type:'begin'}],
-			// 	actions: [{type: 'endTrial'}]
-			// }]
+             ,
+			 interactions: [{
+			 	// conditions: [{type:'begin'}],
+			 	actions: [{type: 'endTrial'}]
+			 }]
 		});
 		
         if(showDebriefing){
