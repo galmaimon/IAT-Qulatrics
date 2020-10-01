@@ -1256,17 +1256,21 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
         }
 
 		//////// in this trial the score of the participant is computed//////////////////
-
+        var preDebriefing=isTouch ? piCurrent.preDebriefingTouchText : piCurrent.preDebriefingText;
+        var final=isTouch ? piCurrent.finalTouchText : piCurrent.finalText;
 		trialSequence.push({
 			inherit : 'instructions',
 			data: {blockStart:true},
-			layout : [{media : {word : (showDebriefing?  (isTouch ? piCurrent.preDebriefingTouchText : piCurrent.preDebriefingText):(isTouch ? piCurrent.finalTouchText : piCurrent.finalText))}}],
+			layout : [{media : {word : ''}}],
 			customize : function(element, global){
 				var DScoreObj = scorer.computeD();
 				piCurrent.feedback = DScoreObj.FBMsg;
 				piCurrent.d = DScoreObj.DScore;
 				console.log(piCurrent.feedback);
-            }
+            },
+            stimuli:[{
+                media : {word : (showDebriefing? preDebriefing: final)}
+            }]
             //  ,
 			//  interactions: [{
 			//  	conditions: [{type:'begin'}],
