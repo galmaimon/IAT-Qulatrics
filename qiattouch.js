@@ -1260,7 +1260,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			inherit : 'instructions',
 			data: {blockStart:true},
             // layout : [{media:{word:''}}],
-            layout : getLayout(instParams),
+            // layout : getLayout(instParams),
 			customize : function(element, global){
 				var DScoreObj = scorer.computeD();
 				piCurrent.feedback = DScoreObj.FBMsg;
@@ -1331,7 +1331,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             inherit : 'instructions',
 			data: {blockStart:true},
             // layout : [{media:{word:''}}],
-            layout : getLayout(instParams),
+            // layout : getLayout(instParams),
 			stimuli : [
 				{
 					inherit : 'Default',
