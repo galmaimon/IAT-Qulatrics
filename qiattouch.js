@@ -1260,34 +1260,34 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		trialSequence.push({
 			inherit : 'instructions',
 			data: {blockStart:true},
-			layout : [{media:{word:''}}],
+			layout : [{media : {word : (showDebriefing?  (isTouch ? piCurrent.preDebriefingTouchText : piCurrent.preDebriefingText):(isTouch ? piCurrent.finalTouchText : piCurrent.finalText))}}],
 			customize : function(element, global){
 				var DScoreObj = scorer.computeD();
 				piCurrent.feedback = DScoreObj.FBMsg;
 				piCurrent.d = DScoreObj.DScore;
 				console.log(piCurrent.feedback);
             }
-             ,
-			 interactions: [{
-			 	// conditions: [{type:'begin'}],
-			 	actions: [{type: 'endTrial'}]
-			 }]
+            //  ,
+			//  interactions: [{
+			//  	conditions: [{type:'begin'}],
+			//  	actions: [{type: 'endTrial'}]
+			//  }]
 		});
 		
         if(showDebriefing){
             //////////////////////////////
             //Add pre-Page before the debriefing is shown
-            trialSequence.push({
-                inherit : 'instructions',
-                data: {blockStart:true},
-                layout : [{media:{word:''}}],
-                stimuli : [
-                    {
-                        inherit : 'Default',
-                        media : {word : (isTouch ? piCurrent.preDebriefingTouchText : piCurrent.preDebriefingText)}
-                    }
-                ]
-            });
+            // trialSequence.push({
+            //     inherit : 'instructions',
+            //     data: {blockStart:true},
+            //     layout : [{media:{word:''}}],
+            //     stimuli : [
+            //         {
+            //             inherit : 'Default',
+            //             media : {word : (isTouch ? piCurrent.preDebriefingTouchText : piCurrent.preDebriefingText)}
+            //         }
+            //     ]
+            // });
             
             /////////////////////////////
             //add debriefing trial, the feedback will be shown with text above and under ther result.
@@ -1326,17 +1326,17 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			
 		//////////////////////////////
 		//Add final trial
-		trialSequence.push({
-			inherit : 'instructions',
-			data: {blockStart:true},
-			layout : [{media:{word:''}}],
-			stimuli : [
-				{
-					inherit : 'Default',
-					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
-				}
-			]
-        });
+		// trialSequence.push({
+		// 	inherit : 'instructions',
+		// 	data: {blockStart:true},
+		// 	layout : [{media:{word:''}}],
+		// 	stimuli : [
+		// 		{
+		// 			inherit : 'Default',
+		// 			media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
+		// 		}
+		// 	]
+        // });
 
 		//Add the trials sequence to the API.
 		API.addSequence(trialSequence);
