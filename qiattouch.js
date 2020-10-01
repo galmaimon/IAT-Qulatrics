@@ -1333,7 +1333,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			layout : [{media:{word:''}}],
 			stimuli : [
 				{
-					inherit : 'Default',
+					// inherit : 'Default',
 					media : {word : (isTouch ? piCurrent.finalTouchText : piCurrent.finalText)}
 				}
 			]
