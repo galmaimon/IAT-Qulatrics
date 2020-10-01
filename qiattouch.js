@@ -1259,13 +1259,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		trialSequence.push({
 			inherit : 'instructions',
 			data: {blockStart:true},
-            // layout : [{media:{word:''}}],
-            // layout : getLayout(instParams),
+			layout : [{media:{word:''}}],
 			customize : function(element, global){
 				var DScoreObj = scorer.computeD();
 				piCurrent.feedback = DScoreObj.FBMsg;
 				piCurrent.d = DScoreObj.DScore;
-				console.log(piCurrent.feedback);
+				//console.log(piCurrent.feedback);
 			},
 
 			interactions: [{
@@ -1295,8 +1294,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 //the feedback massege will be shown to the user at the center of the screen
                 stimuli: [{data:{handle:'feedbackstim'},media :{word:'<%=current.feedback%>'}}],
                 //when the user press enter the trial will end, there is no time limit for reading the feedback
-                input: [!isTouch ? {handle:'space',on:'space'} : {handle:'space',on:'bottomTouch', css:piCurrent.bottomTouchCss}],
-
+				input: [{handle:'space',on:'space'}],
 				layout: [
 					{//pre-text at the debriefing page, will be shown above the feeaback massege
 						media:piCurrent.debriefingTextTop,
@@ -1328,10 +1326,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		//////////////////////////////
 		//Add final trial
 		trialSequence.push({
-            inherit : 'instructions',
+			inherit : 'instructions',
 			data: {blockStart:true},
-            // layout : [{media:{word:''}}],
-            // layout : getLayout(instParams),
+			layout : [{media:{word:''}}],
 			stimuli : [
 				{
 					inherit : 'Default',
