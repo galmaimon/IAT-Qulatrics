@@ -25,7 +25,7 @@ define(['pipAPI','https://galmaimon.github.io/qiattouch.js'], function(APIConstr
   
     return iatExtension({
         isTouch:true,
-	showDebriefing:true,
+	showDebriefing:false,
         
         category1 : {
             name : 'Black people', //Will appear in the data.
