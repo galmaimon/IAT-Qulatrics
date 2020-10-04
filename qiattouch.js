@@ -1294,27 +1294,23 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 data: {blockStart:true},
 
                 //the feedback massege will be shown to the user at the center of the screen
-                stimuli: [{data:{handle:'feedbackstim'},media :{word:'<%=current.feedback%>'}}],
-                //when the user press enter the trial will end, there is no time limit for reading the feedback
-				layout: [
-					{//pre-text at the debriefing page, will be shown above the feeaback massege
-						media:piCurrent.debriefingTextTop,
-						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
-                        location:{left:2,top:30,right:2},
-
-                        
-					},
-					{//post-text at the debriefing page, will be shown under the feeaback massege
-						media:piCurrent.debriefingTextBottom,
-						//to control exactly were the text will be located change the 'top' property, low values at the top of the screen, hiegh values at the low part of the screen
-                        location:{left:2,top:45,right:2},
-
-                    },
-                    {media: isTouch? "Touch the bottom green area to continue": "Press space to continue",
-                            location:{left:2,top:60,right:2},
-
-                    }
-				],
+                stimuli: [
+                {data:{handle:'feedbackstim'},media :{word:'<%=current.feedback%>'}},
+                {
+					inherit : 'Default',
+					media : {word : (piCurrent.debriefingTextTop)}
+                },
+                {
+					inherit : 'Default',
+					media : {word : (piCurrent.debriefingTextBottom)}
+                },
+                {
+					inherit : 'Default',
+					media : {media: isTouch? "Touch the bottom green area to continue": "Press space to continue"}
+                }
+                
+            ],
+				
                         
 				interactions: [
 					{
