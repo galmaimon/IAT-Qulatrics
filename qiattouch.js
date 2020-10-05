@@ -1295,10 +1295,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
                 //the feedback massege will be shown to the user at the center of the screen
                 stimuli: [
-                    {
-                        inherit: 'Default',
-                        media :{word:'<%=current.feedback%>'}
-                    },
+                    // {
+                    //     inherit: 'Default',
+                    //     media :{word: '<%=current.feedback%>' }
+                    // },
                 {
 					inherit : 'Default',
 					media : {word : (piCurrent.debriefingTextTop)}
