@@ -24,7 +24,7 @@ define(['pipAPI','https://galmaimon.github.io/qiattouch.js'], function(APIConstr
             'Hatred', 'Hurtful', 'Sickening', 'Yucky']);
   
     return iatExtension({
-        isTouch:true,
+        isTouch:false,
 	showDebriefing:false,
         
         category1 : {
