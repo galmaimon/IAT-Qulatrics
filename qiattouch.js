@@ -1297,7 +1297,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 stimuli: [
                     {
                         inherit: 'Default',
-                        media :{word: '<%=current.feedback%>' }
+                        media :{word: ('<%=current.feedback%>') }
                     },
                 {
 					inherit : 'Default',
