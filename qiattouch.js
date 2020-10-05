@@ -1290,15 +1290,15 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             /////////////////////////////
             //add debriefing trial, the feedback will be shown with text above and under ther result.
             trialSequence.push({
-                inherit:"instructions",
+                inherit:'instructions',
                 data: {blockStart:true},
 
                 //the feedback massege will be shown to the user at the center of the screen
                 stimuli: [
-                    // {
-                    //     inherit: 'Default',
-                    //     media :{word: '<%=current.feedback%>' }
-                    // },
+                    {
+                        inherit: 'Default',
+                        media :{word: '<%=current.feedback%>' }
+                    },
                 {
 					inherit : 'Default',
 					media : {word : (piCurrent.debriefingTextTop)}
