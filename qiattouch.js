@@ -1299,22 +1299,23 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 {
 					inherit : 'Default',
                     media : {word : (piCurrent.debriefingTextTop)},
-                    location:{left:2,top:30,right:2},
+                    location:{left:2,top:15,right:2},
                 },
                 {
                     inherit: 'Default',
                     media :{word: ('<%=current.feedback%>') },
-                    location:{left:2,top:45,right:2}
+                    location:{left:2,top:30,right:2}
                 },
                 {
 					inherit : 'Default',
                     media : {word : (piCurrent.debriefingTextBottom)},
-                    location:{left:2,top:60,right:2}
+                    location:{left:2,top:45,right:2}
+                },
+                {
+					inherit : 'Default',
+                    media : {word: (proceedInput)},
+                    location:{left:2,top:55,right:2}
                 }
-                // {
-				// 	inherit : 'Default',
-				// 	media : {media: isTouch? "Touch the bottom green area to continue": "Press space to continue"}
-                // }
                 
             ],
 				
