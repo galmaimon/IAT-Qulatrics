@@ -1314,9 +1314,16 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                         
 				interactions: [
 					{
-						conditions: [{type:'begin'}],
-						actions: [{type: 'showStim', handle:'feedbackstim'}]
-					},
+                        
+                            conditions: [{type:'begin'}],
+                            actions: [
+                                {type:'showStim',handle:'All'}
+                            ]
+                        },
+                    //     {
+					// 	conditions: [{type:'begin'}],
+					// 	actions: [{type: 'showStim', handle:'feedbackstim'}]
+					// },
 					{
 						conditions: [{type:'inputEquals',value:'space'}],
 						actions: [{type:'endTrial'}]
