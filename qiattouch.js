@@ -1291,10 +1291,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             //add debriefing trial, the feedback will be shown with text above and under ther result.
             trialSequence.push({
                 inherit:'instructions',
-                data: {blockStart:true},
-                input: [
-					proceedInput
-				],
+                // data: {blockStart:true},
+                // input: [
+				// 	proceedInput
+				// ],
                 //the feedback massege will be shown to the user at the center of the screen
                 stimuli: [
                     
@@ -1316,27 +1316,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 
                 
             ],
-				
-                        
-			// 	interactions: [
-			// 		{
-                        
-            //                 conditions: [{type:'begin'}],
-            //                 actions: [
-            //                     {type:'showStim',handle:'All'}
-            //                 ]
-            //             },
-            //         //     {
-			// 		// 	conditions: [{type:'begin'}],
-			// 		// 	actions: [{type: 'showStim', handle:'feedbackstim'}]
-			// 		// },
-			// 		{
-			// 			conditions: [{type:'inputEquals',value:'space'}],
-			// 			actions: [{type:'endTrial'}]
-			// 		}
-			// 	]    
+				   
             });	
-            // console.log('<%=current.feedback%>');
 		}
 			
 		//////////////////////////////
