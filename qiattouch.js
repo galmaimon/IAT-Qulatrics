@@ -1263,7 +1263,6 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				var DScoreObj = scorer.computeD();
 				piCurrent.feedback = DScoreObj.FBMsg;
 				piCurrent.d = DScoreObj.DScore;
-				//console.log(piCurrent.feedback);
 			},
 
 			interactions: [{
@@ -1271,7 +1270,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				actions: [{type: 'endTrial'}]
 			}]
 		});
-		
+        
+        //if showDebriefing==True, we will show the feedback to the user
         if(showDebriefing){
             //////////////////////////////
             //Add pre-Page before the debriefing is shown
