@@ -1292,7 +1292,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             trialSequence.push({
                 inherit:'instructions',
                 data: {blockStart:true},
-
+                input: [
+					proceedInput
+				],
                 //the feedback massege will be shown to the user at the center of the screen
                 stimuli: [
                     
@@ -1310,12 +1312,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					inherit : 'Default',
                     media : {word : (piCurrent.debriefingTextBottom)},
                     location:{left:2,top:45,right:2}
-                },
-                {
-					inherit : 'Default',
-                    media : {word: (piCurrent.proceedInput)},
-                    location:{left:2,top:55,right:2}
                 }
+                
                 
             ],
 				
