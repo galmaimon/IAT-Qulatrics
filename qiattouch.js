@@ -1313,7 +1313,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
                 },
                 {
 					inherit : 'Default',
-                    media : {word: (proceedInput)},
+                    media : {word: (piCurrent.proceedInput)},
                     location:{left:2,top:55,right:2}
                 }
                 
