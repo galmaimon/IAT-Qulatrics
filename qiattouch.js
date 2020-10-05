@@ -1295,7 +1295,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
                 //the feedback massege will be shown to the user at the center of the screen
                 stimuli: [
-                {data:{handle:'feedbackstim'},media :{word:'<%=current.feedback%>'}},
+                    {
+                        inherit: 'Default',
+                        media :{word:'<%=current.feedback%>'}
+                    },
                 {
 					inherit : 'Default',
 					media : {word : (piCurrent.debriefingTextTop)}
@@ -1312,24 +1315,25 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
             ],
 				
                         
-				interactions: [
-					{
+			// 	interactions: [
+			// 		{
                         
-                            conditions: [{type:'begin'}],
-                            actions: [
-                                {type:'showStim',handle:'All'}
-                            ]
-                        },
-                    //     {
-					// 	conditions: [{type:'begin'}],
-					// 	actions: [{type: 'showStim', handle:'feedbackstim'}]
-					// },
-					{
-						conditions: [{type:'inputEquals',value:'space'}],
-						actions: [{type:'endTrial'}]
-					}
-				]    
-			});		
+            //                 conditions: [{type:'begin'}],
+            //                 actions: [
+            //                     {type:'showStim',handle:'All'}
+            //                 ]
+            //             },
+            //         //     {
+			// 		// 	conditions: [{type:'begin'}],
+			// 		// 	actions: [{type: 'showStim', handle:'feedbackstim'}]
+			// 		// },
+			// 		{
+			// 			conditions: [{type:'inputEquals',value:'space'}],
+			// 			actions: [{type:'endTrial'}]
+			// 		}
+			// 	]    
+            });	
+            console.log('<%=current.feedback%>');
 		}
 			
 		//////////////////////////////
