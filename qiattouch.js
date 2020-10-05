@@ -1307,10 +1307,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					inherit : 'Default',
 					media : {word : (piCurrent.debriefingTextBottom)}
                 },
-                {
-					inherit : 'Default',
-					media : {media: isTouch? "Touch the bottom green area to continue": "Press space to continue"}
-                }
+                // {
+				// 	inherit : 'Default',
+				// 	media : {media: isTouch? "Touch the bottom green area to continue": "Press space to continue"}
+                // }
                 
             ],
 				
@@ -1333,7 +1333,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			// 		}
 			// 	]    
             });	
-            console.log('<%=current.feedback%>');
+            // console.log('<%=current.feedback%>');
 		}
 			
 		//////////////////////////////
