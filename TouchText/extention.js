@@ -1,4 +1,4 @@
-define(['pipAPI','https://galmaimon.github.io/qiattouch.js'], function(APIConstructor, iatExtension){
+define(['pipAPI','https://minno-tasks/IAT/qualtrics/quiat9.js'], function(APIConstructor, iatExtension){
 	var API = new APIConstructor();
 
   
