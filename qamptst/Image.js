@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://galmaimon.github.io/qamptst/Image.js'], function(APIConstructor, ampExtension){
+define(['pipAPI', 'https://galmaimon.github.io/qamptst/qiat.js'], function(APIConstructor, ampExtension){
 
 
 	var API = new APIConstructor();
