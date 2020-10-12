@@ -1,7 +1,8 @@
 define(['pipAPI', 'https:/galmaimon.github.io/qamptst/qamp.js'], function(APIConstructor, ampExtension){
 
 	var API = new APIConstructor();
-	
+	var global = API.getGlobal();
+
 	
 	return ampExtension({
 		primeCats :  [
