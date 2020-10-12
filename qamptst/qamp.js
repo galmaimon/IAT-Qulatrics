@@ -356,9 +356,9 @@ define(['pipAPI','underscore'], function(APIConstructor, _) {
 
 
 		// extend the current object with the default
-		//_.defaults(piCurrent, options, ampObj);
-    _.extend(piCurrent, _.defaults(options, ampObj));
-		_.extend(API.script.settings, options.settings);
+		_.defaults(piCurrent, options, ampObj);
+    //_.extend(piCurrent, _.defaults(options, ampObj));
+		//_.extend(API.script.settings, options.settings);
 
 
 		piCurrent.nBlocks = piCurrent.trialsInBlock.length;
