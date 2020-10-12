@@ -1,8 +1,8 @@
-define(['pipAPI', 'https:/galmaimon.github.io/qamptst/qamp.js'], function(APIConstructor, ampExtension){
+define(['pipAPI', 'https://galmaimon.github.io/qamptst/Image.js'], function(APIConstructor, ampExtension){
+
 
 	var API = new APIConstructor();
 	var global = API.getGlobal();
-
 	
 	return ampExtension({
 		primeCats :  [
@@ -44,6 +44,10 @@ define(['pipAPI', 'https:/galmaimon.github.io/qamptst/qamp.js'], function(APICon
 					{image : 'w12.jpg'}]
 			}
 		],
+
+        	responses : 7, 
+
+		ITI : 750, //Duration between trials.
 
 		examplePrimeStimulus : 
 		{
