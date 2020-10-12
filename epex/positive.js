@@ -6,27 +6,35 @@ define(['pipAPI', 'https://galmaimon.github.io/epex/quep.js'], function(APIConst
 			//The prime categories.
 			primeCats :  [
 				{
-					name : 'birds', //Will appear in the data.
+					name : 'positive', //Will appear in the data.
 					//An array of all media objects for this category.
 					mediaArray : [
-    				    {word : 'Pigeons'}, 
-					{word : 'Swans'}, 
-					{word : 'Crows'}, 
-					{word : 'Ravens'}
-				], 
+    				   {image: 'pos1.jpg'},
+                    {image: 'pos2.jpg'},
+                    {image: 'pos3.jpg'},
+                    {image: 'pos4.jpg'},
+                    {image: 'pos5.jpg'},
+                    {image: 'pos6.jpg'},
+                    {image: 'pos7.jpg'},
+                    {image: 'pos8.jpg'}
 				    ]
 				}, 
 				{
-					name : 'mamals', //Will appear in the data.
+					name : 'negative', //Will appear in the data.
 					//An array of all media objects for this category.
 					mediaArray : [
-    					{word : 'Dogs'}, 
-					{word : 'Horses'}, 
-					{word : 'Lions'}, 
-					{word : 'Cows'}
+    					{image: 'pos1.jpg'},
+                    {image: 'pos2.jpg'},
+                    {image: 'pos3.jpg'},
+                    {image: 'pos4.jpg'},
+                    {image: 'pos5.jpg'},
+                    {image: 'pos6.jpg'},
+                    {image: 'pos7.jpg'},
+                    {image: 'pos8.jpg'}
     				]
 				}
 			],	
+
 
 			nTrialsPerPrimeTargetPair:15, //How many trials in a block, per prime-target combination (always three blocks).
 			fixationDuration : 500, 
@@ -35,7 +43,7 @@ define(['pipAPI', 'https://galmaimon.github.io/epex/quep.js'], function(APIConst
 
 			//Set the image folder here.
 			base_url : {
-				image : "https://baranan.github.io/minno-tasks/images/"
+				image : "https://baranan.github.io/minno-tasks/images/ampImages"
 			}
 	});
 });
