@@ -8,7 +8,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualt
 		 name : 'Black people',
 		title : {
 			 media : { word : 'Black people'},
-			css : {color:'#336600', 'font-size':1.8em'},
+			css : {color:'#336600', 'font-size':'1.8em'},
 			 height : 4 
 		},
 		stimulusMedia : [
@@ -19,13 +19,13 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualt
 			{word : 'Tiara'},
 			{word : 'Shanice'}
 		],
-		 stimulusCss : {color:'#336600', 'font-size':1.8em'},
+		 stimulusCss : {color:'#336600', 'font-size':'1.8em'},
 	},
 	 category2 : { 
 		 name : 'White people',
 		 title : {
 			 media : { word : 'White people'},
-			 css : {color:'#336600', 'font-size':1.8em'},
+			 css : {color:'#336600', 'font-size':'1.8em'},
 			 height : 4 
 		},
 		 stimulusMedia : [
@@ -36,7 +36,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualt
 			 {word : 'Emma'},
 			 {word : 'Emily'}
 		],
-		stimulusCss : {color:'#336600', 'font-size':1.8em'},
+		stimulusCss : {color:'#336600', 'font-size':'1.8em'},
 	},
 
 ///////////////////////////////////////Attributes Features//////////////////////////////////////////
@@ -45,7 +45,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualt
 		 name : 'Bad words',
 		title : {
 			 media : { word : 'Bad words'},
-			css : {color:'#336600', 'font-size':1.8em'},
+			css : {color:'#336600', 'font-size':'1.8em'},
 			 height : 4 
 		},
 		stimulusMedia : [
@@ -58,13 +58,13 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualt
 			{word : 'Nasty'},
 			{word : 'Evil'}
 		],
-		 stimulusCss : {color:'#336600', 'font-size':2.3em'},
+		 stimulusCss : {color:'#336600', 'font-size':'2.3em'},
 	},
 	 attribute2  : { 
 		 name : 'Good Words',
 		 title : {
 			 media : { word : 'Good Words'},
-			 css : {color:'#336600', 'font-size':1.8em'},
+			 css : {color:'#336600', 'font-size':'1.8em'},
 			 height : 4 
 		},
 		 stimulusMedia : [
@@ -77,7 +77,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/qualt
 			 {word : 'Pleasure'},
 			 {word : 'Love'}
 		],
-		stimulusCss : {color:'#336600', 'font-size':2.3em'},
+		stimulusCss : {color:'#336600', 'font-size':'2.3em'},
 	},
 
 ///////////////////////////////////////Task Features//////////////////////////////////////////
