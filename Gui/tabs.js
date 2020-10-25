@@ -328,9 +328,7 @@ function saveCategories(){
 */
 document.getElementById("clearCategories").addEventListener("click", clearCategories);
 document.getElementById("resetCategories").addEventListener("click", resetCategories);
-var reset_flag = 0 ; //did the form reset (for the stimuli list reset)
 function clearCategories() {
-    reset_flag = 1;
     removeAllFirstCategoryStimuli();
     removeAllSecondCategoryStimuli();
     
@@ -351,6 +349,8 @@ function clearCategories() {
 }
 
 function resetCategories() {
+  removeAllFirstCategoryStimuli();
+  removeAllSecondCategoryStimuli();
   document.getElementById('first_name_in_data').value = 'Black people';
   document.getElementById('first_name_presented').value = 'Black people';
   document.getElementById('first_category_type').options[0].selected = 'true';
@@ -364,8 +364,7 @@ function resetCategories() {
   checkSecondCategoryType();
   document.getElementById('sec_category_color').value = '#336600';
   document.getElementById('sec_ctg_font_size').value = '1.8';
-  if (reset_flag == 1)
-    resetCategoryStimuliList();
+  resetCategoryStimuliList();
   checkCategoryWordsFirst();
   checkCategoryWordsSec();
 
@@ -386,7 +385,6 @@ function resetCategoryStimuliList() {
 
     option2.text = secondList[i];
     second.add(option2);
-    reset_flag = 0;
   }
 }
 
@@ -635,9 +633,7 @@ function checkSecondAttributeType() {
 
 document.getElementById("clearAttributes").addEventListener("click", clearAttributes);
 document.getElementById("resetAttributes").addEventListener("click", resetAttributes);
-var reset_flag = 0 ; //did the form reset (for the stimuli list reset)
 function clearAttributes() {
-    reset_flag = 1;
     removeAllFirstAttributeStimuli();
     removeAllSecondAttributeStimuli();
     
@@ -658,6 +654,8 @@ function clearAttributes() {
 }
 
 function resetAttributes() {
+  removeAllFirstAttributeStimuli();
+  removeAllSecondAttributeStimuli();
   document.getElementById('first_attr_in_data').value = 'Bad words';
   document.getElementById('first_attr_presented').value = 'Bad words';
   document.getElementById('first_attr_type').options[0].selected = 'true';
@@ -671,8 +669,7 @@ function resetAttributes() {
   checkSecondAttributeType();
   document.getElementById('sec_attr_color').value = '#336600';
   document.getElementById('sec_attr_font_size').value = '1.8';
-  if (reset_flag == 1)
-    resetAttributeStimuliList();
+  resetAttributeStimuliList();
   checkAttributeWordsFirst();
   checkAttributeWordsSec();
 
@@ -693,7 +690,6 @@ function resetAttributeStimuliList() {
 
     option2.text = secondList[i];
     second.add(option2);
-    reset_flag = 0;
   }
 }
 
