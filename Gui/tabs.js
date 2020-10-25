@@ -427,7 +427,7 @@ function addFirstAttributeStimulus(event) {
     else {
       var x = document.getElementById("first_attr_stimuli");
       var type;
-      if (event == "first_add_ctg_word_stimulus")
+      if (event == "first_add_attr_word_stimulus")
         type = "Word";
       else type = "Image";
       var option = document.createElement("option");
@@ -810,15 +810,16 @@ function buildTextToWrite() {
 
   for (var i = 0; i < first_length; i++) {
     var temp = first_ctg_stimuli_list[i].text;
-    temp = temp.split(" ");
-    var stimulus = temp[0];
-    var type = temp[1];
+    var stimulus = temp.substr(0, temp.length-7);//check if image
+    var type = temp.substr(temp.length-7, temp.length);
     if (type == "[Image]"){
       text+= "\t\t\t{image : '"
     }
     else {
       text+= "\t\t\t{word : '"
       word_in_list = 1;
+      stimulus = temp.substr(0, temp.length-6);// update the text because it is not an image
+
     }
 
     if (i < first_length - 1) //hasn't reach the last stimulus
@@ -861,16 +862,16 @@ function buildTextToWrite() {
 
   for (var i = 0; i < sec_length; i++) {
     var temp = sec_ctg_stimuli_list[i].text;
-    console.log(temp);
-    temp = temp.split(" ");
-    var stimulus = temp[0];
-    var type = temp[1];
+    var stimulus = temp.substr(0, temp.length-7);
+    var type = temp.substr(temp.length-7, temp.length);
     if (type == "[Image]"){
       text+= "\t\t\t {image : '"
     }
     else {
       text+= "\t\t\t {word : '"
       word_in_list = 1;
+      stimulus = temp.substr(0, temp.length-6);
+
     }
     if (i < first_length - 1) //hasn't reach the last stimulus
     { 
@@ -913,15 +914,16 @@ var word_in_list = 0; //flag for word existence in stimuli list
 
 for (var i = 0; i < first_length; i++) {
   var temp = first_attr_stimuli_list[i].text;
-  temp = temp.split(" ");
-  var stimulus = temp[0];
-  var type = temp[1];
+  var stimulus = temp.substr(0, temp.length-7);
+  var type = temp.substr(temp.length-7, temp.length);
   if (type == "[Image]"){
     text+= "\t\t\t{image : '"
   }
   else {
     text+= "\t\t\t{word : '"
     word_in_list = 1;
+    stimulus = temp.substr(0, temp.length-6);
+
   }
 
   if (i < first_length - 1) //hasn't reach the last stimulus
@@ -964,16 +966,16 @@ var word_in_list = 0; //flag for word existence in stimuli list
 
 for (var i = 0; i < sec_length; i++) {
   var temp = sec_attr_stimuli_list[i].text;
-  console.log(temp);
-  temp = temp.split(" ");
-  var stimulus = temp[0];
-  var type = temp[1];
+  var stimulus = temp.substr(0, temp.length-7);
+  var type = temp.substr(temp.length-7, temp.length);
   if (type == "[Image]"){
     text+= "\t\t\t {image : '"
   }
   else {
     text+= "\t\t\t {word : '"
     word_in_list = 1;
+    stimulus = temp.substr(0, temp.length-6);
+
   }
   if (i < first_length - 1) //hasn't reach the last stimulus
   { 
