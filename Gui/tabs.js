@@ -1,51 +1,3 @@
-//changed text parameter
-var textOnErrorChanged=false;
-function textOnErrorChanged1(){
-  console.log("changed");
-  textOnErrorChanged=true;
-}
-var leftKeyTextChanged = false;
-function leftKeyTextChanged1(){
-  leftKeyTextChanged=true;
-}
-var orTextChangedChanged = false;
-function orTextChangedChanged1(){
-  orTextChangedChanged=true;
-}
-var rightKeyTextChanged = false;
-function rightKeyTextChanged1(){
-  rightKeyTextChanged=true;
-}
-var FinalTextChanged = false;
-function FinalTextChanged1(){
-  FinalTextChanged=true;
-}
-var AttributesTextChanged = false;
-function AttributesTextChanged1(){
-  AttributesTextChanged=true;
-}
-var CategoriesTextChanged = false;
-function CategoriesTextChanged1(){
-  CategoriesTextChanged=true;
-}
-var FirstCombinedTextChanged = false;
-function FirstCombinedTextChanged1(){
-  FirstCombinedTextChanged=true;
-}
-var SecondCombinedTxtChanged = false;
-function SecondCombinedTxtChanged1(){
-  SecondCombinedTxtChanged=true;
-}
-var instSwitchCategoriesChanged=false;
-function instSwitchCategoriesChanged1(){
-  instSwitchCategoriesChanged=true;
-}
-var preDebriefingTextChanged=false;
-function preDebriefingTextChanged1(){
-  preDebriefingTextChanged=true;
-}
-
-
 
 
 ///////////////////////////Tabs////////////////////////////////////
@@ -66,33 +18,9 @@ function openTab(evt, tab) {
   // Get the element with id="defaultOpen" and click on it
   document.getElementById("defaultOpen").click();
 
-///////////////////////////Task Paramters////////////////////////////////////
-function saveTaskParameters () {
-  var touch = document.getElementById("touch").checked;
-  //update text defoult according to the touch device
-  if(touch){
-    checkChangeInText();
-  }
-  if(!touch){
-    checkChangeInText();
-  }
-  var full_screen = document.getElementById("full_screen").checked;
-  console.log("touch "+touch, "full_screen "+full_screen);
-  var debriefing = document.getElementById("debriefing").checked;
-  var error_message = document.getElementById("error_message").checked;
-  console.log("debriefing "+debriefing, "error_message "+error_message);
-  var correct_wrong_answer = document.getElementById("correct_wrong_answer").checked;
-  var base_url = document.getElementById("base_url").value;
-  console.log("correct_wrong_answer "+correct_wrong_answer, "base_url "+base_url);
-  if(base_url == null || base_url == "") {
-    alert("Missing fields: \nImages URL");
-  }
-  else {
-    alert("Task parameters saved successfully")
-  }
-}
-
-
+/* clear task parameters - delete all values
+   reset task parameters- reset the values to be the initial and defaoult values
+*/
 document.getElementById("clearTask").addEventListener("click", clearTask);
 document.getElementById("resetTask").addEventListener("click", resetTask);
 function clearTask() {
@@ -131,7 +59,6 @@ function checkCategoryWordsFirst() {
       flag = 1;
     }
   }
-  console.log("flag "+flag +" first flag "+first_ctg_word_flag);
   if (flag == 1 && first_ctg_word_flag == 0) {
     first_ctg_word_flag = 1
     addDesignFirstCategoryWords()
@@ -146,7 +73,6 @@ function checkCategoryWordsFirst() {
 
 function addFirstCategoryStimulus(event) {
     var new_stimuli = document.getElementById("first_ctg_new_stimulus").value;
-    console.log(new_stimuli);
     if(new_stimuli == null || new_stimuli == "") {
       alert("Please fill the stimulus field");
     }
@@ -253,7 +179,6 @@ function checkCategoryWordsSec() {
       flag = 1;
     }
   }
-  console.log("flag "+flag +" first flag "+sec_ctg_word_flag);
   if (flag == 1 && sec_ctg_word_flag == 0) {
     sec_ctg_word_flag = 1;
     addDesignSecCategoryWords();
@@ -268,7 +193,6 @@ function checkCategoryWordsSec() {
 
 function addDesignSecCategoryWords()
 {
-    console.log("got here");
     var row = document.getElementById("sec_ctg_stimuli_cell");
     var div = document.createElement("DIV");
     div.id = "second_ctg_text_design";
@@ -399,6 +323,9 @@ function saveCategories(){
   }
 }
 
+/* clear categories parameters - delete all values
+   reset categories parameters- reset the values to be the initial and defaoult values
+*/
 document.getElementById("clearCategories").addEventListener("click", clearCategories);
 document.getElementById("resetCategories").addEventListener("click", resetCategories);
 var reset_flag = 0 ; //did the form reset (for the stimuli list reset)
@@ -496,7 +423,6 @@ function checkAttributeWordsFirst() {
 
 function addFirstAttributeStimulus(event) {
     var new_stimuli = document.getElementById("first_attr_new_stimulus").value;
-    console.log(new_stimuli);
     if(new_stimuli == null || new_stimuli == "") {
       alert("Please fill the stimulus field");
     }
@@ -703,49 +629,9 @@ function checkSecondAttributeType() {
     sec_attr_word_type_flag = 1;
   }
 }
-//////////////////////////////////////////BOTH Attributes/////////////////////////////////////////////////
-function saveAttributes(){
-  var errorStr="Missing Fields: \n";
-  var first_attr_in_data = document.getElementById("first_attr_in_data").value;
-  if (first_attr_in_data == "" || first_attr_in_data == null) {
-    errorStr = errorStr+"First attribute name as will appear in the data.\n"
-  }
-  var first_attr_presented = document.getElementById("first_attr_presented").value;
-  if (first_attr_presented == "" || first_attr_presented == null) {
-    errorStr = errorStr+"First attribute title as will appear to the user.\n"
-  }
-  var first_attr_stimuli_list = document.getElementById("first_attr_stimuli")
-  var first_list = "";
-  for (var i = 0; i < first_attr_stimuli_list.length; i++) {
-    first_list = first_list + "\n" + first_attr_stimuli_list.options[i].text;
-  }
-  if (first_list == ""){
-    errorStr = errorStr+"Stimuli list for the first attribute.\n"
-  }
-
-  var sec_attr_in_data = document.getElementById("sec_attr_in_data").value;
-  if (sec_attr_in_data == "" || sec_attr_in_data == null) {
-    errorStr = errorStr+"Second attribute name as will appear in the data.\n"
-  }
-  var sec_attr_presented = document.getElementById("sec_attr_presented").value;
-  if (sec_attr_presented == "" || sec_attr_presented == null) {
-    errorStr = errorStr+"Second attribute title as will appear to the user.\n"
-  }
-  var sec_attr_stimuli_list = document.getElementById("sec_attr_stimuli")
-  var sec_list = "";
-  for (var i = 0; i < sec_attr_stimuli_list.length; i++) {
-    sec_list = sec_list + "\n" + sec_attr_stimuli_list.options[i].text;
-  }
-  if (sec_list == ""){
-    errorStr = errorStr+"Stimuli list for the second attribute.\n"
-  }
-  if (errorStr != "Missing Fields: \n") {
-    alert(errorStr);
-  }
-  else {
-    alert("attributes' parameters saved successfully")
-  }
-}
+/* clear attributes parameters - delete all values
+   reset attributes parameters- reset the values to be the initial and defaoult values
+*/
 
 document.getElementById("clearAttributes").addEventListener("click", clearAttributes);
 document.getElementById("resetAttributes").addEventListener("click", resetAttributes);
@@ -814,6 +700,9 @@ function resetAttributeStimuliList() {
 
 //////////////////////////////////////////BLOCKS PARAMETERS/////////////////////////////////////////////////
 
+/* clear block parameters - delete all values
+   reset block parameters- reset the values to be the initial and defaoult values
+*/
 document.getElementById("clearBlocks").addEventListener("click", clearBlocks);
 function clearBlocks() {
     document.getElementById("categories_trials_blocks").value = '';
@@ -847,66 +736,9 @@ function resetBlocks() {
 }
 
 
-// document.getElementById("sumbitBlocks").addEventListener("click", saveBlockParameters);
-function saveBlockParameters () {
-  var errorStr= "Missing fields: \n";
-  var categories_trials_blocks = document.getElementById("categories_trials_blocks").value;
-  var categories_mini_blocks = document.getElementById("categories_mini_blocks").value;
-  console.log("categories_trials_blocks "+categories_trials_blocks, "categories_mini_blocks "+categories_mini_blocks);
-  var attributes_trials_blocks = document.getElementById("attributes_trials_blocks").value;
-  var attributes_mini_blocks = document.getElementById("attributes_mini_blocks").value;
-  console.log("attributes_trials_blocks "+attributes_trials_blocks, "attributes_mini_blocks "+attributes_mini_blocks);
-  var first_combined_trials_blocks = document.getElementById("first_combined_trials_blocks").value;
-  var first_combined_mini_blocks = document.getElementById("first_combined_mini_blocks").value;
-  console.log("first_combined_trials_blocks "+first_combined_trials_blocks, "first_combined_mini_blocks "+first_combined_mini_blocks);
-  var second_combined_trials_blocks = document.getElementById("second_combined_trials_blocks").value;
-  var second_combined_mini_blocks = document.getElementById("second_combined_mini_blocks").value;
-  console.log("second_combined_trials_blocks "+second_combined_trials_blocks, "second_combined_mini_blocks "+second_combined_mini_blocks);
-  var switch_trials_blocks = document.getElementById("switch_trials_blocks").value;
-  var switch_mini_blocks = document.getElementById("switch_mini_blocks").value;
-  console.log("switch_trials_blocks "+switch_trials_blocks, "switch_mini_blocks "+switch_mini_blocks);
-  var random_category = document.getElementById("random_category").checked;
-  var random_attribute = document.getElementById("random_attribute").checked;
-  console.log("random_category "+random_category, "random_attribute "+random_attribute);
-
-  if (categories_trials_blocks == "" || categories_trials_blocks == null) {
-    errorStr = errorStr+"Categories - No. of trials in block.\n"
-  }
-  if (categories_mini_blocks == "" || categories_mini_blocks == null) {
-    errorStr = errorStr+"Categories - No. of MiniBlocks.\n"
-  }
-  if (attributes_trials_blocks == "" || attributes_trials_blocks == null) {
-    errorStr = errorStr+"Attributes - No. of trials in block.\n"
-  }
-  if (attributes_mini_blocks == "" || attributes_mini_blocks == null) {
-    errorStr = errorStr+"Attributes - No. of MiniBlocks.\n"
-  }
-  if (first_combined_trials_blocks == "" || first_combined_trials_blocks == null) {
-    errorStr = errorStr+"First Combined Block - No. of trials in block.\n"
-  }
-  if (first_combined_mini_blocks == "" || first_combined_mini_blocks == null) {
-    errorStr = errorStr+"First Combined Block - No. of MiniBlocks.\n"
-  }
-  if (second_combined_trials_blocks == "" || second_combined_trials_blocks == null) {
-    errorStr = errorStr+"Second Combined Block - No. of trials in block.\n"
-  }
-  if (second_combined_mini_blocks == "" || second_combined_mini_blocks == null) {
-    errorStr = errorStr+"Second Combined Block - No. of MiniBlocks.\n"
-  }
-  if (switch_trials_blocks == "" || switch_trials_blocks == null) {
-    errorStr = errorStr+"Switch Block - No. of trials in block.\n"
-  }
-  if (switch_mini_blocks == "" || switch_mini_blocks == null) {
-    errorStr = errorStr+"Switch Block - No. of MiniBlocks.\n"
-  }
-
-  if (errorStr != "Missing fields: \n") {
-    alert(errorStr);
-  }
-  else {
-    alert("Blocks' parameters saved successfully")
-  }
-}
+/* save all parameter as file and creating a file
+for the user to download
+*/
 var button=document.getElementById('CreateFile');
 button.addEventListener("click",saveTextAsFile);
     
@@ -936,7 +768,9 @@ function saveTextAsFile()
     }
     downloadLink.click();
 }
-
+/*
+creating the actual text of the output file according to the user input
+*/
 function buildTextToWrite() {
   var text = ""
   ///////////intro of the file//////////////
@@ -1228,8 +1062,61 @@ if (word_in_list == 1) {// case word - add design elements
   text+="\t});\n});";
   return text;
 }
+/*in order for the text paramater to be update according to the 
+user choice: Touch devise or PC version only if he didn't changed them, 
+those function are holding a value that indicate if the user changed the
+text in this variable or not
+*/
+var textOnErrorChanged=false;
+function textOnErrorChanged1(){
+  console.log("changed");
+  textOnErrorChanged=true;
+}
+var leftKeyTextChanged = false;
+function leftKeyTextChanged1(){
+  leftKeyTextChanged=true;
+}
+var orTextChangedChanged = false;
+function orTextChangedChanged1(){
+  orTextChangedChanged=true;
+}
+var rightKeyTextChanged = false;
+function rightKeyTextChanged1(){
+  rightKeyTextChanged=true;
+}
+var FinalTextChanged = false;
+function FinalTextChanged1(){
+  FinalTextChanged=true;
+}
+var AttributesTextChanged = false;
+function AttributesTextChanged1(){
+  AttributesTextChanged=true;
+}
+var CategoriesTextChanged = false;
+function CategoriesTextChanged1(){
+  CategoriesTextChanged=true;
+}
+var FirstCombinedTextChanged = false;
+function FirstCombinedTextChanged1(){
+  FirstCombinedTextChanged=true;
+}
+var SecondCombinedTxtChanged = false;
+function SecondCombinedTxtChanged1(){
+  SecondCombinedTxtChanged=true;
+}
+var instSwitchCategoriesChanged=false;
+function instSwitchCategoriesChanged1(){
+  instSwitchCategoriesChanged=true;
+}
+var preDebriefingTextChanged=false;
+function preDebriefingTextChanged1(){
+  preDebriefingTextChanged=true;
+}
 
 
+/* the function that update in case the text was changed - if the user changed it, it does't change 
+even if he choose to change to touch version
+*/
 function checkChangeInText(){
   var touch = document.getElementById("touch").checked;
   console.log("this is the touch check: ", touch)
@@ -1378,14 +1265,10 @@ else{
     }
 
   }
-
-  
-  
-  
-  
 }
-
-//inforamtion button - on hover//////////////////
+/* informaiton buttons - on hover, for each feature there is an information button 
+tht explain what text the user should enter
+*/
 
 ///text presented on user error
 var button=document.getElementById('information');
@@ -1518,38 +1401,10 @@ button.addEventListener("mouseenter",showinfo);
             }
 
 
-            
-   
-///////////////////////////text Paramters - saving////////////////////////////////////
-// document.getElementById("sumbitTextsParameters").addEventListener("click", saveTextParameters);
-function saveTextParameters () {
-  var textOnError = document.getElementById("textOnError").value;
-  console.log(textOnError);
-  var leftKeyText = document.getElementById("leftKeyText").value;
-  console.log(leftKeyText);
-  var orText = document.getElementById("orText").value;
-  console.log(orText);
-  var rightKeyText = document.getElementById("rightKeyText").value;
-  console.log(rightKeyText);
-  var FinalText = document.getElementById("FinalText").value;
-  console.log(FinalText);
-  var AttributesText = document.getElementById("AttributesText").value;
-  console.log(AttributesText);
-  var CategoriesText = document.getElementById("CategoriesText").value;
-  console.log(CategoriesText);
-  var FirstCombinedText = document.getElementById("FirstCombinedText").value;
-  console.log(FirstCombinedText);
-  var SecondCombinedTxt = document.getElementById("SecondCombinedTxt").value;
-  console.log(SecondCombinedTxt);
-  var instSwitchCategories=document.getElementById("instSwitchCategories").value;
-  console.log(instSwitchCategories);
-  var preDebriefingText=document.getElementById("preDebriefingText").value;
-  console.log(preDebriefingText);
-  
-}
-
-
 ///////////////////////////text Paramters - reset////////////////////////////////////
+/* clear text parameters - delete all values
+   reset text parameters- reset the values to be the initial and defaoult values
+*/
 document.getElementById("resetTextsParameters").addEventListener("click", resetTextParameters);
 function resetTextParameters () {
   var textOnErrorChanged=false;
@@ -1724,7 +1579,6 @@ function checkShowDebriefing(){
 }
 
 
-        /////added by elinor - info boxes for task parametes
         
         ///touch device
         var button=document.getElementById('information8');
@@ -1899,7 +1753,7 @@ function checkShowDebriefing(){
                     popup.classList.toggle("show");
           
           }
-          //switch categories text // added by gal
+          //switch categories text 
 
           var button=document.getElementById('information18');
           button.addEventListener("mouseenter",showinfo18);
