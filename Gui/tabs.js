@@ -23,6 +23,7 @@ document.getElementById("clearTask").addEventListener("click", clearTask);
 document.getElementById("resetTask").addEventListener("click", resetTask);
 function clearTask() {
     document.getElementById("touch").checked = false;
+    document.getElementById("Qualtrics").checked=false;
     document.getElementById("full_screen").checked = false;
     document.getElementById("debriefing").checked = false;
     document.getElementById("error_message").checked = false;
@@ -32,6 +33,7 @@ function clearTask() {
 
 function resetTask() {
   document.getElementById("touch").checked = false;
+  document.getElementById("Qualtrics").checked=false;
   document.getElementById("full_screen").checked = true;
   document.getElementById("debriefing").checked = true;
   document.getElementById("error_message").checked = true;
