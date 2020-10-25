@@ -34,8 +34,8 @@ function clearTask() {
 function resetTask() {
   document.getElementById("touch").checked = false;
   document.getElementById("Qualtrics").checked=false;
-  document.getElementById("full_screen").checked = true;
-  document.getElementById("debriefing").checked = true;
+  document.getElementById("full_screen").checked = false;
+  document.getElementById("debriefing").checked = false;
   document.getElementById("error_message").checked = true;
   document.getElementById("correct_wrong_answer").checked = false;
   document.getElementById("base_url").value = '';
